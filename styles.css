@@ -1,0 +1,86 @@
+/* styles.css */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  line-height: 1.6;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* Light/Dark mode */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #121212;
+    color: #eee;
+  }
+  header, footer {
+    background: #1e1e1e;
+  }
+}
+@media (prefers-color-scheme: light) {
+  body {
+    background: #fefefe;
+    color: #222;
+  }
+  header, footer {
+    background: #fff;
+  }
+}
+
+header, footer {
+  padding: 1em;
+  text-align: center;
+}
+
+nav a {
+  margin: 0 1em;
+  text-decoration: none;
+  color: inherit;
+}
+
+.parallax {
+  min-height: 100vh;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.hero {
+  background-image: url('placeholder-hero.jpg');
+}
+
+.section {
+  background-image: url('placeholder-section.jpg');
+}
+
+.overlay {
+  background: rgba(0, 0, 0, 0.5);
+  padding: 2em;
+  border-radius: 10px;
+  color: white;
+}
+
+.cta {
+  display: inline-block;
+  margin-top: 1em;
+  padding: 0.75em 1.5em;
+  background: #7c3aed;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.content {
+  max-width: 800px;
+  margin: auto;
+  padding: 2em;
+}
+
+.social a img {
+  width: 32px;
+  height: 32px;
+  margin: 0 0.5em;
+}
