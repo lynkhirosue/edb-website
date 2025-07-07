@@ -15,6 +15,9 @@ body {
   header, footer {
     background: #1e1e1e;
   }
+  .section {
+    background: linear-gradient(180deg, #121212 80%, #222 100%);
+  }
 }
 @media (prefers-color-scheme: light) {
   body {
@@ -23,6 +26,9 @@ body {
   }
   header, footer {
     background: #fff;
+  }
+  .section {
+    background: linear-gradient(180deg, #fff 80%, #f5f5f5 100%);
   }
 }
 
@@ -52,8 +58,11 @@ nav a {
   background-image: url('images/placeholder-hero.png');
 }
 
-.section {
+/*.section {
   background-image: url('images/placeholder-section.png');
+}*/
+.section {
+  background: linear-gradient(180deg, #fff 80%, #f5f5f5 100%);
 }
 
 .overlay {
