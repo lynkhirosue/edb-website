@@ -1,23 +1,39 @@
 ---
-// src/layouts/Layout.astro
+import '../styles/global.css';
 import ThemeToggle from '../components/ThemeToggle.astro';
 ---
+
 <html lang="fr" class="scroll-smooth">
   <head>
+    <!-- OBLIGATOIRE : charset EN PREMIER -->
+    <meta charset="UTF-8" />
+    
+    <!-- Script pour le thème (doit être en inline) -->
     <script is:inline>
       const stored = localStorage.getItem('theme');
       if (stored === 'dark' || (!stored && matchMedia('(prefers-color-scheme:dark)').matches)) {
         document.documentElement.classList.add('dark');
       }
     </script>
+    
+    <!-- Autres meta tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Slot pour les meta tags spécifiques aux pages -->
     <slot name="head" />
+    
+    <!-- Titre par défaut si pas fourni -->
+    <title>L'École du Bélier - Femto-brasserie</title>
   </head>
+  
   <body class="bg-amber-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100">
+    <!-- Header avec bouton thème -->
     <header class="flex items-center justify-between p-4 max-w-5xl mx-auto">
-      <h1 class="text-2xl font-serif">Brasserie L’École du Bélier</h1>
+      <h1 class="text-2xl font-serif">L'École du Bélier</h1>
       <ThemeToggle />
     </header>
 
+    <!-- Contenu principal -->
     <main class="max-w-5xl mx-auto p-4">
       <slot />
     </main>
