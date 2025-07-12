@@ -1,0 +1,21 @@
+.process-section {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 3rem 1rem;
+  line-height: 1.6;
+}
+
+.process-section h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.process-section ol {
+  list-style: decimal inside;
+  padding-left: 0;
+}
+
+.process-section li {
+  margin-bottom: 1rem;
+}

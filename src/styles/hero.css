@@ -1,0 +1,20 @@
+/* src/styles/hero.css */
+.hero-section {
+  position: relative;
+  height: 70vh;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: auto;
+  height: 100%;
+  min-width: 100%;
+  transform: translateX(-50%);
+  object-fit: cover;
+  will-change: transform;
+  transition: transform 0.1s;
+}
+.hero-overlay { /* … */ }
+.scroll-down { /* … */ }
