@@ -8,7 +8,7 @@
 .process-section h2 {
   font-size: 2rem;
   margin-bottom: 1.5rem;
-  color: #333;
+  color: var(--primary, #b8860b);
 }
 
 .process-section ol {
@@ -17,5 +17,7 @@
 }
 
 .process-section li {
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
+  font-size: 1.1rem;
+  color: var(--fg, #333);
 }

@@ -1,33 +1,43 @@
 ---
 import '../styles/header.css';
 ---
+
 <header class="header-section">
   <div class="header-container">
     <a href="/" class="logo-link">
-      <img src="/logo-white-nobg.png" alt="Logo L’École du Bélier" class="logo-image" />
-      <span class="site-title">L’École du Bélier</span>
+      <img src="/logo-white-nobg.png" alt="Logo L'École du Bélier" class="logo-image" />
+      <span class="site-title">L'École du Bélier</span>
     </a>
 
     <!-- Bouton mode jour/nuit -->
-    <button id="theme-toggle" class="theme-toggle" aria-label="Basculer mode">
+    <button id="theme-toggle" class="theme-toggle" aria-label="Basculer le thème">
       <span id="theme-icon">🌙</span>
     </button>
 
-    <button class="menu-toggle" aria-label="Ouvrir le menu">☰</button>
-    <nav class="main-nav">
+    <!-- Menu hamburger mobile -->
+    <button id="menu-toggle" class="menu-toggle" aria-label="Ouvrir le menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <!-- Navigation principale -->
+    <nav id="main-nav" class="main-nav">
       <a href="#about">La Brasserie</a>
       <a href="#beers">Nos Bières</a>
       <a href="#process">Processus</a>
       <a href="#contact">Contact & Commandes</a>
     </nav>
   </div>
+</header>
 
-  <script>
+<script>
+  // Gestion du thème jour/nuit
+  function initThemeToggle() {
     const toggle = document.getElementById('theme-toggle');
     const icon = document.getElementById('theme-icon');
     const root = document.documentElement;
 
-    // Fonction pour mettre à jour l’icône
     function updateIcon() {
       if (root.classList.contains('dark')) {
         icon.textContent = '☀️';
@@ -38,18 +48,45 @@ import '../styles/header.css';
       }
     }
 
-    // Initialisation : applique le thème et l’icône corrects
+    // Initialisation du thème
     const stored = localStorage.getItem('theme');
     if (stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
       root.classList.add('dark');
     }
     updateIcon();
 
-    // Bascule au clic
+    // Gestion du clic
     toggle.addEventListener('click', () => {
       const isDark = root.classList.toggle('dark');
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
       updateIcon();
     });
-  </script>
-</header>
+  }
+
+  // Gestion du menu mobile
+  function initMobileMenu() {
+    const menuToggle = document.getElementById('menu-toggle');
+    const mainNav = document.getElementById('main-nav');
+
+    menuToggle.addEventListener('click', () => {
+      const isOpen = mainNav.classList.toggle('open');
+      menuToggle.classList.toggle('active');
+      menuToggle.setAttribute('aria-expanded', isOpen.toString());
+    });
+
+    // Fermer le menu en cliquant sur un lien
+    mainNav.addEventListener('click', (e) => {
+      if (e.target.tagName === 'A') {
+        mainNav.classList.remove('open');
+        menuToggle.classList.remove('active');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  // Initialisation
+  document.addEventListener('DOMContentLoaded', () => {
+    initThemeToggle();
+    initMobileMenu();
+  });
+</script>

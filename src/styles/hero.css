@@ -1,20 +1,119 @@
-/* src/styles/hero.css */
+/* Section Hero avec effet parallax */
 .hero-section {
   position: relative;
   height: 70vh;
+  min-height: 500px;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
 .hero-bg {
   position: absolute;
   top: 0;
   left: 50%;
   width: auto;
-  height: 100%;
+  height: 120%;
   min-width: 100%;
   transform: translateX(-50%);
   object-fit: cover;
   will-change: transform;
-  transition: transform 0.1s;
+  z-index: 1;
 }
-.hero-overlay { /* … */ }
-.scroll-down { /* … */ }
+
+.hero-overlay {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  text-align: center;
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+html.dark .hero-overlay {
+  background: rgba(30, 30, 30, 0.9);
+  color: var(--fg);
+}
+
+.hero-overlay h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  color: var(--primary);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.hero-overlay p {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+  color: var(--accent);
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-cta {
+  display: inline-block;
+  padding: 1rem 2rem;
+  background: var(--primary);
+  color: white;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(184, 134, 11, 0.3);
+}
+
+.hero-cta:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(184, 134, 11, 0.4);
+}
+
+.scroll-down {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: var(--primary);
+  cursor: pointer;
+  animation: bounce 2s infinite;
+  z-index: 3;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  40% {
+    transform: translateX(-50%) translateY(-10px);
+  }
+  60% {
+    transform: translateX(-50%) translateY(-5px);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-overlay {
+    margin: 1rem;
+    padding: 2rem 1.5rem;
+  }
+  
+  .hero-overlay h1 {
+    font-size: 2.5rem;
+  }
+  
+  .hero-overlay p {
+    font-size: 1.1rem;
+  }
+}

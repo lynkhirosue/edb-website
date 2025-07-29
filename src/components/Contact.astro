@@ -1,16 +1,39 @@
 ---
 import '../styles/contact.css';
+
+// Slogans
+const slogans = [
+  "Ici, la bière n'est pas un passe-temps",
+  "L'authentique pour les authentiques", 
+  "Tradition revisitée, passion préservée",
+  "Hier les gestes, aujourd'hui la précision",
+  "Savoir-faire ancestral, équipement moderne",
+  "Moins de 100L, mais 100% de caractère",
+  "Micro-brasserie, maxi-exigence",
+  "La qualité ne se compte pas en litres",
+  "Brassée pour ceux qui savent"
+];
+
+// Sélection aléatoire d'un slogan
+const randomSlogan = slogans[Math.floor(Math.random() * slogans.length)];
 ---
+
 <section id="contact" class="contact-section">
-  <h2>Contact & Commandes</h2>
-  <p>Pour toute commande de kegs (5 Gal) ou de bouteilles, écrivez-nous directement :</p>
+  <h2>Contact</h2>
+  
+  <p>Pour toute demande, écrivez-nous directement :</p>
+  
   <p>
-    <a href="mailto:contact@lecoledubelier.beer" class="email-link">
-      contact@lecoledubelier.beer
+    <a href="mailto:salut@lecoledubelier.beer" class="email-link">
+      salut@lecoledubelier.beer
     </a>
   </p>
+  
   <div class="contact-info">
-    <p><strong>L’École du Bélier</strong></p>
-    <p>Production maison – Nouvelle-Aquitaine</p>
+    <p><strong>L'École du Bélier</strong></p>
+    <!-- Slogan aléatoire -->
+    <div class="slogan-container">
+      <p class="slogan-text">« {randomSlogan} »</p>
+    </div>
   </div>
 </section>
