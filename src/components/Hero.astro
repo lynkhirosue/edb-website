@@ -1,57 +1,27 @@
 ---
 import '../styles/hero.css';
 ---
-
-<section id="hero" class="hero-section">
-  <img src="/placeholder-hero.png" alt="Brasserie artisanale L'École du Bélier" class="hero-bg" />
-  <div class="hero-overlay">
-    <h1>L'École du Bélier</h1>
-    <p>Micro-brasserie maison en Nouvelle-Aquitaine<br>Production &lt; 100 L sur équipement Grainfather</p>
-    <a href="#beers" class="hero-cta">Découvrir nos bières</a>
+<section class="hero-parallax">
+  <div class="hero-img-parallax-wrapper">
+    <img src="/placeholder-hero.png" alt="Microbrasserie L'École du Bélier, Nouvelle-Aquitaine" class="hero-img-parallax" />
   </div>
-  <button id="scroll-down" class="scroll-down" aria-label="Descendre">↓</button>
+  <div class="hero-content">
+    <h1>L'École du Bélier</h1>
+    <p>Femto-brasserie maison en Nouvelle-Aquitaine<br>
+      Petits brassins – jamais plus de 100 L par lot ou en stock
+    </p>
+    <a href="#about" class="hero-cta">Découvrir notre approche</a>
+  </div>
 </section>
 
 <script>
-  // Effet parallax au scroll
-  function initParallax() {
-    const bg = document.querySelector('.hero-bg');
-    if (!bg) return;
-    
-    let ticking = false;
-    
-    function updateParallax() {
-      const scrolled = window.scrollY;
-      const rate = scrolled * -0.5;
-      bg.style.transform = `translateX(-50%) translateY(${rate}px)`;
-      ticking = false;
-    }
-    
-    function requestTick() {
-      if (!ticking) {
-        requestAnimationFrame(updateParallax);
-        ticking = true;
-      }
-    }
-    
-    window.addEventListener('scroll', requestTick, { passive: true });
-  }
-  
-  // Scroll smooth vers la section suivante
-  function initScrollDown() {
-    const btn = document.getElementById('scroll-down');
-    if (btn) {
-      btn.addEventListener('click', () => {
-        document.getElementById('about')?.scrollIntoView({ 
-          behavior: 'smooth' 
-        });
-      });
-    }
-  }
-  
-  // Initialisation
+  // Parallax image effet (doux, sans lag)
   document.addEventListener('DOMContentLoaded', () => {
-    initParallax();
-    initScrollDown();
+    const wrapper = document.querySelector('.hero-img-parallax-wrapper');
+    window.addEventListener('scroll', () => {
+      if (!wrapper) return;
+      const scrolled = window.scrollY;
+      wrapper.style.transform = `translateY(${scrolled * 0.25}px)`;
+    }, { passive: true });
   });
 </script>

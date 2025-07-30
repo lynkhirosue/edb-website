@@ -1,39 +1,214 @@
 .contact-section {
-  max-width: 600px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 3rem 1rem;
+  padding: 4rem 2rem;
+  background: var(--bg);
+}
+
+/* Hero section */
+.contact-hero {
   text-align: center;
+  margin-bottom: 4rem;
 }
 
-.contact-section h2 {
-  font-size: 2rem;
-  font-weight: bold;
+.contact-hero h2 {
+  font-size: clamp(2.5rem, 5vw, 3.2rem);
+  font-weight: 800;
+  color: var(--fg);
   margin-bottom: 1rem;
-  color: #333;
+  letter-spacing: -0.02em;
 }
 
-.contact-section p {
+.contact-brand h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.brand-tagline {
   font-size: 1rem;
+  color: var(--accent);
+  font-style: italic;
+  opacity: 0.8;
+  margin: 0;
+  font-weight: 400;
+}
+
+/* Grid des spécifications - 3 colonnes sur desktop, équilibrée */
+.specs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 4rem;
+}
+
+.spec-card {
+  background: #ffffff;
+  border-radius: 1.2rem;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.spec-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* Card "à venir" avec style différent */
+.spec-card-future {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: 2px dashed rgba(184, 134, 11, 0.3);
+  opacity: 0.8;
+}
+
+.spec-card-future:hover {
+  opacity: 1;
+  border-style: solid;
+  border-color: var(--primary);
+}
+
+.spec-icon {
+  font-size: 2.5rem;
   margin-bottom: 1rem;
-  color: #555;
+  filter: grayscale(0.2);
 }
 
-.email-link {
-  display: inline-block;
-  font-weight: bold;
-  color: #b8860b;
-  text-decoration: none;
-  border-bottom: 2px solid transparent;
-  transition: border-color 0.2s;
+.spec-card h4 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--fg);
+  margin-bottom: 0.75rem;
 }
 
-.email-link:hover {
-  border-color: #b8860b;
+.spec-card p {
+  font-size: 1rem;
+  color: var(--fg);
+  line-height: 1.5;
+  margin: 0;
 }
 
-.contact-info {
-  margin-top: 2rem;
+.spec-detail {
   font-size: 0.9rem;
-  color: #777;
-  line-height: 1.4;
+  color: var(--accent);
+  font-weight: 400;
+}
+
+/* CTA Section */
+.contact-cta {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 2rem;
+  padding: 3rem 2rem;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.contact-cta h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--fg);
+  margin-bottom: 0.5rem;
+}
+
+.contact-cta p {
+  font-size: 1.1rem;
+  color: var(--accent);
+  margin-bottom: 2rem;
+}
+
+.email-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: var(--primary);
+  color: white;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(184, 134, 11, 0.3);
+}
+
+.email-button:hover {
+  background: #a0751a;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(184, 134, 11, 0.4);
+}
+
+.email-button svg {
+  transition: transform 0.3s ease;
+}
+
+.email-button:hover svg {
+  transform: translateX(4px);
+}
+
+/* Footer */
+.contact-footer {
+  text-align: center;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.contact-footer p {
+  font-size: 0.95rem;
+  color: var(--accent);
+  margin: 0;
+  opacity: 0.8;
+}
+
+/* Mode sombre */
+html.dark .spec-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+html.dark .spec-card-future {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+  border-color: rgba(255, 215, 95, 0.3);
+}
+
+html.dark .contact-cta {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+}
+
+html.dark .contact-footer {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .specs-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-section {
+    padding: 3rem 1rem;
+  }
+  
+  .specs-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .spec-card {
+    padding: 1.5rem 1rem;
+  }
+  
+  .contact-cta {
+    padding: 2rem 1.5rem;
+    border-radius: 1.5rem;
+  }
+  
+  .email-button {
+    padding: 0.9rem 1.5rem;
+    font-size: 0.95rem;
+  }
 }
