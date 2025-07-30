@@ -1,0 +1,130 @@
+---
+import '../styles/beers.css';
+---
+
+<section id="beers" class="beers-section">
+  <div class="beers-header">
+    <h2>On a déjà brassé :</h2>
+  </div>
+  
+  <div class="beers-carousel" id="beers-carousel">
+    <div class="beers-track" id="beers-track">
+      <div class="beer-card">
+        <h3>Saison</h3>
+        <p>Ale blonde sèche, épicée, levure expressive, finale désaltérante.</p>
+        <span class="abv">5,9% alc.</span>
+      </div>
+      <div class="beer-card">
+        <h3>Czech Pale Lager</h3>
+        <p>Lager légère, avec un délicieux goût de céréale.</p>
+        <span class="abv">3,9% alc.</span>
+      </div>
+      <div class="beer-card">
+        <h3>American Pale Ale</h3>
+        <p>Pale Ale, notes florales et fruitées, amertume douce.</p>
+        <span class="abv">5,2% alc.</span>
+      </div>
+      <div class="beer-card">
+        <h3>Specialty Fruit Beer</h3>
+        <p>Ale houblonnée avec ajout de nectarines à la fermentation.</p>
+        <span class="abv">6,2% alc.</span>
+      </div>
+      <div class="beer-card">
+        <h3>Imperial Stout</h3>
+        <p>Ale noire, torréfiée, touche de cacao, corps velouté, finale sèche.</p>
+        <span class="abv">9,3% alc.</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="beers-dots" id="beers-dots"></div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const carousel = document.getElementById('beers-carousel');
+    const track = document.getElementById('beers-track');
+    const cards = track.querySelectorAll('.beer-card');
+    const dotsContainer = document.getElementById('beers-dots');
+    let currentIndex = 0;
+
+    function getCardsPerView() {
+      if (window.innerWidth >= 1200) return 3;
+      if (window.innerWidth >= 768) return 2;
+      return 1;
+    }
+
+    function createDots() {
+      dotsContainer.innerHTML = '';
+      const cardsPerView = getCardsPerView();
+      const maxIndex = Math.max(0, cards.length - cardsPerView);
+      for (let i = 0; i <= maxIndex; i++) {
+        const dot = document.createElement('button');
+        dot.className = 'dot';
+        dot.setAttribute('aria-label', `Voir les bières ${i + 1}`);
+        dot.onclick = () => goToSlide(i);
+        dotsContainer.appendChild(dot);
+      }
+      updateDots();
+    }
+
+    function updateDots() {
+      const dots = dotsContainer.querySelectorAll('.dot');
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentIndex);
+      });
+    }
+
+    function goToSlide(idx) {
+      currentIndex = idx;
+      updateCarousel();
+      updateDots();
+    }
+
+    function updateCarousel() {
+      const cardsPerView = getCardsPerView();
+      const cardWidth = 100 / cardsPerView;
+      const translateX = -currentIndex * cardWidth;
+      track.style.transform = `translateX(${translateX}%)`;
+    }
+
+    // Scroll horizontal natif
+    carousel.addEventListener('wheel', (e) => {
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+        e.preventDefault();
+        const cardsPerView = getCardsPerView();
+        const maxIndex = Math.max(0, cards.length - cardsPerView);
+        if (e.deltaX > 20 && currentIndex < maxIndex) goToSlide(currentIndex + 1);
+        if (e.deltaX < -20 && currentIndex > 0) goToSlide(currentIndex - 1);
+      }
+    }, { passive: false });
+
+    // Touch/swipe (mobile)
+    let startX = 0;
+    carousel.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+    }, { passive: true });
+
+    carousel.addEventListener('touchend', (e) => {
+      const endX = e.changedTouches[0].clientX;
+      const diff = startX - endX;
+      const cardsPerView = getCardsPerView();
+      const maxIndex = Math.max(0, cards.length - cardsPerView);
+      if (Math.abs(diff) > 45) {
+        if (diff > 0 && currentIndex < maxIndex) goToSlide(currentIndex + 1);
+        if (diff < 0 && currentIndex > 0) goToSlide(currentIndex - 1);
+      }
+    }, { passive: true });
+
+    // Resize : reset
+    window.addEventListener('resize', () => {
+      currentIndex = 0;
+      createDots();
+      updateCarousel();
+    });
+
+    // Init
+    createDots();
+    updateCarousel();
+  });
+</script>

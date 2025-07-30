@@ -1,110 +1,30 @@
 ---
-import Layout from '../layouts/Layout.astro';
-// Si tu veux utiliser des images locales optimisées
-// import heroImage from '../assets/images/hero.jpg';
+import Layout   from '../layouts/Layout.astro';
+
+import Header   from '../components/Header.astro';
+import Hero     from '../components/Hero.astro';
+import About    from '../components/About.astro';
+import Beers    from '../components/Beers.astro';
+import Process  from '../components/Process.astro';
+import Contact  from '../components/Contact.astro';
+import Footer   from '../components/Footer.astro';
+import ParallaxEquip from '../components/ParallaxEquip.astro';
 ---
 
-<Layout>
-  <Fragment slot="head">
-    <title>L'École du Bélier - Femto-brasserie à Bordeaux</title>
-    <meta name="description" content="Femto-brasserie artisanale en Nouvelle-Aquitaine. Brassage en très petite quantité avec exigence de qualité et de localisme." />
-  </Fragment>
+<Layout
+  title="L’École du Bélier – Micro-brasserie maison en Nouvelle-Aquitaine"
+  description="Brasserie artisanale & hyper-locale : kegs 5 Gal et bouteilles, production < 100 L/mois sur Grainfather G40 + GF30.">
 
-  <!-- Section Hero -->
-  <section class="hero relative bg-gradient-to-r from-amber-600 to-amber-800 text-white py-20 px-4 rounded-lg mb-8">
-    <div class="absolute inset-0 bg-black/20 rounded-lg"></div>
-    <div class="relative z-10 text-center max-w-4xl mx-auto">
-      <h1 class="text-4xl md:text-6xl font-serif font-bold mb-4">
-        L'École du Bélier
-      </h1>
-      <p class="text-xl md:text-2xl mb-2">Femto-brasserie à Bordeaux</p>
-      <p class="text-lg md:text-xl mb-8 opacity-90">
-        Brassé localement, inspiré des temps anciens
-      </p>
-      <button class="bg-white text-amber-800 px-8 py-3 rounded-lg font-semibold hover:bg-amber-50 transition-colors">
-        Découvrir nos bières
-      </button>
-    </div>
-  </section>
+  <Header />
 
-  <!-- Section À propos -->
-  <section class="mb-12">
-    <h2 class="text-3xl font-serif font-bold mb-6 text-center">À propos de la brasserie</h2>
-    <div class="bg-white dark:bg-slate-800 rounded-lg p-8 shadow-sm">
-      <p class="text-lg leading-relaxed text-center max-w-3xl mx-auto">
-        L'École du Bélier est une femto-brasserie artisanale installée en Nouvelle-Aquitaine. 
-        Nous brassons en très petite quantité avec une exigence de qualité et de localisme.
-      </p>
-    </div>
-  </section>
+  <main class="page-content">
+    <Hero />
+    <About />
+    <ParallaxEquip />
+    <Beers />
+    <Process />
+    <Contact />
+  </main>
 
-  <!-- Section Nos bières -->
-  <section class="mb-12">
-    <h2 class="text-3xl font-serif font-bold mb-6 text-center">Nos bières</h2>
-    <div class="bg-white dark:bg-slate-800 rounded-lg p-8 shadow-sm">
-      <p class="text-lg leading-relaxed text-center max-w-3xl mx-auto mb-6">
-        Saisons, Czech Lagers, Imperial Stouts... chaque brassin est unique, 
-        les recettes évoluent et se bonifient
-      </p>
-      
-      <!-- Grille des bières (exemple) -->
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-        <div class="bg-amber-50 dark:bg-slate-700 rounded-lg p-6 text-center">
-          <h3 class="text-xl font-semibold mb-2">Saison d'École</h3>
-          <p class="text-sm text-gray-600 dark:text-gray-300 mb-2">Levure Mangrove Jack's M29</p>
-          <p class="text-sm">Houblons Yakima Chief • 5.5% ABV</p>
-        </div>
-        
-        <div class="bg-amber-50 dark:bg-slate-700 rounded-lg p-6 text-center">
-          <h3 class="text-xl font-semibold mb-2">Czech Lager</h3>
-          <p class="text-sm text-gray-600 dark:text-gray-300 mb-2">Levure Mangrove Jack's M84</p>
-          <p class="text-sm">Tradition bohémienne • 4.8% ABV</p>
-        </div>
-        
-        <div class="bg-amber-50 dark:bg-slate-700 rounded-lg p-6 text-center">
-          <h3 class="text-xl font-semibold mb-2">Imperial Stout</h3>
-          <p class="text-sm text-gray-600 dark:text-gray-300 mb-2">Levure Mangrove Jack's M15</p>
-          <p class="text-sm">Puissance et caractère • 8.2% ABV</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section Philosophie -->
-  <section class="mb-12">
-    <h2 class="text-3xl font-serif font-bold mb-6 text-center">Notre philosophie</h2>
-    <div class="bg-white dark:bg-slate-800 rounded-lg p-8 shadow-sm">
-      <div class="max-w-3xl mx-auto">
-        <p class="text-lg leading-relaxed mb-4">
-          Notre démarche s'inscrit dans une philosophie <strong>hyper-locale</strong>. 
-          Avec moins de 100L produits par mois, nous privilégions la qualité à la quantité.
-        </p>
-        <p class="text-lg leading-relaxed mb-4">
-          Nos outils de production <strong>Grainfather</strong> (G40, fermenteurs GF30, 
-          système de refroidissement GC2) nous permettent un contrôle précis de chaque étape.
-        </p>
-        <p class="text-lg leading-relaxed">
-          L'objectif : développer une gamme 100% locale, en valorisant les producteurs 
-          et les saveurs de notre région.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section Contact -->
-  <section class="mb-12">
-    <h2 class="text-3xl font-serif font-bold mb-6 text-center">Contact</h2>
-    <div class="bg-white dark:bg-slate-800 rounded-lg p-8 shadow-sm text-center">
-      <p class="text-lg">
-        Vous pouvez nous contacter par email à 
-        <a href="mailto:contact@lecoledubelier.beer" 
-           class="text-amber-600 hover:text-amber-800 font-semibold">
-          contact@lecoledubelier.beer
-        </a>
-      </p>
-      <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
-        Production artisanale • Moins de 100L/mois • Nouvelle-Aquitaine
-      </p>
-    </div>
-  </section>
+  <Footer />
 </Layout>

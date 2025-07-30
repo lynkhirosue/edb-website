@@ -1,0 +1,85 @@
+.equip-section-parallax {
+  background: linear-gradient(145deg, #faf7f2 70%, #e9e0c9 100%);
+  padding: 5rem 1rem 4rem 1rem;
+  text-align: center;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.equip-parallax-content h2 {
+  font-size: 2.1rem;
+  font-weight: 900;
+  color: var(--primary, #b8860b);
+  margin-bottom: 2.3rem;
+  letter-spacing: 0.01em;
+}
+
+.equip-parallax-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+  justify-content: center;
+  align-items: flex-end;
+  position: relative;
+}
+
+.equip-parallax-grid figure {
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+  margin: 0 0.5rem;
+  border-radius: 1.3rem;
+  flex: 1 1 230px;
+  min-width: 210px;
+  max-width: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.4s, box-shadow 0.4s;
+  position: relative;
+  z-index: 1;
+}
+
+.equip-parallax-grid figure:hover {
+  transform: translateY(-13px) scale(1.04);
+  box-shadow: 0 16px 32px rgba(184,134,11,0.08);
+}
+
+.equip-parallax-grid img {
+  width: 95%;
+  max-width: 260px;
+  height: auto;
+  min-height: 190px;
+  object-fit: contain;
+  margin: 0 auto 1.2rem auto;
+  border-radius: 0.9rem;
+  background: #fff;
+  box-shadow: 0 1px 28px rgba(140,110,40,0.10);
+}
+
+.equip-parallax-grid figcaption {
+  margin-top: 0.2rem;
+  font-size: 1.1rem;
+  color: #70603b;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  transition: color 0.3s;
+}
+
+html.dark .equip-section-parallax {
+  background: linear-gradient(140deg, #181716 75%, #23221e 100%);
+}
+
+html.dark .equip-parallax-grid figcaption {
+  color: #ffeead;
+}
+
+@media (max-width: 950px) {
+  .equip-parallax-grid {
+    flex-direction: column;
+    gap: 1.7rem;
+  }
+  .equip-parallax-grid figure {
+    max-width: 380px;
+  }
+}

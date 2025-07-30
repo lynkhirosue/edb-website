@@ -1,0 +1,87 @@
+---
+import '../styles/contact.css';
+
+// Slogans sélectionnés
+const slogans = [
+  "Ici, la bière n'est pas un passe-temps",
+  "L'authentique pour les authentiques", 
+  "Tradition revisitée, passion préservée",
+  "Hier les gestes, aujourd'hui la précision",
+  "Savoir-faire ancestral, équipement moderne",
+  "Moins de 100L, mais 100% de caractère",
+  "Micro-brasserie, maxi-exigence",
+  "La qualité ne se compte pas en litres",
+  "Brassée pour ceux qui savent",
+  "L’âme du brassage, l’esprit d’aujourd’hui"
+];
+
+// Sélection aléatoire d'un slogan
+const randomSlogan = slogans[Math.floor(Math.random() * slogans.length)];
+---
+
+<section id="contact" class="contact-section">
+  <!-- Hero contact moderne -->
+  <div class="contact-hero">
+    <h2>Commandez vos bières</h2>
+    <div class="contact-brand">
+      <h3>L'École du Bélier</h3>
+      <p class="brand-tagline">{randomSlogan}</p>
+    </div>
+  </div>
+
+  <!-- Cards spécifications style Apple - Grid équilibrée -->
+  <div class="specs-grid">
+    <div class="spec-card">
+      <div class="spec-icon">📦</div>
+      <h4>Volume maximum</h4>
+      <p>4 fûts de 5 gallons<br><span class="spec-detail">(≈ 76L total)</span></p>
+    </div>
+    
+    <div class="spec-card">
+      <div class="spec-icon">🍺</div>
+      <h4>Conditionnement</h4>
+      <p>Fûts 5 Gal ou<br><span class="spec-detail">bouteilles 75cl</span></p>
+    </div>
+    
+    <div class="spec-card">
+      <div class="spec-icon">⏱️</div>
+      <h4>Délai</h4>
+      <p>2-8 semaines<br><span class="spec-detail">(Selon le type de bière, Ale ou Lager)</span></p>
+    </div>
+    
+    <div class="spec-card">
+      <div class="spec-icon">🚴‍♂️</div>
+      <h4>Livraison vélo</h4>
+      <p>Bordeaux Métropole<br><span class="spec-detail">(remorque Burley COHO XC)</span></p>
+    </div>
+    
+    <div class="spec-card">
+      <div class="spec-icon">🏠</div>
+      <h4>Retrait sur place</h4>
+      <p>Nouvelle-Aquitaine<br><span class="spec-detail">Uniquement local : si vous êtes hors NA, d’autres excellentes brasseries locales sauront vous accueillir</span></p>
+    </div>
+    
+    <div class="spec-card spec-card-future">
+      <div class="spec-icon">🔧</div>
+      <h4>Bientôt disponible</h4>
+      <p>Location tireuse + CO₂<br><span class="spec-detail">(service à venir)</span></p>
+    </div>
+  </div>
+
+  <!-- CTA Email moderne -->
+  <div class="contact-cta">
+    <h3>Prêt à déguster ?</h3>
+    <p>Contactez-nous pour un devis personnalisé</p>
+    <a href="mailto:salut@lecoledubelier.beer" class="email-button">
+      <span>salut@lecoledubelier.beer</span>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M8 1l7 7-7 7M15 8H1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </div>
+
+  <!-- Footer simple -->
+  <div class="contact-footer">
+    <p>Micro-brasserie artisanale • Équipement Grainfather de qualité professionnelle • Livraisons éco-responsables</p>
+  </div>
+</section>

@@ -1,0 +1,66 @@
+---
+import '../styles/header.css';
+---
+
+<header class="header-section">
+  <div class="header-container">
+    <!-- Logo et nom -->
+    <a href="/" class="logo-link">
+      <img src="/logo-white-nobg.png" alt="Logo L'École du Bélier" class="logo-image" />
+      <span class="site-title">L'École du Bélier</span>
+    </a>
+
+    <!-- Navigation principale -->
+    <nav id="main-nav" class="main-nav">
+      <a href="#about">La Brasserie</a>
+      <a href="#beers">Nos Bières</a>
+      <a href="#process">Le Processus</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <!-- Menu hamburger mobile -->
+    <button id="menu-toggle" class="menu-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Appliquer le thème système uniquement
+    const applySystemTheme = () => {
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    };
+
+    // Appliquer au chargement
+    applySystemTheme();
+
+    // Écouter les changements de préférences système
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applySystemTheme);
+
+    // Menu mobile
+    const menuToggle = document.getElementById('menu-toggle');
+    const mainNav = document.getElementById('main-nav');
+
+    menuToggle.addEventListener('click', () => {
+      const isOpen = mainNav.classList.toggle('open');
+      menuToggle.classList.toggle('active', isOpen);
+      menuToggle.setAttribute('aria-expanded', isOpen.toString());
+    });
+
+    // Fermer le menu quand on clique sur un lien
+    mainNav.addEventListener('click', (e) => {
+      if (e.target.tagName === 'A') {
+        mainNav.classList.remove('open');
+        menuToggle.classList.remove('active');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+</script>

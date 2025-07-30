@@ -1,0 +1,27 @@
+---
+import '../styles/hero.css';
+---
+<section class="hero-parallax">
+  <div class="hero-img-parallax-wrapper">
+    <img src="/placeholder-hero.png" alt="Microbrasserie L'École du Bélier, Nouvelle-Aquitaine" class="hero-img-parallax" />
+  </div>
+  <div class="hero-content">
+    <h1>L'École du Bélier</h1>
+    <p>Femto-brasserie maison en Nouvelle-Aquitaine<br>
+      Petits brassins – jamais plus de 100 L par lot ou en stock
+    </p>
+    <a href="#about" class="hero-cta">Découvrir notre approche</a>
+  </div>
+</section>
+
+<script>
+  // Parallax image effet (doux, sans lag)
+  document.addEventListener('DOMContentLoaded', () => {
+    const wrapper = document.querySelector('.hero-img-parallax-wrapper');
+    window.addEventListener('scroll', () => {
+      if (!wrapper) return;
+      const scrolled = window.scrollY;
+      wrapper.style.transform = `translateY(${scrolled * 0.25}px)`;
+    }, { passive: true });
+  });
+</script>
