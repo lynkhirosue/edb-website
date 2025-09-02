@@ -1,66 +1,209 @@
 ---
 import '../styles/header.css';
+
+export interface Props {
+  className?: string;
+}
+
+const { className = "" } = Astro.props;
+
+const navigationItems = [
+  { label: 'La Brasserie', href: '#about' },
+  { label: 'Notre Équipement', href: '#equipment' },
+  { label: 'Nos Créations', href: '#beers' },
+  { label: 'Processus', href: '#process' },
+  { label: 'Contact', href: '#contact' }
+];
 ---
 
-<header class="header-section">
+<header class={`header-section ${className}`} id="header">
   <div class="header-container">
-    <!-- Logo et nom -->
-    <a href="/" class="logo-link">
-      <img src="/logo-white-nobg.png" alt="Logo L'École du Bélier" class="logo-image" />
-      <span class="site-title">L'École du Bélier</span>
-    </a>
+    
+    <!-- Logo avec image bélier + texte -->
+    <div class="logo-section">
+      <a href="/" class="logo-link" aria-label="Retour à l'accueil">
+        <img 
+          src="/logo-white-nobg.png" 
+          alt="Logo L'École du Bélier" 
+          class="logo-image"
+          width="40"
+          height="40"
+        />
+        <div class="logo-text">
+          <div class="site-title">L'École du Bélier</div>
+          <span class="site-tagline">Femto-brasserie artisanale</span>
+        </div>
+      </a>
+    </div>
 
     <!-- Navigation principale -->
-    <nav id="main-nav" class="main-nav">
-      <a href="#about">La Brasserie</a>
-      <a href="#beers">Nos Bières</a>
-      <a href="#process">Le Processus</a>
-      <a href="#contact">Contact</a>
+    <nav class="main-nav" id="main-nav" aria-label="Navigation principale">
+      {navigationItems.map((item, index) => (
+        <a 
+          href={item.href} 
+          class="nav-link"
+        >
+          {item.label}
+        </a>
+      ))}
     </nav>
 
-    <!-- Menu hamburger mobile -->
-    <button id="menu-toggle" class="menu-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
-      <span></span>
-      <span></span>
-      <span></span>
+    <!-- Actions header (toggle + CTA) -->
+    <div class="header-actions">
+      <!-- Toggle thème -->
+      <button 
+        class="theme-toggle" 
+        id="theme-toggle"
+        aria-label="Basculer entre thème clair et sombre"
+        title="Changer le thème"
+      >
+        <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/>
+          <path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2"/>
+        </svg>
+        <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z" fill="currentColor"/>
+        </svg>
+      </button>
+
+      <!-- CTA Desktop -->
+      <a href="#contact" class="header-cta-button">
+        <span>Demander des Infos</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M8 1l7 7-7 7M15 8H1" stroke="currentColor" stroke-width="2"/>
+        </svg>
+      </a>
+    </div>
+
+    <!-- Bouton menu mobile -->
+    <button 
+      class="menu-toggle" 
+      id="menu-toggle"
+      aria-label="Ouvrir le menu de navigation"
+      aria-expanded="false"
+      aria-controls="main-nav"
+    >
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
     </button>
+
   </div>
+
+  <!-- Overlay pour mobile -->
+  <div class="mobile-overlay" id="mobile-overlay"></div>
 </header>
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    // Appliquer le thème système uniquement
-    const applySystemTheme = () => {
-      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    const header = document.getElementById('header');
+    const menuToggle = document.getElementById('menu-toggle');
+    const mainNav = document.getElementById('main-nav');
+    const mobileOverlay = document.getElementById('mobile-overlay');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const themeToggle = document.getElementById('theme-toggle');
+    
+    let isMenuOpen = false;
+    
+    // === GESTION THÈME ===
+    function initTheme() {
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      
+      if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
         document.documentElement.classList.add('dark');
       } else {
         document.documentElement.classList.remove('dark');
       }
-    };
-
-    // Appliquer au chargement
-    applySystemTheme();
-
-    // Écouter les changements de préférences système
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applySystemTheme);
-
-    // Menu mobile
-    const menuToggle = document.getElementById('menu-toggle');
-    const mainNav = document.getElementById('main-nav');
-
-    menuToggle.addEventListener('click', () => {
-      const isOpen = mainNav.classList.toggle('open');
-      menuToggle.classList.toggle('active', isOpen);
-      menuToggle.setAttribute('aria-expanded', isOpen.toString());
-    });
-
-    // Fermer le menu quand on clique sur un lien
-    mainNav.addEventListener('click', (e) => {
-      if (e.target.tagName === 'A') {
-        mainNav.classList.remove('open');
-        menuToggle.classList.remove('active');
-        menuToggle.setAttribute('aria-expanded', 'false');
+      
+      updateThemeToggle();
+    }
+    
+    function updateThemeToggle() {
+      const isDark = document.documentElement.classList.contains('dark');
+      themeToggle.classList.toggle('theme-dark', isDark);
+    }
+    
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.contains('dark');
+      
+      if (isDark) {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
       }
+      
+      updateThemeToggle();
+    }
+    
+    themeToggle?.addEventListener('click', toggleTheme);
+    
+    // === GESTION MENU MOBILE ===
+    function toggleMenu() {
+      isMenuOpen = !isMenuOpen;
+      
+      menuToggle.setAttribute('aria-expanded', isMenuOpen.toString());
+      header.classList.toggle('menu-open', isMenuOpen);
+      mainNav.classList.toggle('nav-open', isMenuOpen);
+      mobileOverlay.classList.toggle('overlay-visible', isMenuOpen);
+      menuToggle.classList.toggle('menu-active', isMenuOpen);
+      
+      if (isMenuOpen) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+    }
+    
+    menuToggle?.addEventListener('click', toggleMenu);
+    mobileOverlay?.addEventListener('click', () => {
+      if (isMenuOpen) toggleMenu();
     });
+    
+    // === NAVIGATION SMOOTH SCROLL ===
+    navLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        if (isMenuOpen) setTimeout(() => toggleMenu(), 150);
+        
+        const href = link.getAttribute('href');
+        if (href.startsWith('#')) {
+          e.preventDefault();
+          const targetSection = document.querySelector(href);
+          if (targetSection) {
+            const offsetTop = targetSection.offsetTop - 80;
+            window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+          }
+        }
+      });
+    });
+    
+    // === HEADER SCROLL BEHAVIOR ===
+    let lastScrollY = window.scrollY;
+    
+    function handleScroll() {
+      const currentScrollY = window.scrollY;
+      
+      if (currentScrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+      
+      if (!isMenuOpen && currentScrollY > lastScrollY && currentScrollY > 100) {
+        header.classList.add('header-hidden');
+      } else {
+        header.classList.remove('header-hidden');
+      }
+      
+      lastScrollY = currentScrollY;
+    }
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // === INITIALISATION ===
+    initTheme();
+    handleScroll();
   });
 </script>

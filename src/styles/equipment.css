@@ -1,0 +1,331 @@
+/* ===========================================
+   EQUIPMENT SECTION - REMIX IMAGES PLEINE HAUTEUR
+   =========================================== */
+
+.equipment-section {
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, #faf7f2 0%, #f5f2ed 100%);
+  font-family: 'Inter', sans-serif;
+}
+
+.equipment-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Titre */
+.equipment-title {
+  font-size: 2.75rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 3.5rem;
+  color: #333;
+  font-family: 'Playfair Display', serif;
+  
+  background: linear-gradient(135deg, #333 0%, #b8860b 70%, #8b4513 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Grid flex uniforme */
+.equipment-grid {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+/* Cards uniformes */
+.equipment-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 2rem;
+  overflow: hidden;
+  width: 320px;
+  min-height: 480px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 12px 35px rgba(184, 134, 11, 0.15);
+  border: 1px solid rgba(184, 134, 11, 0.1);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  backdrop-filter: blur(15px);
+  position: relative;
+  
+  /* Animation d'entrée */
+  opacity: 0;
+  transform: translateY(2rem) scale(0.95);
+  animation: equipmentCardSlideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--equip-index, 0) * 0.2s);
+}
+
+@keyframes equipmentCardSlideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.equipment-card.card-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.equipment-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, 
+    rgba(184, 134, 11, 0.05) 0%, 
+    transparent 50%, 
+    rgba(184, 134, 11, 0.02) 100%);
+  border-radius: 2rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.equipment-card:hover::before {
+  opacity: 1;
+}
+
+.equipment-card:hover {
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 0 20px 50px rgba(184, 134, 11, 0.25);
+  border-color: rgba(184, 134, 11, 0.2);
+}
+
+/* Container image uniforme */
+.equipment-image-container {
+  height: 280px;
+  overflow: hidden;
+  border-radius: 2rem 2rem 0 0;
+  background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Images pleine hauteur sans fond gris */
+.equipment-image-full {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 1rem;
+  transition: transform 0.4s ease;
+  border-radius: 1.5rem;
+}
+
+.equipment-card:hover .equipment-image-full {
+  transform: scale(1.08);
+}
+
+/* Contenu texte uniforme */
+.equipment-card-content {
+  padding: 2rem 1.5rem;
+  text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.equipment-name {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+  font-family: 'Playfair Display', serif;
+  line-height: 1.3;
+  transition: color 0.3s ease;
+}
+
+.equipment-card:hover .equipment-name {
+  color: #b8860b;
+}
+
+.equipment-description {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.5;
+  margin: 0;
+  flex: 1;
+  text-wrap: pretty;
+}
+
+/* Badge capacité uniforme */
+.capacity-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #b8860b 0%, #996f09 100%);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 2rem;
+  font-weight: 600;
+  font-size: 1rem;
+  box-shadow: 0 4px 15px rgba(184, 134, 11, 0.3);
+  transition: all 0.3s ease;
+  border: none;
+  cursor: default;
+  user-select: none;
+  align-self: center;
+}
+
+.equipment-card:hover .capacity-badge {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(184, 134, 11, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .equipment-grid {
+    gap: 1.5rem;
+  }
+  
+  .equipment-card {
+    width: 300px;
+    min-height: 460px;
+  }
+}
+
+@media (max-width: 768px) {
+  .equipment-section {
+    padding: 3rem 1rem;
+  }
+  
+  .equipment-grid {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+  
+  .equipment-card {
+    width: 100%;
+    max-width: 320px;
+    min-height: auto;
+  }
+  
+  .equipment-image-container {
+    height: 240px;
+  }
+  
+  .equipment-card-content {
+    padding: 1.5rem 1.25rem;
+  }
+  
+  .equipment-title {
+    font-size: 2.2rem;
+    margin-bottom: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .equipment-card {
+    max-width: 280px;
+  }
+  
+  .equipment-image-container {
+    height: 200px;
+  }
+  
+  .equipment-name {
+    font-size: 1.2rem;
+  }
+  
+  .equipment-description {
+    font-size: 0.9rem;
+  }
+  
+  .capacity-badge {
+    font-size: 0.9rem;
+    padding: 0.6rem 1.2rem;
+  }
+}
+
+/* Dark theme */
+html.dark .equipment-section {
+  background: linear-gradient(135deg, #181716 0%, #1f1e1d 100%);
+}
+
+html.dark .equipment-title {
+  background: linear-gradient(135deg, #fafafa 0%, #ffd75f 70%, #cd853f 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+html.dark .equipment-card {
+  background: rgba(30, 30, 30, 0.95);
+  border-color: rgba(255, 215, 95, 0.2);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+}
+
+html.dark .equipment-card:hover {
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 215, 95, 0.3);
+}
+
+html.dark .equipment-image-container {
+  background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+}
+
+html.dark .equipment-name {
+  color: #fafafa;
+}
+
+html.dark .equipment-card:hover .equipment-name {
+  color: #ffd75f;
+}
+
+html.dark .equipment-description {
+  color: #ccc;
+}
+
+html.dark .capacity-badge {
+  background: linear-gradient(135deg, #ffd75f 0%, #ffeb3b 100%);
+  color: #1a1a1a;
+}
+
+/* Performance */
+.equipment-card {
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.equipment-card:not(:hover) {
+  will-change: auto;
+}
+
+/* Accessibilité */
+@media (prefers-reduced-motion: reduce) {
+  .equipment-card,
+  .equipment-image-full,
+  .capacity-badge {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .equipment-card:hover,
+  .equipment-image-full:hover {
+    transform: none !important;
+  }
+}
+
+/* High contrast */
+@media (prefers-contrast: high) {
+  .equipment-card {
+    border: 2px solid #b8860b;
+    background: white;
+    backdrop-filter: none;
+  }
+  
+  .capacity-badge {
+    border: 2px solid #b8860b;
+  }
+  
+  html.dark .equipment-card {
+    border: 2px solid #ffd75f;
+    background: black;
+  }
+}

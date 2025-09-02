@@ -1,9 +1,18 @@
-/* src/styles/footer.css */
+/* ===========================================
+   FOOTER SECTION - L'ÉCOLE DU BÉLIER
+   =========================================== */
+
 .footer-section {
   background-color: #333;
   color: #eee;
   padding: 2rem 1rem;
   text-align: center;
+  border-top: 1px solid rgba(184, 134, 11, 0.2);
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .footer-nav {
@@ -11,21 +20,83 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 1.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .footer-nav a {
   color: #b8860b;
   text-decoration: none;
   font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
 }
 
 .footer-nav a:hover {
-  text-decoration: underline;
+  color: #ffd75f;
+  background: rgba(184, 134, 11, 0.1);
+  transform: translateY(-2px);
 }
 
 .footer-info p {
-  margin: 0.25rem 0;
+  margin: 0.5rem 0;
   font-size: 0.875rem;
   color: #bbb;
+  line-height: 1.5;
+}
+
+.footer-info p:first-child {
+  color: #eee;
+  font-weight: 500;
+}
+
+.footer-info em {
+  font-style: italic;
+  opacity: 0.8;
+}
+
+/* Dark theme */
+html.dark .footer-section {
+  background-color: #1a1a1a;
+  border-top-color: rgba(255, 215, 95, 0.2);
+}
+
+html.dark .footer-nav a {
+  color: #ffd75f;
+}
+
+html.dark .footer-nav a:hover {
+  color: #ffeb3b;
+  background: rgba(255, 215, 95, 0.1);
+}
+
+html.dark .footer-info p {
+  color: #ccc;
+}
+
+html.dark .footer-info p:first-child {
+  color: #f5f5f5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .footer-nav {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .footer-nav a {
+    display: block;
+  }
+}
+
+/* Accessibilité */
+.footer-nav a:focus-visible {
+  outline: 2px solid #b8860b;
+  outline-offset: 2px;
+}
+
+/* Performance */
+.footer-section {
+  contain: layout style paint;
 }

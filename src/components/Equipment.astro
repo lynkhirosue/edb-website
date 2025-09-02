@@ -1,0 +1,91 @@
+---
+import '../styles/equipment.css';
+
+export interface Props {
+  className?: string;
+}
+
+const { className = "" } = Astro.props;
+
+// Équipements avec layout uniforme (toutes cards même taille)
+const equipmentData = [
+  {
+    id: 'grainfather-g40',
+    name: 'Cuve de brassage G40',
+    description: 'Système tout-grain 40L avec contrôle de température précis',
+    image: '/G40.webp',
+    capacity: '40L'
+  },
+  {
+    id: 'fermenteurs-gf30',
+    name: 'Fermenteurs GF30 (x2)',
+    description: 'Deux fermenteurs coniques 30L pour fermentation contrôlée',
+    image: '/GF30.webp',
+    capacity: '2×30L'
+  },
+  {
+    id: 'refroidisseur-gc2',
+    name: 'Refroidisseur Glycol GC2',
+    description: 'Système de refroidissement glycol pour lagers',
+    image: '/GC2.webp',
+    capacity: 'Contrôle temp.'
+  }
+];
+---
+
+<section id="equipment" class={`equipment-section ${className}`} aria-labelledby="equipment-title">
+  <div class="equipment-container">
+    
+    <h2 id="equipment-title" class="equipment-title">Notre Matériel</h2>
+    
+    <!-- Grid flex uniforme -->
+    <div class="equipment-grid">
+      {equipmentData.map((equipment, index) => (
+        <article 
+          class="equipment-card" 
+          style={`--equip-index: ${index}`}
+        >
+          <!-- Image pleine hauteur sans fond -->
+          <div class="equipment-image-container">
+            <img 
+              src={equipment.image} 
+              alt={equipment.name}
+              class="equipment-image-full"
+              loading="lazy"
+              width="280"
+              height="280"
+            />
+          </div>
+          
+          <!-- Contenu texte -->
+          <div class="equipment-card-content">
+            <h3 class="equipment-name">{equipment.name}</h3>
+            <p class="equipment-description">{equipment.description}</p>
+            <div class="capacity-badge">{equipment.capacity}</div>
+          </div>
+        </article>
+      ))}
+    </div>
+    
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Animation d'entrée
+    const cards = document.querySelectorAll('.equipment-card');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('card-visible');
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    });
+    
+    cards.forEach(card => observer.observe(card));
+  });
+</script>
