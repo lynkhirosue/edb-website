@@ -30,7 +30,7 @@ Les prix indiqués sont exprimés en euros (€), net de taxes (TVA non applicab
 Le Vendeur se réserve le droit de modifier ses prix à tout moment, mais les produits seront facturés au tarif en vigueur au moment de la commande.
 
 ### Article 5 – Modalités de paiement  
-Le règlement s’effectue à la commande, par espèces, virement, ou, le cas échéant, via une plateforme de paiement.  
+Le règlement s’effectue à la commande, par carte bancaire, virement, ou, le cas échéant, via une plateforme de paiement.  
 Aucun escompte pour paiement anticipé.  
 En cas de retard de paiement, il pourra être réclamé une indemnité forfaitaire de 40 € pour frais de recouvrement, conformément à la réglementation.
 
