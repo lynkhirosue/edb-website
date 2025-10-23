@@ -6,14 +6,13 @@ export interface Props {
 }
 
 const { className = "" } = Astro.props;
-
 const currentYear = new Date().getFullYear();
 ---
 
 <footer class={`footer-section ${className}`}>
   <div class="footer-container">
     
-    <!-- Navigation simple -->
+    <!-- Navigation principale -->
     <nav class="footer-nav">
       <a href="#about">La Brasserie</a>
       <a href="#beers">Nos Bières</a>
@@ -27,6 +26,12 @@ const currentYear = new Date().getFullYear();
       <p>Micro-brasserie artisanale • Nouvelle-Aquitaine, France</p>
       <p><em>L'abus d'alcool est dangereux pour la santé. À consommer avec modération.</em></p>
     </div>
+
+    <!-- Liens légaux -->
+    <nav class="footer-legal">
+      <a href="/cgv">Conditions Générales de Vente</a>
+      <a href="/mentions-legales">Mentions Légales</a>
+    </nav>
 
   </div>
 </footer>
