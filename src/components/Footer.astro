@@ -1,16 +1,37 @@
----  
-import '../styles/footer.css';  
----  
+---
+import '../styles/footer.css';
 
-<footer class="footer-section">  
-  <nav class="footer-nav">  
-    <a href="#about">La Brasserie</a>  
-    <a href="#beers">Nos Bières</a>  
-    <a href="#process">Processus</a>  
-    <a href="#contact">Contact & Commandes</a>  
-  </nav>  
-  <div class="footer-info">  
-    <p>&copy; {new Date().getFullYear()} L’École du Bélier</p>  
-    <p>Production maison – Nouvelle-Aquitaine</p>  
-  </div>  
+export interface Props {
+  className?: string;
+}
+
+const { className = "" } = Astro.props;
+const currentYear = new Date().getFullYear();
+---
+
+<footer class={`footer-section ${className}`}>
+  <div class="footer-container">
+    
+    <!-- Navigation principale -->
+    <nav class="footer-nav">
+      <a href="#about">La Brasserie</a>
+      <a href="#beers">Nos Bières</a>
+      <a href="#process">Processus</a>
+      <a href="#contact">Contact & Commandes</a>
+    </nav>
+
+    <!-- Informations simples -->
+    <div class="footer-info">
+      <p>&copy; {currentYear} L'École du Bélier • Tous droits réservés</p>
+      <p>Micro-brasserie artisanale • Nouvelle-Aquitaine, France</p>
+      <p><em>L'abus d'alcool est dangereux pour la santé. À consommer avec modération.</em></p>
+    </div>
+
+    <!-- Liens légaux -->
+    <nav class="footer-legal">
+      <a href="/cgv">Conditions Générales de Vente</a>
+      <a href="/mentions-legales">Mentions Légales</a>
+    </nav>
+
+  </div>
 </footer>

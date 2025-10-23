@@ -1,87 +1,122 @@
 ---
 import '../styles/contact.css';
 
-// Slogans sélectionnés
-const slogans = [
-  "Ici, la bière n'est pas un passe-temps",
-  "L'authentique pour les authentiques", 
-  "Tradition revisitée, passion préservée",
-  "Hier les gestes, aujourd'hui la précision",
-  "Savoir-faire ancestral, équipement moderne",
-  "Moins de 100L, mais 100% de caractère",
-  "Micro-brasserie, maxi-exigence",
-  "La qualité ne se compte pas en litres",
-  "Brassée pour ceux qui savent",
-  "L’âme du brassage, l’esprit d’aujourd’hui"
-];
+export interface Props {
+  className?: string;
+}
 
-// Sélection aléatoire d'un slogan
-const randomSlogan = slogans[Math.floor(Math.random() * slogans.length)];
+const { className = "" } = Astro.props;
 ---
 
-<section id="contact" class="contact-section">
-  <!-- Hero contact moderne -->
-  <div class="contact-hero">
-    <h2>Commandez vos bières</h2>
-    <div class="contact-brand">
-      <h3>L'École du Bélier</h3>
-      <p class="brand-tagline">{randomSlogan}</p>
+<section id="contact" class={`contact-section ${className}`}>
+  <div class="contact-container">
+    
+    <!-- Header -->
+    <div class="contact-header">
+      <h1 class="contact-title">Écrivez-nous !</h1>
+      <p class="contact-subtitle">
+        Une question sur nos bières ? Envie d'échanger sur le brassage artisanal ?<br>
+        Contactez-nous directement par email pour un échange authentique et personnel.
+      </p>
+    </div>
+
+    <!-- Card email avec notification -->
+    <div class="email-card">
+      <div class="email-icon">📧</div>
+      <h2 class="email-title">Contact direct</h2>
+      
+      <!-- Bouton qui déclenche la notification au lieu du mailto -->
+      <button class="email-button" id="contactBtn" type="button">
+        salut@lecoledubelier.beer
+      </button>
+      
+      <p class="email-info">
+        <span class="response-time">Réponse sous 24-48h</span>
+        <span class="separator">•</span>
+        <span class="activity-type">Activité artisanale</span>
+      </p>
+    </div>
+
+    <!-- Informations complémentaires -->
+    <div class="contact-info">
+      <div class="info-card notice-card">
+        <div class="card-header">
+          <span class="card-icon">⚠️</span>
+          <h3>Commandes</h3>
+        </div>
+        <p>Les commandes ne sont pas encore ouvertes.<br>
+        Nous vous tiendrons informés dès que ce sera possible !</p>
+      </div>
+
+      <div class="info-card passion-card">
+        <div class="card-header">
+          <span class="card-icon">🍺</span>
+          <h3>Notre passion</h3>
+        </div>
+        <p>L'École du Bélier est née cette année de notre amour pour le brassage artisanal.<br>
+        Nous adorons partager cette passion et répondre à vos questions !</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Toast Notification Moderne -->
+  <div class="toast-notification" id="emailToast">
+    <div class="toast-content">
+      <div class="toast-icon">🚧</div>
+      <div class="toast-text">
+        <h3>Adresse email en construction</h3>
+        <p>Notre adresse email dédiée n'est pas encore disponible.<br>
+        <strong>Nous vous informerons dès qu'elle sera opérationnelle !</strong></p>
+      </div>
+      <button class="toast-close" id="closeToast" aria-label="Fermer la notification">×</button>
     </div>
   </div>
 
-  <!-- Cards spécifications style Apple - Grid équilibrée -->
-  <div class="specs-grid">
-    <div class="spec-card">
-      <div class="spec-icon">📦</div>
-      <h4>Volume maximum</h4>
-      <p>4 fûts de 5 gallons<br><span class="spec-detail">(≈ 76L total)</span></p>
-    </div>
-    
-    <div class="spec-card">
-      <div class="spec-icon">🍺</div>
-      <h4>Conditionnement</h4>
-      <p>Fûts 5 Gal ou<br><span class="spec-detail">bouteilles 75cl</span></p>
-    </div>
-    
-    <div class="spec-card">
-      <div class="spec-icon">⏱️</div>
-      <h4>Délai</h4>
-      <p>2-8 semaines<br><span class="spec-detail">(Selon le type de bière, Ale ou Lager)</span></p>
-    </div>
-    
-    <div class="spec-card">
-      <div class="spec-icon">🚴‍♂️</div>
-      <h4>Livraison vélo</h4>
-      <p>Bordeaux Métropole<br><span class="spec-detail">(remorque Burley COHO XC)</span></p>
-    </div>
-    
-    <div class="spec-card">
-      <div class="spec-icon">🏠</div>
-      <h4>Retrait sur place</h4>
-      <p>Nouvelle-Aquitaine<br><span class="spec-detail">Uniquement local : si vous êtes hors NA, d’autres excellentes brasseries locales sauront vous accueillir</span></p>
-    </div>
-    
-    <div class="spec-card spec-card-future">
-      <div class="spec-icon">🔧</div>
-      <h4>Bientôt disponible</h4>
-      <p>Location tireuse + CO₂<br><span class="spec-detail">(service à venir)</span></p>
-    </div>
-  </div>
-
-  <!-- CTA Email moderne -->
-  <div class="contact-cta">
-    <h3>Prêt à déguster ?</h3>
-    <p>Contactez-nous pour un devis personnalisé</p>
-    <a href="mailto:salut@lecoledubelier.beer" class="email-button">
-      <span>salut@lecoledubelier.beer</span>
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-        <path d="M8 1l7 7-7 7M15 8H1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </a>
-  </div>
-
-  <!-- Footer simple -->
-  <div class="contact-footer">
-    <p>Micro-brasserie artisanale • Équipement Grainfather de qualité professionnelle • Livraisons éco-responsables</p>
-  </div>
+  <!-- Overlay pour la modal -->
+  <div class="toast-overlay" id="toastOverlay"></div>
 </section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const contactBtn = document.getElementById('contactBtn');
+    const emailToast = document.getElementById('emailToast');
+    const closeToast = document.getElementById('closeToast');
+    const overlay = document.getElementById('toastOverlay');
+    
+    // Fonction pour afficher la notification
+    function showToast() {
+      emailToast.classList.add('show');
+      overlay.classList.add('show');
+      document.body.style.overflow = 'hidden'; // Empêche le scroll
+      
+      // Focus sur le bouton fermer pour l'accessibilité
+      setTimeout(() => closeToast.focus(), 100);
+    }
+    
+    // Fonction pour masquer la notification
+    function hideToast() {
+      emailToast.classList.remove('show');
+      overlay.classList.remove('show');
+      document.body.style.overflow = ''; // Restaure le scroll
+      contactBtn.focus(); // Retour focus sur le bouton
+    }
+    
+    // Événements
+    contactBtn.addEventListener('click', showToast);
+    closeToast.addEventListener('click', hideToast);
+    overlay.addEventListener('click', hideToast);
+    
+    // Fermeture avec Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && emailToast.classList.contains('show')) {
+        hideToast();
+      }
+    });
+    
+    // Animation d'entrée du bouton email
+    setTimeout(() => {
+      contactBtn.classList.add('animate-in');
+    }, 500);
+  });
+</script>

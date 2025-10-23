@@ -1,9 +1,19 @@
-/* src/styles/footer.css */
+/* ===========================================
+   FOOTER SECTION - L'ÉCOLE DU BÉLIER
+   =========================================== */
+
 .footer-section {
   background-color: #333;
   color: #eee;
   padding: 2rem 1rem;
   text-align: center;
+  border-top: 1px solid rgba(184, 134, 11, 0.2);
+  contain: layout style paint;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .footer-nav {
@@ -11,21 +21,122 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 1.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .footer-nav a {
   color: #b8860b;
   text-decoration: none;
   font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
 }
 
-.footer-nav a:hover {
-  text-decoration: underline;
+.footer-nav a:hover,
+.footer-legal a:hover {
+  color: #ffd75f;
+  background: rgba(184, 134, 11, 0.1);
+  transform: translateY(-2px);
 }
 
 .footer-info p {
-  margin: 0.25rem 0;
+  margin: 0.5rem 0;
   font-size: 0.875rem;
   color: #bbb;
+  line-height: 1.5;
+}
+
+.footer-info p:first-child {
+  color: #eee;
+  font-weight: 500;
+}
+
+.footer-info em {
+  font-style: italic;
+  opacity: 0.8;
+}
+
+/* --- Liens légaux / section ajoutée --- */
+.footer-legal {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 215, 95, 0.07);
+}
+
+.footer-legal a {
+  color: #bbb;
+  text-decoration: none;
+  font-size: 0.92rem;
+  font-weight: 400;
+  transition: color 0.3s;
+  opacity: 0.85;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.3rem;
+}
+
+.footer-legal a:focus-visible {
+  outline: 2px solid #b8860b;
+  outline-offset: 1.5px;
+}
+
+.footer-legal a:hover {
+  color: #ffd75f;
+  background: rgba(184, 134, 11, 0.05);
+  opacity: 1;
+  transform: none;
+}
+
+/* --- Thème sombre --- */
+html.dark .footer-section {
+  background-color: #1a1a1a;
+  border-top-color: rgba(255, 215, 95, 0.2);
+}
+
+html.dark .footer-nav a {
+  color: #ffd75f;
+}
+
+html.dark .footer-nav a:hover,
+html.dark .footer-legal a:hover {
+  color: #ffeb3b;
+  background: rgba(255, 215, 95, 0.1);
+}
+
+html.dark .footer-info p {
+  color: #ccc;
+}
+
+html.dark .footer-info p:first-child {
+  color: #f5f5f5;
+}
+
+html.dark .footer-legal a {
+  color: #bbb059;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .footer-nav {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .footer-nav a {
+    display: block;
+  }
+  .footer-legal {
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-top: 1.5rem;
+    padding-top: 0.7rem;
+  }
+}
+
+/* Accessibilité */
+.footer-nav a:focus-visible {
+  outline: 2px solid #b8860b;
+  outline-offset: 2px;
 }
