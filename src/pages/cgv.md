@@ -9,7 +9,7 @@ title: "Conditions Générales de Vente"
 Entreprise individuelle – Micro-entreprise  
 SIRET : 94180050000014  
 Code APE : 1105Z  
-34 rue du Moulin, 33530 Bassens – France  
+33530 Bassens – France  
 Contact : nico@lecoledubelier.beer
 Tél. : +33 7 77 75 76 22
 

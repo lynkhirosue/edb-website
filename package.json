@@ -1,5 +1,5 @@
 {
-  "name": "astronautical-axis",
+  "name": "lecole-du-belier-website",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -9,7 +9,6 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.1.11",
-    "astro": "^5.12.4"
+    "astro": "^5.15.1"
   }
 }
