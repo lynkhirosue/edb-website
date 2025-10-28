@@ -1,6 +1,17 @@
 ---
 import '../styles/global.css';
 
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { 
+  title = "L'École du Bélier - Femto-brasserie artisanale", 
+  description = "Découvrez nos bières artisanales brassées avec passion. Créations uniques et savoir-faire traditionnel." 
+} = Astro.props;
+
+const siteUrl = Astro.url.origin;
 ---
 
 <html lang="fr" class="scroll-smooth">
@@ -16,14 +27,34 @@ import '../styles/global.css';
       }
     </script>
     
-    <!-- Autres meta tags -->
+    <!-- Viewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    
+    <!-- Titre et description -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    
+    <!-- Open Graph (iMessage, WhatsApp, LinkedIn, Signal, etc.) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url.href} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:site_name" content="L'École du Bélier" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:image" content={`${siteUrl}/og-image.jpg`} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     
     <!-- Slot pour les meta tags spécifiques aux pages -->
     <slot name="head" />
-    
-    <!-- Titre par défaut si pas fourni -->
-    <title>L'École du Bélier - Femto-brasserie</title>
   </head>
   
   <body class="bg-amber-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100">
