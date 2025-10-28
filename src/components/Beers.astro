@@ -7,221 +7,164 @@ export interface Props {
 
 const { className = "" } = Astro.props;
 
-// LES 5 VRAIES BIÈRES COMPLÈTES
 const createdBeers = [
   {
     id: 'specialty-fruit-beer',
-    name: 'Specialty Fruit Beer',
+    name: 'Jess Fruity Pale Ale',
+    type: 'Specialty Fruit Beer',
     description: 'Ale houblonnée avec ajout de nectarines à la fermentation.',
     tags: ['Nectarine', 'Houblonnée', 'Fruitée'],
-    abv: '6,2% alc.'
+    abv: '6,2% alc.',
+    hasSpecialEffect: false,
+    hasGhosts: false
   },
   {
     id: 'imperial-stout',
-    name: 'Imperial Stout',
+    name: 'Réconfort noir',
+    type: 'Imperial Stout',
     description: 'Ale noire, torréfiée, touche de cacao, corps velouté, finale sèche.',
     tags: ['Torréfiée', 'Cacao', 'Corps velouté'],
-    abv: '9,3% alc.'
+    abv: '9,3% alc.',
+    hasSpecialEffect: false,
+    hasGhosts: false
   },
   {
     id: 'saison',
-    name: 'Saison',
+    name: 'Bière d\'écurie',
+    type: 'Saison',
     description: 'Ale blonde sèche, épicée, levure expressive, finale désaltérante.',
     tags: ['Épicée', 'Levure', 'Sèche'],
-    abv: '5,9% alc.'
+    abv: '5,9% alc.',
+    hasSpecialEffect: false,
+    hasGhosts: false
   },
   {
     id: 'czech-pale-lager',
-    name: 'Czech Pale Lager',
+    name: 'Bol de céréales',
+    type: 'Czech Pale Lager',
     description: 'Lager légère, avec un délicieux goût de céréale.',
     tags: ['Lager', 'Légère', 'Céréale'],
-    abv: '3,9% alc.'
+    abv: '3,9% alc.',
+    hasSpecialEffect: false,
+    hasGhosts: false
   },
   {
     id: 'american-pale-ale',
-    name: 'American Pale Ale',
+    name: 'Idyllwild',
+    type: 'American Pale Ale',
     description: 'Pale Ale, notes florales et fruitées, amertume douce.',
     tags: ['Fruitée', 'Florale', 'Amertume douce'],
-    abv: '5,2% alc.'
+    abv: '5,2% alc.',
+    hasSpecialEffect: true,
+    hasGhosts: false,
+    backgroundImage: '/APA.jpg'
+  },
+  {
+    id: 'autumn-seasonal-beer',
+    name: 'Fallen on Fall',
+    type: 'Autumn Seasonal Beer',
+    description: 'Ale légèrement ambrée, maltée, aux épices d\'automne.',
+    tags: ['Ambrée', 'Épicé', 'Maltée'],
+    abv: '4,5% alc.',
+    hasSpecialEffect: true,
+    hasGhosts: true,
+    backgroundImage: '/fallen-on-fall.png'
   }
 ];
 ---
 
-<section id="beers" class="beers-section">
+<section id="beers" class={className}>
   <div class="beers-container">
-    
     <h2 class="beers-title">On a déjà brassé</h2>
     <p class="beers-subtitle">
       Nos créations artisanales réalisées avec passion. 
       Chaque bière raconte une histoire unique de notre savoir-faire.
     </p>
 
-    <div class="beers-carousel" id="beersCarousel">
-      <!-- FLÈCHE GAUCHE -->
-      <button class="big-arrow prev-arrow" id="prevBtn">
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
-          <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="3"/>
-        </svg>
-      </button>
-
-      <!-- CONTAINER 5 CARDS PLUS PETITES -->
-      <div class="cards-wrapper">
-        <div class="cards-slider" id="cardsSlider">
-          {createdBeers.map((beer, index) => (
-            <div class="beer-card">
-              <h3 class="beer-name">{beer.name}</h3>
-              <p class="beer-description">{beer.description}</p>
-              
-              <div class="beer-tags">
-                {beer.tags.map((tag) => (
-                  <span class="beer-tag">{tag}</span>
-                ))}
-              </div>
-              
-              <div class="beer-footer">
-                <span class="beer-abv">{beer.abv}</span>
-                <button class="inspire-btn">S'en inspirer</button>
-              </div>
+    <div class="beers-grid">
+      {createdBeers.map((beer) => (
+        <div 
+          class={`beer-card ${beer.hasSpecialEffect ? 'beer-card-special' : ''} ${beer.hasGhosts ? 'beer-card-ghosts' : ''}`}
+          data-beer-id={beer.id}
+        >
+          {beer.hasGhosts && (
+            <div class="halloween-ghosts" id={`ghosts-${beer.id}`}>
+              <div class="ghost ghost-1">👻</div>
+              <div class="ghost ghost-2">👻</div>
+              <div class="ghost ghost-3">👻</div>
             </div>
-          ))}
+          )}
+
+          {beer.hasSpecialEffect && beer.backgroundImage && (
+            <div 
+              class="beer-background-image" 
+              style={`background-image: url('${beer.backgroundImage}')`}
+            ></div>
+          )}
+          
+          <div class="beer-content">
+            <h3 class="beer-name">{beer.name}</h3>
+            <h6 class="beer-type">{beer.type}</h6>
+            <p class="beer-description">{beer.description}</p>
+            
+            <div class="beer-tags">
+              {beer.tags.map((tag) => (
+                <span class="beer-tag">{tag}</span>
+              ))}
+            </div>
+            
+            <div class="beer-footer">
+              <span class="beer-abv">{beer.abv}</span>
+              <button class="inspire-btn">S'en inspirer</button>
+            </div>
+          </div>
         </div>
-      </div>
-
-      <!-- FLÈCHE DROITE -->
-      <button class="big-arrow next-arrow" id="nextBtn">
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
-          <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="3"/>
-        </svg>
-      </button>
+      ))}
     </div>
-    
-    <!-- POINTS RONDS -->
-    <div class="pagination-dots">
-      <span class="round-dot active" data-slide="0"></span>
-      <span class="round-dot" data-slide="1"></span>
-    </div>
-
   </div>
 </section>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const prevBtn = document.getElementById('prevBtn');
-  const nextBtn = document.getElementById('nextBtn');
-  const slider = document.getElementById('cardsSlider');
-  const carousel = document.getElementById('beersCarousel');
-  const dots = document.querySelectorAll('.round-dot');
+  let hasBeenHovered = false;
   
-  let currentSlide = 0;
-  const totalSlides = 2;
+  const ghostCard = document.querySelector('.beer-card-ghosts') as HTMLElement | null;
   
-  function updateCarousel() {
-    // Page 1: bières 1,2,3 | Page 2: bières 4,5
-    const translateX = currentSlide === 0 ? '0%' : '-60%';
-    slider.style.transform = `translateX(${translateX})`;
+  if (ghostCard) {
+    const ghostsContainer = ghostCard.querySelector('.halloween-ghosts') as HTMLElement | null;
     
-    // Update dots
-    dots.forEach((dot, index) => {
-      if (index === currentSlide) {
-        dot.classList.add('active');
-      } else {
-        dot.classList.remove('active');
-      }
-    });
-    
-    // Update arrows
-    if (currentSlide === 0) {
-      prevBtn.style.opacity = '0.3';
-      prevBtn.disabled = true;
-    } else {
-      prevBtn.style.opacity = '1';
-      prevBtn.disabled = false;
-    }
-    
-    if (currentSlide === totalSlides - 1) {
-      nextBtn.style.opacity = '0.3';
-      nextBtn.disabled = true;
-    } else {
-      nextBtn.style.opacity = '1';
-      nextBtn.disabled = false;
+    if (ghostsContainer) {
+      ghostCard.addEventListener('mouseenter', () => {
+        if (!hasBeenHovered) {
+          hasBeenHovered = true;
+          ghostsContainer.classList.add('ghosts-active');
+          
+          setTimeout(() => {
+            ghostsContainer.style.display = 'none';
+          }, 3000);
+        }
+      });
     }
   }
   
-  function goToSlide(slideIndex) {
-    currentSlide = Math.max(0, Math.min(slideIndex, totalSlides - 1));
-    updateCarousel();
-  }
-  
-  function nextSlide() {
-    if (currentSlide < totalSlides - 1) {
-      currentSlide++;
-      updateCarousel();
-    }
-  }
-  
-  function prevSlide() {
-    if (currentSlide > 0) {
-      currentSlide--;
-      updateCarousel();
-    }
-  }
-  
-  // Event listeners flèches
-  prevBtn.addEventListener('click', () => {
-    prevSlide();
-  });
-  
-  nextBtn.addEventListener('click', () => {
-    nextSlide();
-  });
-  
-  // Event listeners dots
-  dots.forEach((dot, index) => {
-    dot.addEventListener('click', () => {
-      goToSlide(index);
-    });
-  });
-  
-  // CONTRÔLE MOLETTE SOURIS SEULEMENT (pas d'auto-scroll)
-  let scrollTimeout = null;
-  
-  carousel.addEventListener('wheel', (e) => {
-    e.preventDefault();
-    
-    // Débounce pour éviter les scroll trop rapides
-    if (scrollTimeout) return;
-    
-    scrollTimeout = setTimeout(() => {
-      scrollTimeout = null;
-    }, 300);
-    
-    // Détection direction scroll
-    if (e.deltaY > 0 || e.deltaX > 0) {
-      nextSlide();
-    } else if (e.deltaY < 0 || e.deltaX < 0) {
-      prevSlide();
-    }
-  }, { passive: false });
-  
-  // Event listeners boutons "S'en inspirer"
-  document.querySelectorAll('.inspire-btn').forEach(button => {
-    button.addEventListener('click', (e) => {
-      const card = e.target.closest('.beer-card');
-      const beerName = card.querySelector('.beer-name').textContent;
+  document.querySelectorAll<HTMLButtonElement>('.inspire-btn').forEach(button => {
+    button.addEventListener('click', (e: Event) => {
+      const target = e.currentTarget as HTMLButtonElement;
+      const card = target.closest('.beer-card') as HTMLElement | null;
+      const beerNameEl = card?.querySelector('.beer-name');
+      const beerName = beerNameEl?.textContent || '';
       
-      // Animation du bouton
-      button.style.transform = 'scale(0.95)';
+      target.style.transform = 'scale(0.95)';
       setTimeout(() => {
-        button.style.transform = '';
+        target.style.transform = '';
       }, 150);
       
-      // Scroll vers contact
-      const contactSection = document.querySelector('#contact');
+      const contactSection = document.querySelector('#contact') as HTMLElement | null;
       if (contactSection) {
         contactSection.scrollIntoView({ behavior: 'smooth' });
         
         setTimeout(() => {
-          const messageField = document.querySelector('#message');
+          const messageField = document.querySelector('#message') as HTMLTextAreaElement | null;
           if (messageField) {
             messageField.value = `Bonjour ! Je suis intéressé(e) par une bière inspirée de votre "${beerName}". Pouvons-nous en discuter ?`;
             messageField.focus();
@@ -230,8 +173,5 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
-  
-  // Initialisation
-  updateCarousel();
 });
 </script>

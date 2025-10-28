@@ -126,19 +126,24 @@
   margin: 0 0 1.5rem 0;
   font-family: Georgia, serif;
   letter-spacing: -0.03em;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
   
-  /* Effet de brillance animé */
+  /* MODE CLAIR : Gradient très subtil, presque blanc */
   background: linear-gradient(135deg, 
     #ffffff 0%, 
-    var(--hero-primary) 30%, 
-    #ffffff 60%, 
-    var(--hero-primary) 100%);
-  background-size: 300% 300%;
+    #f5f5f5 25%,
+    #e8e8e8 50%, 
+    #f5f5f5 75%,
+    #ffffff 100%);
+  background-size: 400% 400%;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: heroTitleShine 4s ease-in-out infinite;
+  
+  /* Animation ULTRA lente (12 secondes) */
+  animation: heroTitleShineSubtle 12s ease-in-out infinite;
+  
+  /* Ombre quasi invisible */
+  filter: drop-shadow(0.5px 0.5px 1px rgba(0, 0, 0, 0.08));
   
   /* Animation d'entrée */
   opacity: 0;
@@ -147,7 +152,8 @@
   text-wrap: balance;
 }
 
-@keyframes heroTitleShine {
+/* Animation très lente et subtile pour mode clair */
+@keyframes heroTitleShineSubtle {
   0%, 100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
 }
@@ -438,9 +444,37 @@
   }
 }
 
-/* Thème sombre (si activé) */
+/* ========================================
+   THÈME SOMBRE - RESTAURÉ CORRECTEMENT
+   ======================================== */
 html.dark .hero-section {
   --hero-primary: var(--hero-primary-dark);
+}
+
+/* MODE SOMBRE : Gradient VISIBLE avec animation rapide */
+html.dark .hero-title {
+  /* Gradient doré/blanc BIEN VISIBLE */
+  background: linear-gradient(135deg, 
+    #ffffff 0%, 
+    #ffd75f 30%, 
+    #ffffff 60%, 
+    #ffd75f 100%) !important;
+  background-size: 300% 300% !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  
+  /* Animation rapide (4 secondes) */
+  animation: heroTitleShineDark 4s ease-in-out infinite !important;
+  
+  /* Ombre prononcée */
+  filter: drop-shadow(2px 2px 8px rgba(0, 0, 0, 0.7)) !important;
+}
+
+/* Animation rapide pour le mode sombre */
+@keyframes heroTitleShineDark {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
 html.dark .hero-cta.primary {
@@ -467,7 +501,7 @@ html.dark .stat-number {
   outline-offset: 4px;
 }
 
-/* Préférences système */
+/* Préférences système - Motion réduit */
 @media (prefers-reduced-motion: reduce) {
   .hero-section,
   .hero-section *,
@@ -495,6 +529,18 @@ html.dark .stat-number {
   
   .scroll-arrow {
     animation: none;
+  }
+  
+  /* Pas d'animation gradient si motion réduit demandé */
+  .hero-title {
+    animation: none !important;
+    background: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+  
+  html.dark .hero-title {
+    background: var(--hero-primary-dark) !important;
+    -webkit-text-fill-color: var(--hero-primary-dark) !important;
   }
 }
 
