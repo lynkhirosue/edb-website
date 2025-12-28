@@ -1,5 +1,6 @@
 ---
 import '../styles/beers.css';
+import { loadBeers } from '../utils/data-loader';
 
 export interface Props {
   className?: string;
@@ -7,70 +8,8 @@ export interface Props {
 
 const { className = "" } = Astro.props;
 
-const createdBeers = [
-  {
-    id: 'specialty-fruit-beer',
-    name: 'Jess Fruity Pale Ale',
-    type: 'Specialty Fruit Beer',
-    description: 'Ale houblonnée avec ajout de nectarines à la fermentation.',
-    tags: ['Nectarine', 'Houblonnée', 'Fruitée'],
-    abv: '6,2% alc.',
-    hasSpecialEffect: false,
-    hasGhosts: false
-  },
-  {
-    id: 'imperial-stout',
-    name: 'Réconfort noir',
-    type: 'Imperial Stout',
-    description: 'Ale noire, torréfiée, touche de cacao, corps velouté, finale sèche.',
-    tags: ['Torréfiée', 'Cacao', 'Corps velouté'],
-    abv: '9,3% alc.',
-    hasSpecialEffect: false,
-    hasGhosts: false
-  },
-  {
-    id: 'saison',
-    name: 'Bière d\'écurie',
-    type: 'Saison',
-    description: 'Ale blonde sèche, épicée, levure expressive, finale désaltérante.',
-    tags: ['Épicée', 'Levure', 'Sèche'],
-    abv: '5,9% alc.',
-    hasSpecialEffect: false,
-    hasGhosts: false
-  },
-  {
-    id: 'czech-pale-lager',
-    name: 'Bol de céréales',
-    type: 'Czech Pale Lager',
-    description: 'Lager légère, avec un délicieux goût de céréale.',
-    tags: ['Lager', 'Légère', 'Céréale'],
-    abv: '3,9% alc.',
-    hasSpecialEffect: false,
-    hasGhosts: false
-  },
-  {
-    id: 'american-pale-ale',
-    name: 'Idyllwild',
-    type: 'American Pale Ale',
-    description: 'Pale Ale, notes florales et fruitées, amertume douce.',
-    tags: ['Fruitée', 'Florale', 'Amertume douce'],
-    abv: '5,2% alc.',
-    hasSpecialEffect: true,
-    hasGhosts: false,
-    backgroundImage: '/APA.jpg'
-  },
-  {
-    id: 'autumn-seasonal-beer',
-    name: 'Fallen on Fall',
-    type: 'Autumn Seasonal Beer',
-    description: 'Ale légèrement ambrée, maltée, aux épices d\'automne.',
-    tags: ['Ambrée', 'Épicé', 'Maltée'],
-    abv: '4,5% alc.',
-    hasSpecialEffect: true,
-    hasGhosts: true,
-    backgroundImage: '/fallen-on-fall.png'
-  }
-];
+// Chargement et validation des données depuis JSON
+const createdBeers = await loadBeers();
 ---
 
 <section id="beers" class={className}>

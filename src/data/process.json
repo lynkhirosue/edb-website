@@ -1,0 +1,65 @@
+[
+  {
+    "id": "concassage",
+    "number": "01",
+    "title": "Concassage",
+    "description": "Broyage délicat du malt pour libérer les enzymes tout en préservant les enveloppes.",
+    "duration": "15 min",
+    "temperature": null,
+    "icon": "🌾"
+  },
+  {
+    "id": "empatage",
+    "number": "02",
+    "title": "Empâtage",
+    "description": "Mélange du malt concassé avec l'eau chaude pour convertir l'amidon en sucres fermentescibles.",
+    "duration": "60-90 min",
+    "temperature": "62-68°C",
+    "icon": "🌡️"
+  },
+  {
+    "id": "filtration",
+    "number": "03",
+    "title": "Filtration",
+    "description": "Séparation du moût sucré des drêches à travers le fond filtrant du système Grainfather.",
+    "duration": "45 min",
+    "temperature": "75-78°C",
+    "icon": "💧"
+  },
+  {
+    "id": "ebullition",
+    "number": "04",
+    "title": "Ébullition",
+    "description": "Stérilisation du moût et ajout progressif des houblons pour l'amertume et les arômes.",
+    "duration": "60-90 min",
+    "temperature": "100°C",
+    "icon": "♨️"
+  },
+  {
+    "id": "refroidissement",
+    "number": "05",
+    "title": "Refroidissement",
+    "description": "Abaissement rapide de la température pour préparer l'ensemencement en levures.",
+    "duration": "30 min",
+    "temperature": "20°C",
+    "icon": "❄️"
+  },
+  {
+    "id": "fermentation",
+    "number": "06",
+    "title": "Fermentation",
+    "description": "Transformation des sucres en alcool et CO₂ par les levures dans nos fermenteurs coniques.",
+    "duration": "5-14 jours",
+    "temperature": "18-22°C",
+    "icon": "🧪"
+  },
+  {
+    "id": "conditionnement",
+    "number": "07",
+    "title": "Conditionnement",
+    "description": "Mise en bouteille ou fût avec ajustement final de la carbonation et maturation.",
+    "duration": "2-4 semaines",
+    "temperature": "12-16°C",
+    "icon": "🍺"
+  }
+]

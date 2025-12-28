@@ -1,5 +1,10 @@
 ---
 import '../styles/equipment.css';
+import { loadEquipment } from '../utils/data-loader';
+import { Image } from 'astro:assets';
+import G40 from '../assets/images/G40.webp';
+import GF30 from '../assets/images/GF30.webp';
+import GC2 from '../assets/images/GC2.webp';
 
 export interface Props {
   className?: string;
@@ -7,30 +12,15 @@ export interface Props {
 
 const { className = "" } = Astro.props;
 
-// Équipements avec layout uniforme (toutes cards même taille)
-const equipmentData = [
-  {
-    id: 'grainfather-g40',
-    name: 'Cuve de brassage G40',
-    description: 'Système tout-grain 40L avec contrôle de température précis',
-    image: '/G40.webp',
-    capacity: '40L'
-  },
-  {
-    id: 'fermenteurs-gf30',
-    name: 'Fermenteurs GF30 (x2)',
-    description: 'Deux fermenteurs coniques 30L pour fermentation contrôlée',
-    image: '/GF30.webp',
-    capacity: '2×30L'
-  },
-  {
-    id: 'refroidisseur-gc2',
-    name: 'Refroidisseur Glycol GC2',
-    description: 'Système de refroidissement glycol pour lagers',
-    image: '/GC2.webp',
-    capacity: 'Contrôle temp.'
-  }
-];
+// Chargement et validation des données depuis JSON
+const equipmentData = await loadEquipment();
+
+// Mapping des images pour optimisation
+const imageMap: Record<string, any> = {
+  '/G40.webp': G40,
+  '/GF30.webp': GF30,
+  '/GC2.webp': GC2
+};
 ---
 
 <section id="equipment" class={`equipment-section ${className}`} aria-labelledby="equipment-title">
@@ -47,13 +37,15 @@ const equipmentData = [
         >
           <!-- Image pleine hauteur sans fond -->
           <div class="equipment-image-container">
-            <img 
-              src={equipment.image} 
+            <Image
+              src={imageMap[equipment.image]}
               alt={equipment.name}
               class="equipment-image-full"
+              width={280}
+              height={280}
               loading="lazy"
-              width="280"
-              height="280"
+              format="webp"
+              quality={85}
             />
           </div>
           
