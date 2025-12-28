@@ -6,9 +6,20 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "astro": "^5.15.1"
+    "@astrojs/sitemap": "^3.6.0",
+    "astro": "^5.15.1",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@vitest/ui": "^4.0.16",
+    "happy-dom": "^20.0.11",
+    "vitest": "^4.0.16"
   }
 }

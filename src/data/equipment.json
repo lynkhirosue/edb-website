@@ -1,0 +1,23 @@
+[
+  {
+    "id": "grainfather-g40",
+    "name": "Cuve de brassage G40",
+    "description": "Système tout-grain 40L avec contrôle de température précis",
+    "image": "/G40.webp",
+    "capacity": "40L"
+  },
+  {
+    "id": "fermenteurs-gf30",
+    "name": "Fermenteurs GF30 (x2)",
+    "description": "Deux fermenteurs coniques 30L pour fermentation contrôlée",
+    "image": "/GF30.webp",
+    "capacity": "2×30L"
+  },
+  {
+    "id": "refroidisseur-gc2",
+    "name": "Refroidisseur Glycol GC2",
+    "description": "Système de refroidissement glycol pour lagers",
+    "image": "/GC2.webp",
+    "capacity": "Contrôle temp."
+  }
+]

@@ -2,6 +2,9 @@
    GLOBAL STYLES - L'ÉCOLE DU BÉLIER
    =========================================== */
 
+/* Import utility classes */
+@import './utilities.css';
+
 /* CSS Reset moderne */
 *, *::before, *::after {
   box-sizing: border-box;
