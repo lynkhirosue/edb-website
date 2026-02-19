@@ -1,0 +1,86 @@
+---
+import '../styles/agenda.css';
+import { loadEvents } from '../utils/data-loader';
+
+export interface Props {
+  className?: string;
+  hideHeader?: boolean;
+}
+
+const { className = '', hideHeader = false } = Astro.props;
+const allEvents = await loadEvents();
+
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+
+const upcomingEvents = allEvents
+  .filter((event) => {
+    const eventDate = new Date(`${event.date}T00:00:00`);
+    return !Number.isNaN(eventDate.getTime()) && eventDate >= today;
+  })
+  .sort((a, b) => a.date.localeCompare(b.date));
+
+const hasFakeData = allEvents.some((event) => event.description.toLowerCase().includes('fake'));
+---
+
+<section id="agenda" class={`agenda-section ${hideHeader ? 'no-section-header' : ''} ${className}`} aria-labelledby={hideHeader ? undefined : 'agenda-title'}>
+  <div class="agenda-container">
+    {!hideHeader && (
+      <div class="agenda-header reveal">
+        <h2 id="agenda-title">Agenda dégustation</h2>
+        <p class="lead">Uniquement les événements du jour et à venir.</p>
+      </div>
+    )}
+
+    {upcomingEvents.length ? (
+      <>
+        {hasFakeData && (
+          <p class="agenda-note reveal" role="note">Données affichées: démo FAKE.</p>
+        )}
+
+        <div class="agenda-grid reveal-stagger">
+          {upcomingEvents.map((event) => (
+            <article class={`agenda-card reveal ${event.highlight ? 'agenda-highlight' : ''}`}>
+              <header>
+                <p class="agenda-date">{new Date(event.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                <h3>{event.title}</h3>
+                <p class="agenda-time">{event.startTime} - {event.endTime}</p>
+              </header>
+
+              <p class="agenda-location">{event.venue} · {event.city}</p>
+              <p class="agenda-description">{event.description}</p>
+
+              <div class="agenda-actions">
+                {event.registrationUrl ? (
+                  <a
+                    href={event.registrationUrl}
+                    class="agenda-link"
+                    data-analytics="cta_click"
+                    data-analytics-label={`event-register-${event.id}`}
+                  >
+                    Demander une place
+                  </a>
+                ) : null}
+
+                <a
+                  href={`/agenda/${event.id}.ics`}
+                  class="agenda-link secondary"
+                  download
+                  data-analytics="cta_click"
+                  data-analytics-label={`event-ics-${event.id}`}
+                >
+                  Ajouter au calendrier
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </>
+    ) : (
+      <div class="agenda-empty reveal" role="status">
+        <p>Aucun événement du jour ou à venir pour le moment.</p>
+        {hasFakeData && <p class="agenda-note">Les événements actuels sont des données FAKE de démonstration.</p>}
+      </div>
+    )}
+  </div>
+</section>

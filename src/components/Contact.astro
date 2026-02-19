@@ -1,122 +1,63 @@
 ---
 import '../styles/contact.css';
+import contactScriptUrl from '../scripts/contact.ts?url';
 
 export interface Props {
   className?: string;
 }
 
-const { className = "" } = Astro.props;
+const { className = '' } = Astro.props;
+const alertAction = 'https://formsubmit.co/nico@lecoledubelier.beer';
 ---
 
-<section id="contact" class={`contact-section ${className}`}>
-  <div class="contact-container">
-    
-    <!-- Header -->
-    <div class="contact-header">
-      <h1 class="contact-title">Écrivez-nous !</h1>
-      <p class="contact-subtitle">
-        Une question sur nos bières ? Envie d'échanger sur le brassage artisanal ?<br>
-        Contactez-nous directement par email pour un échange authentique et personnel.
-      </p>
-    </div>
+<section id="contact" class={`contact-section ${className}`} aria-labelledby="contact-title">
+  <div class="contact-container reveal">
+    <h2 id="contact-title" class="contact-title">Nous contacter</h2>
+    <p class="lead contact-lead">
+      Une question sur les bières ou la brasserie ? Écris-moi.
+    </p>
 
-    <!-- Card email avec notification -->
-    <div class="email-card">
-      <div class="email-icon">📧</div>
-      <h2 class="email-title">Contact direct</h2>
-      
-      <!-- Bouton qui déclenche la notification au lieu du mailto -->
-      <button class="email-button" id="contactBtn" type="button">
-        bientôt un mail @lecoledubelier.beer
-      </button>
-      
-      <p class="email-info">
-        <span class="response-time">Réponse dès que possible</span>
-        <span class="separator">•</span>
-        <span class="activity-type">Activité artisanale</span>
-      </p>
-    </div>
+    <a
+      href="mailto:nico@lecoledubelier.beer"
+      class="email-button js-contact-email"
+      data-analytics="contact_click"
+      data-analytics-label="mailto"
+    >
+      nico@lecoledubelier.beer
+    </a>
 
-    <!-- Informations complémentaires -->
-    <div class="contact-info">
-      <div class="info-card notice-card">
-        <div class="card-header">
-          <span class="card-icon">⚠️</span>
-          <h3>Commandes</h3>
-        </div>
-        <p>Les commandes ne sont pas encore ouvertes.<br>
-        Nous vous tiendrons informés dès que ce sera possible !</p>
+    <form
+      id="alert-form"
+      class="alert-form"
+      method="POST"
+      action={alertAction}
+      data-analytics="alert_signup"
+      data-analytics-label="contact-section"
+    >
+      <input type="hidden" name="_subject" value="Nouvelle inscription: alerte sorties L'École du Bélier" />
+      <input type="hidden" name="_captcha" value="false" />
+      <input type="hidden" name="_template" value="table" />
+      <input type="hidden" name="source" value="site-lecoledubelier" />
+
+      <label for="alert-email" class="alert-label">Préviens-moi des prochaines sorties</label>
+      <div class="alert-controls">
+        <input
+          id="alert-email"
+          name="email"
+          type="email"
+          required
+          autocomplete="email"
+          placeholder="Votre email"
+          class="alert-input"
+        />
+        <button type="submit" class="alert-submit">Activer l'alerte</button>
       </div>
+    </form>
 
-      <div class="info-card passion-card">
-        <div class="card-header">
-          <span class="card-icon">🍺</span>
-          <h3>Notre passion</h3>
-        </div>
-        <p>L'École du Bélier est née cette année de notre amour pour le brassage artisanal.<br>
-        Nous adorons partager cette passion et répondre à vos questions !</p>
-      </div>
-    </div>
-
+    <p class="contact-note">
+      Service d'alerte opéré via FormSubmit. Aucune vente en ligne pour le moment.
+    </p>
   </div>
-
-  <!-- Toast Notification Moderne -->
-  <div class="toast-notification" id="emailToast">
-    <div class="toast-content">
-      <div class="toast-icon">🚧</div>
-      <div class="toast-text">
-        <h3>Adresse email en construction</h3>
-        <p>Notre adresse email dédiée n'est pas encore disponible.<br>
-        <strong>Nous vous informerons dès qu'elle sera opérationnelle !</strong></p>
-      </div>
-      <button class="toast-close" id="closeToast" aria-label="Fermer la notification">×</button>
-    </div>
-  </div>
-
-  <!-- Overlay pour la modal -->
-  <div class="toast-overlay" id="toastOverlay"></div>
 </section>
 
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const contactBtn = document.getElementById('contactBtn');
-    const emailToast = document.getElementById('emailToast');
-    const closeToast = document.getElementById('closeToast');
-    const overlay = document.getElementById('toastOverlay');
-    
-    // Fonction pour afficher la notification
-    function showToast() {
-      emailToast.classList.add('show');
-      overlay.classList.add('show');
-      document.body.style.overflow = 'hidden'; // Empêche le scroll
-      
-      // Focus sur le bouton fermer pour l'accessibilité
-      setTimeout(() => closeToast.focus(), 100);
-    }
-    
-    // Fonction pour masquer la notification
-    function hideToast() {
-      emailToast.classList.remove('show');
-      overlay.classList.remove('show');
-      document.body.style.overflow = ''; // Restaure le scroll
-      contactBtn.focus(); // Retour focus sur le bouton
-    }
-    
-    // Événements
-    contactBtn.addEventListener('click', showToast);
-    closeToast.addEventListener('click', hideToast);
-    overlay.addEventListener('click', hideToast);
-    
-    // Fermeture avec Escape
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && emailToast.classList.contains('show')) {
-        hideToast();
-      }
-    });
-    
-    // Animation d'entrée du bouton email
-    setTimeout(() => {
-      contactBtn.classList.add('animate-in');
-    }, 500);
-  });
-</script>
+<script type="module" src={contactScriptUrl}></script>

@@ -1,6 +1,8 @@
 ---
 import '../styles/process.css';
 import { loadBrewingSteps } from '../utils/data-loader';
+import { Image } from 'astro:assets';
+import processBackground from '../assets/images/process-bg.jpg';
 
 export interface Props {
   className?: string;
@@ -8,131 +10,46 @@ export interface Props {
 
 const { className = "" } = Astro.props;
 
-// Chargement et validation des données depuis JSON
 const brewingSteps = await loadBrewingSteps();
 ---
 
-<section id="process" class={`process-section ${className}`} aria-labelledby="process-title">
+<section id="process" class={`process-section section-dark ${className}`} aria-labelledby="process-title">
+  <div class="process-bg" aria-hidden="true">
+    <Image
+      src={processBackground}
+      alt=""
+      width={1920}
+      height={1280}
+      loading="lazy"
+      quality={76}
+      format="webp"
+    />
+  </div>
+
   <div class="process-container">
-    
-    <div class="process-header">
-      <h2 id="process-title" class="process-title">Notre Processus</h2>
-      <p class="process-subtitle">
-        Du grain à la bière, découvrez les 7 étapes clés de notre méthode artisanale 
-        avec un contrôle précis à chaque moment.
+    <div class="process-header reveal">
+      <h2 id="process-title" class="process-title">Le Brassage</h2>
+      <p class="lead process-lead">
+        Du grain au verre — les 7 étapes d'un brassin.
       </p>
     </div>
 
-    <div class="process-timeline">
-      {brewingSteps.map((step, index) => (
-        <article 
-          class="process-step"
-          data-step={step.number}
-          style={`--step-index: ${index}`}
-        >
-          <div class="step-number">
-            <span class="number-text">{step.number}</span>
-          </div>
-          
-          <div class="step-content">
-            <div class="step-icon">{step.icon}</div>
+    <div class="process-steps reveal-stagger">
+      {brewingSteps.map((step) => (
+        <div class="process-step reveal">
+          <span class="step-num">{step.number}</span>
+          <div class="step-info">
             <h3 class="step-title">{step.title}</h3>
             <p class="step-description">{step.description}</p>
-            
-            <div class="step-details">
-              <div class="detail-item">
-                <span class="detail-label">Durée</span>
-                <span class="detail-value">{step.duration}</span>
-              </div>
-              
-              <!-- TEMPÉRATURE SEULEMENT SI PERTINENTE -->
+            <div class="step-meta">
+              <span class="meta-item">{step.duration}</span>
               {step.temperature && (
-                <div class="detail-item">
-                  <span class="detail-label">Température</span>
-                  <span class="detail-value">{step.temperature}</span>
-                </div>
+                <span class="meta-item">{step.temperature}</span>
               )}
             </div>
           </div>
-        </article>
+        </div>
       ))}
     </div>
-
-    <!-- Reste du code inchangé -->
-    <div class="process-info">
-      <div class="info-grid">
-        <div class="info-card">
-          <h3>🎯 Précision</h3>
-          <p>Contrôle PID à ±0.5°C pour une qualité constante et reproductible.</p>
-        </div>
-        <div class="info-card">
-          <h3>⚡ Efficacité</h3>
-          <p>Système Grainfather optimisé pour un rendement maximal et un nettoyage facile.</p>
-        </div>
-        <div class="info-card">
-          <h3>🔬 Qualité</h3>
-          <p>Analyses et dégustations à chaque étape pour garantir l'excellence du produit final.</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="process-cta">
-      <h3>Envie de bière ?</h3>
-      <p>Contactez-nous pour parler de vos envies et de nos créations</p>
-      <a href="#contact" class="process-cta-button">
-        <span>Nous contacter</span>
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d="M8 1l7 7-7 7M15 8H1" stroke="currentColor" stroke-width="2"/>
-        </svg>
-      </a>
-    </div>
-
   </div>
 </section>
-
-<script>
-  // Script inchangé
-  document.addEventListener('DOMContentLoaded', () => {
-    const steps = document.querySelectorAll('.process-step');
-    
-    const observerOptions = {
-      threshold: 0.2,
-      rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const stepObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('step-visible');
-          
-          const details = entry.target.querySelectorAll('.detail-item');
-          details.forEach((detail, index) => {
-            setTimeout(() => {
-              detail.classList.add('detail-visible');
-            }, index * 100);
-          });
-        }
-      });
-    }, observerOptions);
-    
-    steps.forEach(step => stepObserver.observe(step));
-    
-    steps.forEach(step => {
-      step.addEventListener('mouseenter', () => {
-        step.classList.add('step-hovered');
-      });
-      
-      step.addEventListener('mouseleave', () => {
-        step.classList.remove('step-hovered');
-      });
-    });
-    
-    document.querySelector('.process-cta-button')?.addEventListener('click', (e) => {
-      e.preventDefault();
-      const contact = document.querySelector('#contact');
-      if (contact) {
-        contact.scrollIntoView({ behavior: 'smooth' });
-      }
-    });
-  });
-</script>

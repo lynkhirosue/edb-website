@@ -12,10 +12,8 @@ export interface Props {
 
 const { className = "" } = Astro.props;
 
-// Chargement et validation des données depuis JSON
 const equipmentData = await loadEquipment();
 
-// Mapping des images pour optimisation
 const imageMap: Record<string, any> = {
   '/G40.webp': G40,
   '/GF30.webp': GF30,
@@ -23,61 +21,37 @@ const imageMap: Record<string, any> = {
 };
 ---
 
-<section id="equipment" class={`equipment-section ${className}`} aria-labelledby="equipment-title">
+<section id="equipment" class={`equipment-section section-dark ${className}`} aria-labelledby="equipment-title">
   <div class="equipment-container">
-    
-    <h2 id="equipment-title" class="equipment-title">Notre Matériel</h2>
-    
-    <!-- Grid flex uniforme -->
-    <div class="equipment-grid">
-      {equipmentData.map((equipment, index) => (
-        <article 
-          class="equipment-card" 
-          style={`--equip-index: ${index}`}
-        >
-          <!-- Image pleine hauteur sans fond -->
+
+    <div class="equipment-header reveal">
+      <h2 id="equipment-title" class="equipment-title">Notre Équipement</h2>
+      <p class="lead equipment-lead">
+        Système Grainfather complet : brassage, fermentation et contrôle glycol.
+      </p>
+    </div>
+
+    <div class="equipment-showcase reveal-stagger">
+      {equipmentData.map((equipment) => (
+        <div class="equipment-item reveal">
           <div class="equipment-image-container">
             <Image
               src={imageMap[equipment.image]}
               alt={equipment.name}
-              class="equipment-image-full"
-              width={280}
-              height={280}
+              class="equipment-image"
+              width={420}
+              height={420}
               loading="lazy"
               format="webp"
-              quality={85}
+              quality={90}
             />
           </div>
-          
-          <!-- Contenu texte -->
-          <div class="equipment-card-content">
-            <h3 class="equipment-name">{equipment.name}</h3>
-            <p class="equipment-description">{equipment.description}</p>
-            <div class="capacity-badge">{equipment.capacity}</div>
-          </div>
-        </article>
+          <h3 class="equipment-name">{equipment.name}</h3>
+          <p class="equipment-description">{equipment.description}</p>
+          <span class="equipment-capacity">{equipment.capacity}</span>
+        </div>
       ))}
     </div>
-    
+
   </div>
 </section>
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // Animation d'entrée
-    const cards = document.querySelectorAll('.equipment-card');
-    
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('card-visible');
-        }
-      });
-    }, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    });
-    
-    cards.forEach(card => observer.observe(card));
-  });
-</script>

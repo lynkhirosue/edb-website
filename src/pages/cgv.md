@@ -3,6 +3,8 @@ layout: ../layouts/Layout.astro
 title: "Conditions Générales de Vente"
 ---
 
+<main id="main-content">
+
 ## CONDITIONS GÉNÉRALES DE VENTE
 
 **Brasserie L’École du Bélier**  
@@ -55,3 +57,5 @@ Vous disposez d’un droit d’accès, de rectification, d’opposition et de su
 
 ### Article 11 – Litiges et droit applicable  
 Les CGV sont régies par le droit français. En cas de litige, une solution amiable sera priorisée ; à défaut, la juridiction compétente sera celle du lieu du siège social du Vendeur.
+
+</main>

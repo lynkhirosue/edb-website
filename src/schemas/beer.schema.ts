@@ -9,10 +9,14 @@ export const BeerSchema = z.object({
   type: z.string().min(1, "Le type est requis"),
   description: z.string().min(10, "La description doit faire au moins 10 caractères"),
   tags: z.array(z.string()).min(1, "Au moins un tag est requis"),
+  flavorProfile: z.array(z.string()).min(1, "Le profil gustatif est requis"),
+  pairings: z.array(z.string()).min(1, "Au moins un accord est requis"),
   abv: z.string().regex(/^\d+,\d+% alc\.$/, "Format ABV invalide (ex: 6,2% alc.)"),
+  availability: z.enum(['available', 'coming_soon', 'sold_out']),
+  season: z.string().optional(),
+  image: z.string().optional(),
   hasSpecialEffect: z.boolean(),
-  hasGhosts: z.boolean(),
-  backgroundImage: z.string().optional()
+  hasGhosts: z.boolean()
 });
 
 /**

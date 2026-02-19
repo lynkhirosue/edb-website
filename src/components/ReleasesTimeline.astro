@@ -1,0 +1,139 @@
+---
+import '../styles/releases.css';
+import { loadBeers, loadReleases } from '../utils/data-loader';
+import type { Release } from '../schemas/release.schema';
+
+export interface Props {
+  className?: string;
+  hideHeader?: boolean;
+}
+
+const { className = '', hideHeader = false } = Astro.props;
+const [beers, releases] = await Promise.all([loadBeers(), loadReleases()]);
+
+const beerMap = new Map(beers.map((beer) => [beer.id, beer]));
+const activeStatuses = new Set(['coming_soon', 'fermenting', 'brewing']);
+
+const statusLabels: Record<string, string> = {
+  brewing: 'En préparation',
+  coming_soon: 'Bientôt',
+  fermenting: 'En fermentation',
+  available: 'Disponible',
+  sold_out: 'Épuisé'
+};
+
+function parseDate(value: string | null | undefined): Date | null {
+  if (!value) {
+    return null;
+  }
+
+  const date = new Date(`${value}T00:00:00`);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
+function compareReleases(a: Release, b: Release): number {
+  const dateA = parseDate(a.availableFrom);
+  const dateB = parseDate(b.availableFrom);
+
+  if (dateA && dateB) {
+    return dateA.getTime() - dateB.getTime();
+  }
+
+  if (dateA && !dateB) {
+    return -1;
+  }
+
+  if (!dateA && dateB) {
+    return 1;
+  }
+
+  return a.batch.localeCompare(b.batch);
+}
+
+function getDueText(value: string | null | undefined): string {
+  const date = parseDate(value);
+
+  if (!date) {
+    return 'Date à confirmer';
+  }
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const diffMs = date.getTime() - today.getTime();
+  const diffDays = Math.round(diffMs / 86400000);
+
+  if (diffDays === 0) {
+    return "Sortie aujourd'hui";
+  }
+
+  if (diffDays > 0) {
+    return `Dans ${diffDays} j`;
+  }
+
+  return `Depuis ${Math.abs(diffDays)} j`;
+}
+
+const activeReleases = releases
+  .filter((release) => activeStatuses.has(release.status))
+  .sort(compareReleases)
+  .slice(0, 4);
+---
+
+<section id="releases" class={`releases-section ${hideHeader ? 'no-section-header' : ''} ${className}`} aria-labelledby={hideHeader ? undefined : 'releases-title'}>
+  <div class="releases-container">
+    {!hideHeader && (
+      <div class="releases-header reveal">
+        <h2 id="releases-title">Sorties à venir</h2>
+        <p class="lead">Retrouvez ici ce qui fermente en fermenteur ou dans ma tête !</p>
+      </div>
+    )}
+
+    {activeReleases.length ? (
+      <ul class="releases-compact-list reveal-stagger">
+        {activeReleases.map((release) => {
+          const beer = beerMap.get(release.beerId);
+
+          return (
+            <li class="release-compact-item reveal">
+              <article class="release-compact-card">
+                <div class="release-compact-top">
+                  <p class="release-batch">{release.batch}</p>
+                  <p class={`release-status status-${release.status}`}>{statusLabels[release.status]}</p>
+                </div>
+
+                <h3>{beer?.name ?? 'Recette en préparation'}</h3>
+
+                <dl class="release-compact-meta">
+                  <div>
+                    <dt>Échéance</dt>
+                    <dd>{getDueText(release.availableFrom)}</dd>
+                  </div>
+                  <div>
+                    <dt>Volume</dt>
+                    <dd>{release.volume}</dd>
+                  </div>
+                </dl>
+
+                <p class="release-notes">{release.notes}</p>
+
+                {beer ? (
+                  <a href={`/#${beer.id}`} class="release-link" data-analytics="cta_click" data-analytics-label={`release-${beer.id}`}>
+                    Voir la fiche bière
+                  </a>
+                ) : null}
+              </article>
+            </li>
+          );
+        })}
+      </ul>
+    ) : (
+      <div class="release-empty reveal" role="status" aria-live="polite">
+        <div class="release-empty-illustration" aria-hidden="true">
+          <span>🍺</span>
+        </div>
+        <p>On réfléchit à notre prochaine recette.</p>
+      </div>
+    )}
+  </div>
+</section>

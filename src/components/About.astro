@@ -1,179 +1,58 @@
 ---
 import '../styles/about.css';
+import { Image } from 'astro:assets';
+import aboutImage from '../assets/images/about-brewery.jpg';
 
 export interface Props {
   className?: string;
 }
 
 const { className = "" } = Astro.props;
-
-// Capacités de production (grid horizontal amélioré)
-const productionCapacities = [
-  {
-    icon: '📏',
-    title: 'Volume maximum',
-    value: '< 100L',
-    description: 'Par brassin'
-  },
-  {
-    icon: '⏱️',
-    title: 'Délai',
-    value: '2-8 sem.',
-    description: 'Selon style'
-  },
-  {
-    icon: '🍺',
-    title: 'Conditionnement',
-    value: 'Fûts 5 Gal',
-    description: '& bouteilles 75cl'
-  },
-  {
-    icon: '🎯',
-    title: 'Stock',
-    value: '0 permanent',
-    description: 'Production à la demande'
-  }
-];
-
-// Valeurs et philosophie
-const breweryValues = [
-  {
-    title: 'Artisanal',
-    description: 'Chaque brassin est unique, créé avec passion et précision selon vos goûts'
-  },
-  {
-    title: 'Local',
-    description: 'Production en Nouvelle-Aquitaine avec des ingrédients de qualité'
-  },
-  {
-    title: 'Sur-Mesure',
-    description: 'Brassins personnalisés selon vos préférences et événements'
-  }
-];
 ---
 
 <section id="about" class={`about-section ${className}`} aria-labelledby="about-title">
   <div class="about-container">
-    
-    <!-- En-tête -->
-    <div class="about-header">
+
+    <!-- En-tête centré -->
+    <div class="about-header reveal">
       <h2 id="about-title" class="about-title">La Brasserie</h2>
-      <p class="about-intro">
-        L'École du Bélier est une <strong>femto-brasserie artisanale</strong> basée en Nouvelle-Aquitaine, 
-        spécialisée dans la création de bières d'exception en petits lots.
+      <p class="lead">
+        Femto-brasserie en Nouvelle-Aquitaine. Des bières en petits lots, une approche empirique.
       </p>
     </div>
 
-    <!-- Philosophie -->
-    <div class="about-philosophy">
-      <div class="philosophy-content">
-        <h3 class="philosophy-title">Notre Philosophie</h3>
-        <blockquote class="philosophy-quote">
-          "Brasser des petits lots de qualité exceptionnelle, 
-          <strong>jamais plus de 100L par brassin ou en stock.</strong> 
-          Chaque bière raconte une histoire unique."
+    <!-- Split : texte + image -->
+    <div class="about-split">
+      <div class="about-text reveal">
+        <blockquote class="about-quote">
+          &laquo;&nbsp;J'aime créer des bières qui racontent une histoire.&nbsp;&raquo;
         </blockquote>
-        
-        <div class="philosophy-text">
-          <p>
-            Contrairement aux brasseries industrielles, nous privilégions la <strong>qualité à la quantité</strong>. 
-            Notre approche artisanale nous permet un contrôle total du processus, 
-            de la sélection des matières premières jusqu'au conditionnement final.
-          </p>
-          <p>
-            Que ce soit pour un événement spécial, une découverte gustative ou simplement 
-            le plaisir de déguster une bière unique, chaque brassin est conçu sur-mesure.
-          </p>
+
+        <p class="about-body">
+          Je peux brasser une bière en deux batch de 30L.
+          L'approche est artisanale mais les outils sont modernes
+          ; chaque batch est tracé du grain à la bouteille.
+        </p>
+
+        <div class="about-stats">
+          <span>&lt; 100L par brassin</span>
+          <span>Petits lots</span>
+          <span>Nouvelle-Aquitaine</span>
         </div>
       </div>
-      
-      <div class="philosophy-image">
-        <div class="image-placeholder">
-          <span class="placeholder-icon">🍺</span>
-          <span class="placeholder-text">Passion Artisanale</span>
-        </div>
-      </div>
-    </div>
 
-    <!-- Capacités de production (Grid horizontal) -->
-    <div class="production-section">
-      <h3 class="production-title">Nos Capacités</h3>
-      <div class="production-grid">
-        {productionCapacities.map((capacity, index) => (
-          <div class="capacity-card" style={`--card-index: ${index}`}>
-            <div class="capacity-icon">{capacity.icon}</div>
-            <div class="capacity-content">
-              <h4 class="capacity-title">{capacity.title}</h4>
-              <div class="capacity-value">{capacity.value}</div>
-              <p class="capacity-description">{capacity.description}</p>
-            </div>
-          </div>
-        ))}
+      <div class="about-image reveal">
+        <Image
+          src={aboutImage}
+          alt="Intérieur de notre brasserie artisanale"
+          loading="lazy"
+          width={960}
+          height={1200}
+          quality={82}
+          format="webp"
+        />
       </div>
-    </div>
-
-    <!-- Valeurs -->
-    <div class="values-section">
-      <h3 class="values-title">Nos Valeurs</h3>
-      <div class="values-grid">
-        {breweryValues.map((value, index) => (
-          <div class="value-card" style={`--value-index: ${index}`}>
-            <h4 class="value-title">{value.title}</h4>
-            <p class="value-description">{value.description}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-
-    <!-- CTA vers équipement (lien discret) -->
-    <div class="about-cta">
-      <p class="cta-text">
-        Curieux de découvrir notre processus de brassage artisanal ?
-      </p>
-      <a href="#process" class="cta-button">
-        <span>Voir Notre Processus</span>
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d="M8 1l7 7-7 7M15 8H1" stroke="currentColor" stroke-width="2"/>
-        </svg>
-      </a>
     </div>
 
   </div>
 </section>
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // Animation d'entrée des éléments
-    const aboutElements = document.querySelectorAll('.capacity-card, .value-card');
-    
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const aboutObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate-in');
-        }
-      });
-    }, observerOptions);
-    
-    aboutElements.forEach(element => {
-      aboutObserver.observe(element);
-    });
-    
-    // CTA smooth scroll
-    const ctaButton = document.querySelector('.cta-button');
-    ctaButton?.addEventListener('click', (e) => {
-      e.preventDefault();
-      const target = document.querySelector('#process');
-      if (target) {
-        target.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }
-    });
-  });
-</script>

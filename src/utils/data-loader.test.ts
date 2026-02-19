@@ -1,5 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import { loadBeers, loadEquipment, loadBrewingSteps } from './data-loader';
+import {
+  loadBeers,
+  loadEquipment,
+  loadBrewingSteps,
+  loadReleases,
+  loadEvents
+} from './data-loader';
 
 describe('Data Loader', () => {
   describe('loadBeers', () => {
@@ -20,7 +26,10 @@ describe('Data Loader', () => {
       expect(firstBeer).toHaveProperty('type');
       expect(firstBeer).toHaveProperty('description');
       expect(firstBeer).toHaveProperty('tags');
+      expect(firstBeer).toHaveProperty('flavorProfile');
+      expect(firstBeer).toHaveProperty('pairings');
       expect(firstBeer).toHaveProperty('abv');
+      expect(firstBeer).toHaveProperty('availability');
       expect(firstBeer).toHaveProperty('hasSpecialEffect');
       expect(firstBeer).toHaveProperty('hasGhosts');
     });
@@ -39,6 +48,15 @@ describe('Data Loader', () => {
 
       beers.forEach(beer => {
         expect(beer.tags.length).toBeGreaterThan(0);
+      });
+    });
+
+    it('should have flavor profile and pairings', async () => {
+      const beers = await loadBeers();
+
+      beers.forEach((beer) => {
+        expect(beer.flavorProfile.length).toBeGreaterThan(0);
+        expect(beer.pairings.length).toBeGreaterThan(0);
       });
     });
   });
@@ -112,6 +130,47 @@ describe('Data Loader', () => {
         if (step.temperature !== null) {
           expect(step.temperature).toMatch(tempPattern);
         }
+      });
+    });
+  });
+
+  describe('loadReleases', () => {
+    it('should load and validate releases data', async () => {
+      const releases = await loadReleases();
+
+      expect(releases).toBeDefined();
+      expect(Array.isArray(releases)).toBe(true);
+      expect(releases.length).toBeGreaterThan(0);
+    });
+
+    it('should only contain allowed statuses', async () => {
+      const releases = await loadReleases();
+      const allowed = new Set(['coming_soon', 'fermenting', 'brewing', 'available', 'sold_out']);
+
+      releases.forEach((release) => {
+        expect(allowed.has(release.status)).toBe(true);
+      });
+    });
+  });
+
+  describe('loadEvents', () => {
+    it('should load and validate events data', async () => {
+      const events = await loadEvents();
+
+      expect(events).toBeDefined();
+      expect(Array.isArray(events)).toBe(true);
+      expect(events.length).toBeGreaterThan(0);
+    });
+
+    it('should have valid date and time formats', async () => {
+      const events = await loadEvents();
+      const datePattern = /^\d{4}-\d{2}-\d{2}$/;
+      const timePattern = /^\d{2}:\d{2}$/;
+
+      events.forEach((event) => {
+        expect(event.date).toMatch(datePattern);
+        expect(event.startTime).toMatch(timePattern);
+        expect(event.endTime).toMatch(timePattern);
       });
     });
   });

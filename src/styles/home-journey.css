@@ -1,0 +1,111 @@
+/* ===========================================
+   HOME JOURNEY
+   =========================================== */
+
+.home-journey {
+  position: relative;
+  padding: var(--section-padding-y) var(--section-padding-x);
+  background:
+    radial-gradient(34rem 20rem at 12% 15%, rgba(200, 138, 46, 0.2), transparent 68%),
+    radial-gradient(36rem 24rem at 92% 88%, rgba(91, 74, 50, 0.24), transparent 70%),
+    #151922;
+  color: var(--fg-on-dark);
+  overflow: hidden;
+}
+
+.home-journey::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 24%);
+}
+
+.home-journey-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.home-journey-header {
+  text-align: center;
+  margin-bottom: clamp(2rem, 5vw, 3.2rem);
+}
+
+.home-journey-header h2 {
+  color: var(--fg-on-dark);
+  margin-bottom: 1rem;
+}
+
+.home-journey-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.home-journey-card {
+  background: rgba(255, 252, 245, 0.96);
+  border: 1px solid rgba(255, 225, 188, 0.26);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  display: grid;
+  gap: 0.7rem;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.16);
+}
+
+.home-journey-card h3 {
+  color: #221d17;
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.home-journey-card p {
+  margin: 0;
+  color: #5f5a53;
+  font-size: 0.94rem;
+}
+
+.home-journey-link {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #6f4916;
+  border: 1px solid rgba(200, 138, 46, 0.45);
+  border-radius: 999px;
+  padding: 0.45rem 0.76rem;
+  background: rgba(200, 138, 46, 0.08);
+}
+
+.home-journey-link:hover {
+  border-color: var(--primary);
+  color: var(--primary-hover);
+  text-decoration: none;
+}
+
+.home-proof {
+  margin-top: 1.3rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  justify-content: center;
+}
+
+.home-proof span {
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(255, 224, 180, 0.9);
+}
+
+@media (max-width: 920px) {
+  .home-journey-grid {
+    grid-template-columns: 1fr;
+  }
+}
