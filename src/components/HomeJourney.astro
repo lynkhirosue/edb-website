@@ -1,0 +1,64 @@
+---
+import '../styles/home-journey.css';
+
+export interface Props {
+  className?: string;
+}
+
+const { className = '' } = Astro.props;
+
+const pathways = [
+  {
+    title: 'Les bières',
+    description: 'Fiches détaillées, profils aromatiques, accords mets. La disponibilité est automatiquement synchronisée avec la brasserie.',
+    href: '#beers',
+    cta: 'Voir les bières'
+  },
+  {
+    title: 'Les brassins',
+    description: 'Chaque batch suivi du brassage à la mise en bouteille : fermentation, garde, disponibilité.',
+    href: '#releases',
+    cta: 'Voir les sorties'
+  },
+  {
+    title: 'Agenda dégustation',
+    description: 'Les prochaines dates, les lieux, et un bouton pour ajouter ça à ton calendrier.',
+    href: '#agenda',
+    cta: 'Consulter l\'agenda'
+  }
+];
+---
+
+<section id="home-journey" class={`home-journey ${className}`} aria-labelledby="home-journey-title">
+  <div class="home-journey-container">
+    <div class="home-journey-header reveal">
+      <h2 id="home-journey-title">Ce qu'on trouve ici</h2>
+      <p class="lead">
+        Les bières, les brassins en cours et les prochaines dates — en un coup d'œil.
+      </p>
+    </div>
+
+    <div class="home-journey-grid reveal-stagger">
+      {pathways.map((pathway) => (
+        <article class="home-journey-card reveal">
+          <h3>{pathway.title}</h3>
+          <p>{pathway.description}</p>
+          <a
+            href={pathway.href}
+            class="home-journey-link"
+            data-analytics="cta_click"
+            data-analytics-label={pathway.href}
+          >
+            {pathway.cta}
+          </a>
+        </article>
+      ))}
+    </div>
+
+    <div class="home-proof reveal" aria-label="Chiffres clés de la brasserie">
+      <span>&lt; 100L par brassin</span>
+      <span>6 bières brassées</span>
+      <span>Nouvelle-Aquitaine</span>
+    </div>
+  </div>
+</section>

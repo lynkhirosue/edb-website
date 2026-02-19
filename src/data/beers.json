@@ -5,7 +5,12 @@
     "type": "Specialty Fruit Beer",
     "description": "Ale houblonnée avec ajout de nectarines à la fermentation.",
     "tags": ["Nectarine", "Houblonnée", "Fruitée"],
+    "flavorProfile": ["fruit-forward", "hoppy", "dry-finish"],
+    "pairings": ["fromages frais", "salades d'été", "tarte aux fruits"],
     "abv": "6,2% alc.",
+    "availability": "available",
+    "season": "printemps-été",
+    "image": "/beers/fruity-pale-ale.jpg",
     "hasSpecialEffect": false,
     "hasGhosts": false
   },
@@ -15,7 +20,12 @@
     "type": "Imperial Stout",
     "description": "Ale noire, torréfiée, touche de cacao, corps velouté, finale sèche.",
     "tags": ["Torréfiée", "Cacao", "Corps velouté"],
+    "flavorProfile": ["roasty", "malty", "rich-body"],
+    "pairings": ["desserts chocolat", "fromages affinés", "viandes mijotées"],
     "abv": "9,3% alc.",
+    "availability": "coming_soon",
+    "season": "automne-hiver",
+    "image": "/beers/imperial-stout.jpg",
     "hasSpecialEffect": false,
     "hasGhosts": false
   },
@@ -25,7 +35,12 @@
     "type": "Saison",
     "description": "Ale blonde sèche, épicée, levure expressive, finale désaltérante.",
     "tags": ["Épicée", "Levure", "Sèche"],
+    "flavorProfile": ["spicy", "dry-finish", "rustic"],
+    "pairings": ["charcuteries", "volaille", "plats épicés"],
     "abv": "5,9% alc.",
+    "availability": "available",
+    "season": "toute-saison",
+    "image": "/beers/saison.jpg",
     "hasSpecialEffect": false,
     "hasGhosts": false
   },
@@ -35,7 +50,12 @@
     "type": "Czech Pale Lager",
     "description": "Lager légère, avec un délicieux goût de céréale.",
     "tags": ["Lager", "Légère", "Céréale"],
+    "flavorProfile": ["crisp", "grainy", "light-body"],
+    "pairings": ["apéritif", "poissons grillés", "plats simples"],
     "abv": "3,9% alc.",
+    "availability": "available",
+    "season": "printemps-été",
+    "image": "/beers/czech-lager.jpg",
     "hasSpecialEffect": false,
     "hasGhosts": false
   },
@@ -45,10 +65,14 @@
     "type": "American Pale Ale",
     "description": "Pale Ale, notes florales et fruitées, amertume douce.",
     "tags": ["Fruitée", "Florale", "Amertume douce"],
+    "flavorProfile": ["hoppy", "floral", "balanced"],
+    "pairings": ["burgers maison", "pizza", "fromages à pâte dure"],
     "abv": "5,2% alc.",
-    "hasSpecialEffect": true,
-    "hasGhosts": false,
-    "backgroundImage": "/APA.jpg"
+    "availability": "available",
+    "season": "toute-saison",
+    "image": "/beers/apa.jpg",
+    "hasSpecialEffect": false,
+    "hasGhosts": false
   },
   {
     "id": "autumn-seasonal-beer",
@@ -56,9 +80,13 @@
     "type": "Autumn Seasonal Beer",
     "description": "Ale légèrement ambrée, maltée, aux épices d'automne.",
     "tags": ["Ambrée", "Épicé", "Maltée"],
+    "flavorProfile": ["malty", "spicy", "caramel"],
+    "pairings": ["plats mijotés", "courges rôties", "tarte aux pommes"],
     "abv": "4,5% alc.",
-    "hasSpecialEffect": true,
-    "hasGhosts": true,
-    "backgroundImage": "/fallen-on-fall.png"
+    "availability": "sold_out",
+    "season": "automne",
+    "image": "/beers/Fallen-on-Fall.png",
+    "hasSpecialEffect": false,
+    "hasGhosts": false
   }
 ]

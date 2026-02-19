@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720" role="img" aria-labelledby="title desc">
+  <title id="title">Illustration temporaire de biere</title>
+  <desc id="desc">Placeholder utilise en attendant les visuels definitifs des bieres.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f2e3c6"/>
+      <stop offset="1" stop-color="#d8b06a"/>
+    </linearGradient>
+    <linearGradient id="beer" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f9d26b"/>
+      <stop offset="1" stop-color="#d4892f"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="960" height="720" fill="url(#bg)"/>
+
+  <g transform="translate(310 120)">
+    <rect x="0" y="40" width="340" height="420" rx="36" fill="#ffffff" opacity="0.6"/>
+    <rect x="28" y="80" width="284" height="340" rx="24" fill="url(#beer)"/>
+    <rect x="28" y="80" width="284" height="62" rx="24" fill="#fff5d8" opacity="0.9"/>
+
+    <circle cx="308" cy="220" r="64" fill="#ffffff" opacity="0.55"/>
+    <circle cx="296" cy="220" r="44" fill="#f3c56d"/>
+
+    <text x="170" y="530" text-anchor="middle" font-family="Arial, sans-serif" font-size="40" fill="#513419">
+      EDB
+    </text>
+    <text x="170" y="574" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#6b4a27">
+      Illustration temporaire
+    </text>
+  </g>
+</svg>

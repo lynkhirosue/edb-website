@@ -8,7 +8,7 @@
   },
   {
     "id": "fermenteurs-gf30",
-    "name": "Fermenteurs GF30 (x2)",
+    "name": "Fermenteurs coniques GF30",
     "description": "Deux fermenteurs coniques 30L pour fermentation contrôlée",
     "image": "/GF30.webp",
     "capacity": "2×30L"
@@ -16,7 +16,7 @@
   {
     "id": "refroidisseur-gc2",
     "name": "Refroidisseur Glycol GC2",
-    "description": "Système de refroidissement glycol pour lagers",
+    "description": "Système de refroidissement au glycol pour contrôler la température de fermentation",
     "image": "/GC2.webp",
     "capacity": "Contrôle temp."
   }

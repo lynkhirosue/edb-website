@@ -5,33 +5,39 @@ export interface Props {
   className?: string;
 }
 
-const { className = "" } = Astro.props;
+const { className = '' } = Astro.props;
 const currentYear = new Date().getFullYear();
+const isHome = Astro.url.pathname === '/';
+const sectionHref = (id: string) => (isHome ? `#${id}` : `/#${id}`);
 ---
 
-<footer class={`footer-section ${className}`}>
+<footer class={`footer-section ${className}`} id="page-footer">
   <div class="footer-container">
-    
-    <!-- Navigation principale -->
-    <nav class="footer-nav">
-      <a href="#about">La Brasserie</a>
-      <a href="#beers">Nos Bières</a>
-      <a href="#process">Processus</a>
-      <a href="#contact">Contact & Commandes</a>
+    <div class="footer-divider"></div>
+
+    <nav class="footer-nav" aria-label="Navigation pied de page">
+      <a href={sectionHref('hero')}>Accueil</a>
+      <span class="footer-sep" aria-hidden="true">|</span>
+      <a href={sectionHref('beers')}>Bières</a>
+      <span class="footer-sep" aria-hidden="true">|</span>
+      <a href={sectionHref('releases')}>Sorties</a>
+      <span class="footer-sep" aria-hidden="true">|</span>
+      <a href={sectionHref('agenda')}>Agenda</a>
+      <span class="footer-sep" aria-hidden="true">|</span>
+      <a href={sectionHref('contact')}>Contact</a>
     </nav>
 
-    <!-- Informations simples -->
-    <div class="footer-info">
-      <p>&copy; {currentYear} L'École du Bélier • Tous droits réservés</p>
-      <p>Micro-brasserie artisanale • Nouvelle-Aquitaine, France</p>
-      <p><em>L'abus d'alcool est dangereux pour la santé. À consommer avec modération.</em></p>
-    </div>
+    <p class="footer-copyright">
+      &copy; {currentYear} L'École du Bélier. Tous droits réservés.
+    </p>
 
-    <!-- Liens légaux -->
-    <nav class="footer-legal">
-      <a href="/cgv">Conditions Générales de Vente</a>
-      <a href="/mentions-legales">Mentions Légales</a>
+    <p class="footer-disclaimer">
+      <em>L'abus d'alcool est dangereux pour la santé. À consommer avec modération.</em>
+    </p>
+
+    <nav class="footer-legal" aria-label="Liens légaux">
+      <a href="/cgv">CGV</a>
+      <a href="/mentions-legales">Mentions légales</a>
     </nav>
-
   </div>
 </footer>

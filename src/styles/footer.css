@@ -1,142 +1,99 @@
 /* ===========================================
-   FOOTER SECTION - L'ÉCOLE DU BÉLIER
+   FOOTER
    =========================================== */
 
 .footer-section {
-  background-color: #333;
-  color: #eee;
-  padding: 2rem 1rem;
-  text-align: center;
-  border-top: 1px solid rgba(184, 134, 11, 0.2);
-  contain: layout style paint;
+  position: relative;
+  background:
+    radial-gradient(34rem 20rem at 50% -15%, rgba(200, 138, 46, 0.15), transparent 72%),
+    var(--bg);
+  padding: 0 var(--section-padding-x) 2.2rem;
 }
 
 .footer-container {
-  max-width: 1200px;
+  max-width: 980px;
   margin: 0 auto;
+  text-align: center;
+}
+
+.footer-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--border) 20%, var(--border) 80%, transparent 100%);
+  margin-bottom: 1.8rem;
 }
 
 .footer-nav {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
+  align-items: center;
+  gap: 0.44rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.2rem;
 }
 
 .footer-nav a {
-  color: #b8860b;
+  color: var(--accent);
+  font-size: 0.8rem;
   text-decoration: none;
-  font-weight: 500;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  transition: all 0.3s ease;
+  transition: color 0.2s ease, background 0.2s ease;
+  padding: 0.28rem 0.44rem;
+  border-radius: 999px;
 }
 
-.footer-nav a:hover,
-.footer-legal a:hover {
-  color: #ffd75f;
-  background: rgba(184, 134, 11, 0.1);
-  transform: translateY(-2px);
+.footer-nav a:hover {
+  color: var(--fg);
+  background: rgba(200, 138, 46, 0.1);
+  text-decoration: none;
 }
 
-.footer-info p {
-  margin: 0.5rem 0;
-  font-size: 0.875rem;
-  color: #bbb;
+.footer-sep {
+  color: color-mix(in srgb, var(--accent) 40%, transparent);
+  font-size: 0.78rem;
+  user-select: none;
+}
+
+.footer-copyright,
+.footer-disclaimer {
+  font-size: 0.76rem;
+  color: var(--accent);
+  margin-bottom: 0.42rem;
   line-height: 1.5;
 }
 
-.footer-info p:first-child {
-  color: #eee;
-  font-weight: 500;
+.footer-disclaimer {
+  margin-bottom: 1.1rem;
 }
 
-.footer-info em {
-  font-style: italic;
-  opacity: 0.8;
-}
-
-/* --- Liens légaux / section ajoutée --- */
 .footer-legal {
   display: flex;
-  gap: 1.5rem;
   justify-content: center;
-  margin-top: 2rem;
-  padding-top: 1rem;
-  border-top: 1px solid rgba(255, 215, 95, 0.07);
+  gap: 0.95rem;
+  flex-wrap: wrap;
 }
 
 .footer-legal a {
-  color: #bbb;
+  font-size: 0.76rem;
+  color: var(--accent);
   text-decoration: none;
-  font-size: 0.92rem;
-  font-weight: 400;
-  transition: color 0.3s;
-  opacity: 0.85;
-  padding: 0.25rem 0.75rem;
-  border-radius: 0.3rem;
-}
-
-.footer-legal a:focus-visible {
-  outline: 2px solid #b8860b;
-  outline-offset: 1.5px;
+  transition: color 0.2s ease;
 }
 
 .footer-legal a:hover {
-  color: #ffd75f;
-  background: rgba(184, 134, 11, 0.05);
-  opacity: 1;
-  transform: none;
+  color: var(--fg);
 }
 
-/* --- Thème sombre --- */
-html.dark .footer-section {
-  background-color: #1a1a1a;
-  border-top-color: rgba(255, 215, 95, 0.2);
-}
-
-html.dark .footer-nav a {
-  color: #ffd75f;
-}
-
-html.dark .footer-nav a:hover,
-html.dark .footer-legal a:hover {
-  color: #ffeb3b;
-  background: rgba(255, 215, 95, 0.1);
-}
-
-html.dark .footer-info p {
-  color: #ccc;
-}
-
-html.dark .footer-info p:first-child {
-  color: #f5f5f5;
-}
-
-html.dark .footer-legal a {
-  color: #bbb059;
-}
-
-/* --- Responsive --- */
 @media (max-width: 768px) {
-  .footer-nav {
-    flex-direction: column;
-    gap: 1rem;
-  }
-  .footer-nav a {
-    display: block;
-  }
-  .footer-legal {
-    flex-direction: column;
-    gap: 0.8rem;
-    margin-top: 1.5rem;
-    padding-top: 0.7rem;
+  .footer-nav a,
+  .footer-legal a {
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
-/* Accessibilité */
-.footer-nav a:focus-visible {
-  outline: 2px solid #b8860b;
+.footer-nav a:focus-visible,
+.footer-legal a:focus-visible {
+  outline: 2px solid var(--primary);
   outline-offset: 2px;
 }

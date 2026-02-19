@@ -1,0 +1,41 @@
+[
+  {
+    "id": "degustation-bassens-fev",
+    "title": "Dégustation micro-lots à la brasserie",
+    "date": "2022-02-28",
+    "startTime": "18:30",
+    "endTime": "20:30",
+    "venue": "Brasserie L'École du Bélier",
+    "city": "Bordeaux",
+    "address": "33000 Bordeaux",
+    "description": "FAKE - Session découverte en petit comité autour des brassins en cours et des recettes signatures.",
+    "registrationUrl": "https://lecoledubelier.beer/#contact",
+    "highlight": true
+  },
+  {
+    "id": "marche-artisan-mars",
+    "title": "Marché des artisans brassicoles",
+    "date": "2022-03-15",
+    "startTime": "10:00",
+    "endTime": "17:00",
+    "venue": "Halle de la rive droite",
+    "city": "Bordeaux",
+    "address": "Bordeaux Rive Droite",
+    "description": "FAKE - Retrouvez nos bières à la pression et une sélection de bouteilles en édition limitée.",
+    "registrationUrl": "https://lecoledubelier.beer/#contact",
+    "highlight": false
+  },
+  {
+    "id": "atelier-brassage-printemps",
+    "title": "Atelier brassage: du grain au verre",
+    "date": "2022-04-04",
+    "startTime": "14:00",
+    "endTime": "17:30",
+    "venue": "Brasserie L'École du Bélier",
+    "city": "Bordeaux",
+    "address": "33000 Bordeaux",
+    "description": "FAKE - Atelier immersif: concassage, empâtage, houblonnage et dégustation pédagogique.",
+    "registrationUrl": "https://lecoledubelier.beer/#contact",
+    "highlight": true
+  }
+]

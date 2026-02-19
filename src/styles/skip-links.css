@@ -1,0 +1,39 @@
+/* ===========================================
+   SKIP LINKS
+   =========================================== */
+
+.skip-links {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
+
+.skip-link {
+  position: absolute;
+  top: -120px;
+  left: 0;
+  background: var(--primary, #b8860b);
+  color: #fff;
+  padding: 1rem 1.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 0 0 0.5rem 0;
+  transition: top 0.2s ease;
+  white-space: nowrap;
+}
+
+.skip-link:focus {
+  top: 0;
+  outline: 3px solid var(--primary-dark, #8b6914);
+  outline-offset: 2px;
+}
+
+html.dark .skip-link {
+  background: #ffd75f;
+  color: #0f0f0f;
+}
+
+html.dark .skip-link:focus {
+  outline-color: #ffd75f;
+}

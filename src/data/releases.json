@@ -1,0 +1,29 @@
+[
+  {
+    "id": "batch-031-jess-fruity",
+    "beerId": "specialty-fruit-beer",
+    "batch": "Brassin #031",
+    "status": "fermenting",
+    "availableFrom": "2026-03-01",
+    "volume": "70 L",
+    "notes": "Fermentation active. Profil fruité déjà très propre, conditionnement prévu sous 15 jours."
+  },
+  {
+    "id": "batch-032-idyllwild",
+    "beerId": "american-pale-ale",
+    "batch": "Brassin #032",
+    "status": "coming_soon",
+    "availableFrom": "2026-03-17",
+    "volume": "72 L",
+    "notes": "Sortie planifiée dans environ 30 jours, avec un houblonnage final en cours d'ajustement."
+  },
+  {
+    "id": "batch-033-saison",
+    "beerId": "saison",
+    "batch": "Brassin #033",
+    "status": "brewing",
+    "availableFrom": null,
+    "volume": "65 L",
+    "notes": "Recette en préparation. Date de sortie volontairement non fixée à ce stade."
+  }
+]

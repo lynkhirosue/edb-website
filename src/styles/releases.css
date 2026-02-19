@@ -1,0 +1,210 @@
+/* ===========================================
+   RELEASES (compact)
+   =========================================== */
+
+.releases-section {
+  padding: clamp(4rem, 8vw, 6rem) var(--section-padding-x);
+  background: var(--bg);
+}
+
+.releases-section.no-section-header {
+  padding-top: 0;
+}
+
+.releases-container {
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.releases-header {
+  text-align: center;
+  margin-bottom: 1.3rem;
+}
+
+.releases-compact-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.release-compact-card {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background:
+    linear-gradient(160deg, rgba(255, 254, 250, 0.96), rgba(249, 241, 230, 0.9));
+  padding: 0.92rem;
+  display: grid;
+  gap: 0.62rem;
+  box-shadow: var(--shadow-soft);
+}
+
+.release-compact-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(9rem 6rem at 100% 0, rgba(200, 138, 46, 0.09), transparent 72%);
+  pointer-events: none;
+}
+
+.release-compact-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.45rem;
+}
+
+.release-batch {
+  margin: 0;
+  font-size: 0.71rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+}
+
+.release-compact-card h3 {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.3;
+}
+
+.release-status {
+  width: fit-content;
+  border-radius: 999px;
+  padding: 0.16rem 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.status-brewing {
+  color: #e5e7eb;
+  background: rgba(75, 85, 99, 0.72);
+}
+
+.status-coming_soon {
+  color: #7c5108;
+  background: #ffe3a4;
+}
+
+.status-fermenting {
+  color: #0f4e98;
+  background: #d8eaff;
+}
+
+.status-available {
+  color: #115b39;
+  background: #cff2de;
+}
+
+.status-sold_out {
+  color: #8f1d1d;
+  background: #ffd7d7;
+}
+
+.release-compact-meta {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.35rem 0.8rem;
+}
+
+.release-compact-meta dt {
+  margin: 0;
+  font-size: 0.7rem;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.release-compact-meta dd {
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.release-notes {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--accent);
+  line-height: 1.45;
+}
+
+.release-link {
+  display: inline-flex;
+  width: fit-content;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  padding: 0.36rem 0.68rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.release-link:hover {
+  border-color: var(--primary);
+  background: rgba(200, 138, 46, 0.1);
+  text-decoration: none;
+}
+
+.release-empty {
+  border: 1px dashed var(--border);
+  border-radius: 1rem;
+  padding: 1.2rem;
+  background: linear-gradient(160deg, rgba(255, 254, 250, 0.94), rgba(248, 239, 227, 0.86));
+  display: grid;
+  justify-items: center;
+  gap: 0.62rem;
+  text-align: center;
+}
+
+.release-empty p {
+  margin: 0;
+  font-size: 0.96rem;
+}
+
+.release-empty-illustration {
+  width: 3.1rem;
+  height: 3.1rem;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  position: relative;
+}
+
+.release-empty-illustration::before {
+  content: '';
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 0.45rem;
+  border: 2px solid rgba(200, 138, 46, 0.6);
+  transform: rotate(-8deg);
+}
+
+.release-empty-illustration span {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .releases-compact-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 740px) {
+  .releases-compact-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+html.dark .release-compact-card {
+  background: linear-gradient(165deg, rgba(29, 34, 46, 0.92), rgba(23, 27, 36, 0.9));
+}
+
+html.dark .release-empty {
+  background: linear-gradient(165deg, rgba(29, 34, 46, 0.86), rgba(22, 25, 35, 0.9));
+}

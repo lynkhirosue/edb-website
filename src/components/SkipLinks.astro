@@ -1,76 +1,10 @@
 ---
 /**
- * Skip Links pour l'accessibilité au clavier
- * Permet aux utilisateurs de naviguer directement vers les sections principales
+ * Skip links globaux pour la navigation clavier
  */
+import '../styles/skip-links.css';
 ---
 
 <div class="skip-links">
   <a href="#main-content" class="skip-link">Aller au contenu principal</a>
-  <a href="#about" class="skip-link">Aller à la section À propos</a>
-  <a href="#beers" class="skip-link">Aller aux bières</a>
-  <a href="#contact" class="skip-link">Aller au formulaire de contact</a>
 </div>
-
-<style>
-  .skip-links {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 9999;
-  }
-
-  .skip-link {
-    position: absolute;
-    top: -100px;
-    left: 0;
-    background: var(--primary, #b8860b);
-    color: white;
-    padding: 1rem 1.5rem;
-    text-decoration: none;
-    font-weight: 600;
-    border-radius: 0 0 0.5rem 0;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: top 0.3s ease;
-    white-space: nowrap;
-  }
-
-  .skip-link:focus {
-    top: 0;
-    outline: 3px solid var(--primary-dark, #8b6914);
-    outline-offset: 2px;
-  }
-
-  .skip-link:hover {
-    background: var(--primary-dark, #8b6914);
-  }
-
-  /* Support dark mode */
-  @media (prefers-color-scheme: dark) {
-    .skip-link {
-      background: #ffd75f;
-      color: #0f0f0f;
-    }
-
-    .skip-link:focus {
-      outline-color: #ffd75f;
-    }
-
-    .skip-link:hover {
-      background: #ffed4e;
-    }
-  }
-
-  html.dark .skip-link {
-    background: #ffd75f;
-    color: #0f0f0f;
-  }
-
-  html.dark .skip-link:focus {
-    outline-color: #ffd75f;
-  }
-
-  html.dark .skip-link:hover {
-    background: #ffed4e;
-  }
-</style>

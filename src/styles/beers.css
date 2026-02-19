@@ -1,434 +1,515 @@
-/* BEERS SECTION - GRILLE RESPONSIVE */
+/* ===========================================
+   BEERS SECTION
+   =========================================== */
+
 .beers-section {
-  background: linear-gradient(135deg, #fefcf7 0%, #faf7f2 100%);
-  padding: 5rem 2rem;
+  padding: var(--section-padding-y) var(--section-padding-x);
+  background: var(--bg);
 }
 
 .beers-container {
-  max-width: 1200px;
+  max-width: 1240px;
   margin: 0 auto;
+}
+
+.beers-header {
   text-align: center;
+  margin-bottom: 1.8rem;
 }
 
-.beers-title {
-  font-size: 3rem;
-  font-weight: 800;
-  color: #b8860b;
-  margin-bottom: 1rem;
-  font-family: Georgia, serif;
-  text-shadow: 1px 1px 2px rgba(184, 134, 11, 0.08);
+.beer-quiz-shell {
+  border: 1px solid rgba(200, 138, 46, 0.32);
+  border-radius: 1rem;
+  background:
+    linear-gradient(145deg, rgba(255, 248, 238, 0.9), rgba(245, 235, 220, 0.86));
+  padding: 1rem 1.05rem;
+  margin-bottom: 1.2rem;
+  display: grid;
+  gap: 0.55rem;
+  box-shadow: var(--shadow-soft);
 }
 
-.beers-subtitle {
-  font-size: 1.1rem;
-  color: #666;
-  margin-bottom: 4rem;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-  line-height: 1.6;
+.beer-quiz-shell h3,
+.beer-quiz-shell p {
+  margin: 0;
 }
 
-/* GRILLE DE CARTES */
+.beer-quiz-shell p {
+  color: var(--accent);
+  font-size: 0.94rem;
+}
+
+.quiz-open-btn {
+  width: fit-content;
+  border-radius: 999px;
+  padding: 0.52rem 0.95rem;
+  font-size: 0.84rem;
+  letter-spacing: 0.02em;
+}
+
 .beers-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  margin-top: 3rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
 }
 
-/* CARDS */
 .beer-card {
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(184, 134, 11, 0.15);
-  border-radius: 1.2rem;
-  padding: 1.5rem;
-  text-align: left;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(184, 134, 11, 0.08);
-  min-height: 380px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  position: relative;
-  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .beer-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(184, 134, 11, 0.2);
-  border-color: rgba(184, 134, 11, 0.3);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
 }
 
-/* CARTE SPÉCIALE */
-.beer-card-special {
-  position: relative;
-  background: rgba(255, 255, 255, 0.95);
+.beer-image {
+  height: 205px;
   overflow: hidden;
+  background: var(--surface-alt);
 }
 
-/* IMAGE DE FOND - CONTIENT L'IMAGE ENTIÈRE */
-.beer-background-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-color: rgba(20, 15, 10, 0.95);
-  opacity: 0;
-  transition: opacity 0.6s ease-in-out;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.beer-card-special:hover .beer-background-image {
-  opacity: 1;
-}
-
-/* CONTENU DE LA CARTE */
-.beer-content {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-/* MASQUER LE TEXTE AU HOVER - SAUF LE BOUTON */
-.beer-card-special:hover .beer-name,
-.beer-card-special:hover .beer-type,
-.beer-card-special:hover .beer-description,
-.beer-card-special:hover .beer-tags,
-.beer-card-special:hover .beer-abv {
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-/* EFFET HALLOWEEN - FANTÔMES */
-.halloween-ghosts {
-  position: absolute;
-  top: 0;
-  left: 0;
+.beer-image img {
   width: 100%;
   height: 100%;
-  pointer-events: none;
-  z-index: 2;
-  opacity: 0;
+  object-fit: cover;
+  transition: transform 0.45s ease;
 }
 
-.halloween-ghosts.ghosts-active {
-  opacity: 1;
+.beer-card:hover .beer-image img {
+  transform: scale(1.04);
 }
 
-.ghost {
-  position: absolute;
-  font-size: 3rem;
-  opacity: 0;
-  filter: drop-shadow(0 0 15px rgba(255, 255, 255, 1));
+.beer-content {
+  padding: 0.95rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.72rem;
+  flex: 1;
 }
 
-.ghosts-active .ghost-1 {
-  top: 50%;
-  left: 50%;
-  animation: ghost-escape-1 2s ease-out forwards;
-}
-
-.ghosts-active .ghost-2 {
-  top: 50%;
-  left: 50%;
-  animation: ghost-escape-2 2.2s ease-out forwards;
-}
-
-.ghosts-active .ghost-3 {
-  top: 50%;
-  left: 50%;
-  animation: ghost-escape-3 2.5s ease-out forwards;
-}
-
-@keyframes ghost-escape-1 {
-  0% {
-    transform: translate(-50%, -50%) scale(0.5) rotate(0deg);
-    opacity: 0;
-  }
-  20% {
-    opacity: 1;
-  }
-  100% {
-    transform: translate(-250%, -350%) scale(1.3) rotate(-20deg);
-    opacity: 0;
-  }
-}
-
-@keyframes ghost-escape-2 {
-  0% {
-    transform: translate(-50%, -50%) scale(0.5) rotate(0deg);
-    opacity: 0;
-  }
-  20% {
-    opacity: 1;
-  }
-  100% {
-    transform: translate(250%, -300%) scale(1.1) rotate(25deg);
-    opacity: 0;
-  }
-}
-
-@keyframes ghost-escape-3 {
-  0% {
-    transform: translate(-50%, -50%) scale(0.5) rotate(0deg);
-    opacity: 0;
-  }
-  20% {
-    opacity: 1;
-  }
-  100% {
-    transform: translate(50%, -400%) scale(1.4) rotate(15deg);
-    opacity: 0;
-  }
-}
-
-.beer-name {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: #333;
-  margin-bottom: 0.5rem;
-  font-family: Georgia, serif;
-  line-height: 1.2;
+.beer-meta-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.7rem;
 }
 
 .beer-type {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #b8860b;
+  font-size: 0.72rem;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: 1rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid rgba(184, 134, 11, 0.15);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--accent-soft);
+}
+
+.beer-availability {
+  font-size: 0.72rem;
+  border-radius: 999px;
+  padding: 0.17rem 0.44rem;
+  font-weight: 700;
+}
+
+.status-available {
+  color: #0f5132;
+  background: #d1f1df;
+}
+
+.status-coming_soon {
+  color: #8b5e13;
+  background: #fde8be;
+}
+
+.status-sold_out {
+  color: #8e1e1e;
+  background: #ffd8d8;
+}
+
+.beer-name,
+.beer-description {
+  margin: 0;
+}
+
+.beer-name {
+  font-size: 1.12rem;
 }
 
 .beer-description {
-  font-size: 0.9rem;
-  color: #666;
-  line-height: 1.5;
-  margin-bottom: 1rem;
-  flex: 1;
+  color: var(--accent);
+  line-height: 1.52;
+  font-size: 0.92rem;
 }
 
 .beer-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
-  margin-bottom: 1rem;
 }
 
 .beer-tag {
-  background: rgba(184, 134, 11, 0.1);
-  color: #b8860b;
-  padding: 0.3rem 0.7rem;
-  border-radius: 0.7rem;
-  font-size: 0.75rem;
-  font-weight: 500;
-  border: 1px solid rgba(184, 134, 11, 0.2);
+  font-size: 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.15rem 0.45rem;
+  background: rgba(200, 138, 46, 0.07);
 }
 
 .beer-footer {
+  margin-top: auto;
+  border-top: 1px solid var(--border);
+  padding-top: 0.68rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 0.75rem;
-  margin-top: auto;
-  padding-top: 0.5rem;
-  position: relative;
-  z-index: 3;
 }
 
 .beer-abv {
-  background: rgba(184, 134, 11, 0.12);
-  color: #b8860b;
-  padding: 0.4rem 0.8rem;
-  border-radius: 1rem;
-  font-weight: 600;
+  color: var(--primary-hover);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.detail-btn {
+  background: transparent;
+  color: var(--primary-hover);
+  border: 1px solid rgba(200, 138, 46, 0.45);
+  border-radius: 999px;
+  padding: 0.32rem 0.62rem;
   font-size: 0.8rem;
-  border: 1px solid rgba(184, 134, 11, 0.2);
+  box-shadow: none;
 }
 
-.inspire-btn {
-  background: #b8860b;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 1.1rem;
-  font-weight: 600;
-  font-size: 0.85rem;
+.detail-btn:hover {
+  border-color: var(--primary);
+  background: rgba(200, 138, 46, 0.12);
+  transform: none;
+}
+
+/* ===========================================
+   QUIZ MODAL
+   =========================================== */
+
+.quiz-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 8, 10, 0.62);
+  z-index: 1490;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.22s ease;
+}
+
+.quiz-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1500;
+  place-items: center;
+  padding: 1rem;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.22s ease;
+}
+
+.quiz-modal-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.quiz-modal.is-open {
+  display: grid;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.quiz-modal-overlay[hidden],
+.quiz-modal[hidden] {
+  display: none !important;
+}
+
+.quiz-modal-content {
+  width: min(760px, 100%);
+  max-height: min(86vh, 820px);
+  overflow: auto;
+  border-radius: 1rem;
+  border: 1px solid rgba(200, 138, 46, 0.34);
+  background: var(--surface);
+  padding: 1rem;
+  position: relative;
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.38);
+}
+
+.quiz-modal-close {
+  position: absolute;
+  right: 0.6rem;
+  top: 0.6rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.08);
+  color: var(--fg);
+  box-shadow: none;
+  z-index: 2;
+}
+
+.quiz-modal-content h3 {
+  margin: 0 2rem 0.8rem 0;
+}
+
+.beer-quiz-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.beer-quiz-form fieldset {
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 0.72rem;
+  display: grid;
+  gap: 0.43rem;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.beer-quiz-form legend {
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+  font-size: 0.92rem;
+}
+
+.beer-quiz-form label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
   cursor: pointer;
-  transition: all 0.4s ease;
-  white-space: nowrap;
+  font-size: 0.9rem;
 }
 
-.inspire-btn:hover {
-  background: #996f09;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(184, 134, 11, 0.3);
+.beer-quiz-form input[type='radio'] {
+  width: 1rem;
+  height: 1rem;
 }
 
-.inspire-btn:active {
-  transform: scale(0.95);
+.quiz-submit {
+  grid-column: 1 / -1;
+  border-radius: 999px;
+  width: fit-content;
+  padding-inline: 1.2rem;
+  font-size: 0.85rem;
 }
 
-.beer-card-special:hover .inspire-btn {
-  transform: scale(1.15);
-  box-shadow: 0 8px 25px rgba(184, 134, 11, 0.7);
-  background: #d4a209;
+.quiz-result {
+  margin-top: 0.9rem;
+  border-top: 1px solid var(--border);
+  padding-top: 0.85rem;
 }
 
-/* RESPONSIVE */
-@media (max-width: 768px) {
-  .beers-section {
-    padding: 4rem 1.5rem;
-  }
+.quiz-result h4 {
+  margin: 0 0 0.45rem;
+}
 
-  .beers-title {
-    font-size: 2.5rem;
-  }
+.quiz-result ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  list-style: disc;
+}
 
-  .beers-subtitle {
-    font-size: 1rem;
-    margin-bottom: 3rem;
-  }
+.quiz-detail-btn {
+  margin-top: 0.75rem;
+  border-radius: 999px;
+  padding-inline: 1rem;
+  font-size: 0.82rem;
+}
 
+/* ===========================================
+   BEER DETAIL MODAL
+   =========================================== */
+
+.beer-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 8, 10, 0.6);
+  z-index: 1490;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.22s ease;
+}
+
+.beer-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1500;
+  place-items: center;
+  padding: 1rem;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.22s ease;
+}
+
+.beer-modal-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.beer-modal.is-open {
+  display: grid;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.beer-modal-overlay[hidden],
+.beer-modal[hidden] {
+  display: none !important;
+}
+
+.beer-modal-content {
+  width: min(920px, 100%);
+  max-height: min(86vh, 860px);
+  background: var(--surface);
+  border-radius: 1rem;
+  border: 1px solid rgba(200, 138, 46, 0.35);
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  overflow: auto;
+  position: relative;
+  box-shadow: 0 26px 68px rgba(0, 0, 0, 0.42);
+}
+
+.beer-modal-close {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.09);
+  color: var(--fg);
+  box-shadow: none;
+  z-index: 2;
+}
+
+.beer-modal-visual {
+  position: relative;
+  background: var(--surface-alt);
+  min-height: 220px;
+}
+
+.beer-modal-visual.is-empty::after {
+  content: 'Image indisponible';
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 0.86rem;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.beer-modal-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.beer-modal-body {
+  padding: 1.2rem;
+}
+
+.beer-modal-type {
+  color: var(--accent-soft);
+  margin-bottom: 0.25rem;
+  font-size: 0.86rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.beer-modal-body p {
+  margin-bottom: 0.65rem;
+}
+
+.beer-modal-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.95rem;
+}
+
+.beer-modal-columns h4 {
+  margin-bottom: 0.32rem;
+}
+
+.beer-modal-columns ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  list-style: disc;
+}
+
+html.dark .beer-card,
+html.dark .beer-modal-content,
+html.dark .quiz-modal-content,
+html.dark .beer-quiz-shell {
+  border-color: rgba(242, 224, 195, 0.2);
+}
+
+html.dark .beer-quiz-form fieldset {
+  background: rgba(23, 27, 38, 0.8);
+}
+
+html.dark .detail-btn {
+  color: var(--primary-light);
+  border-color: rgba(226, 166, 85, 0.5);
+}
+
+@media (max-width: 1024px) {
   .beers-grid {
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.5rem;
-    margin-top: 2rem;
-  }
-
-  .beer-card {
-    padding: 1.25rem;
-    min-height: 350px;
-  }
-
-  .beer-name {
-    font-size: 1.2rem;
-  }
-
-  .beer-type {
-    font-size: 0.8rem;
-  }
-
-  .beer-description {
-    font-size: 0.85rem;
-  }
-
-  .inspire-btn {
-    padding: 0.45rem 0.85rem;
-    font-size: 0.8rem;
-  }
-  
-  .ghost {
-    font-size: 2rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-@media (max-width: 480px) {
-  .beers-section {
-    padding: 3rem 1rem;
-  }
-
-  .beers-title {
-    font-size: 2rem;
-  }
-
-  .beers-subtitle {
-    font-size: 0.95rem;
-  }
-
-  .beers-grid {
+@media (max-width: 860px) {
+  .beers-grid,
+  .beer-quiz-form {
     grid-template-columns: 1fr;
-    gap: 1.25rem;
   }
 
-  .beer-card {
-    padding: 1rem;
-    min-height: auto;
+  .beer-modal-content {
+    grid-template-columns: 1fr;
   }
 
-  .beer-tags {
-    gap: 0.3rem;
+  .beer-modal-visual {
+    max-height: 220px;
+    min-height: 200px;
   }
 
-  .beer-tag {
-    font-size: 0.7rem;
-    padding: 0.25rem 0.6rem;
-  }
-  
-  .ghost {
-    font-size: 1.5rem;
+  .beer-modal-columns {
+    grid-template-columns: 1fr;
   }
 }
 
-/* THÈME SOMBRE */
-html.dark .beers-section {
-  background: linear-gradient(135deg, #181716 0%, #1f1e1d 100%);
-}
-
-html.dark .beers-title {
-  color: #ffd75f;
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
-}
-
-html.dark .beers-subtitle {
-  color: #ccc;
-}
-
-html.dark .beer-card {
-  background: rgba(30, 30, 30, 0.95);
-  border-color: rgba(255, 215, 95, 0.2);
-}
-
-html.dark .beer-card:hover {
-  box-shadow: 0 12px 40px rgba(255, 215, 95, 0.15);
-  border-color: rgba(255, 215, 95, 0.4);
-}
-
-html.dark .beer-background-image {
-  background-color: rgba(10, 8, 5, 0.98);
-}
-
-html.dark .beer-name {
-  color: #fafafa;
-}
-
-html.dark .beer-type {
-  color: #ffd75f;
-  border-bottom-color: rgba(255, 215, 95, 0.2);
-}
-
-html.dark .beer-description {
-  color: #ccc;
-}
-
-html.dark .beer-tag,
-html.dark .beer-abv {
-  background: rgba(255, 215, 95, 0.15);
-  color: #ffd75f;
-  border-color: rgba(255, 215, 95, 0.3);
-}
-
-html.dark .inspire-btn {
-  background: #ffd75f;
-  color: #1a1a1a;
-}
-
-html.dark .inspire-btn:hover {
-  background: #ffeb3b;
-  box-shadow: 0 4px 12px rgba(255, 215, 95, 0.4);
-}
-
-html.dark .beer-card-special:hover .inspire-btn {
-  background: #ffe44d;
-  box-shadow: 0 8px 25px rgba(255, 215, 95, 0.7);
+@media (prefers-reduced-motion: reduce) {
+  .beer-modal,
+  .beer-modal-overlay,
+  .quiz-modal,
+  .quiz-modal-overlay,
+  .beer-card,
+  .detail-btn,
+  .quiz-submit,
+  .quiz-detail-btn,
+  .quiz-open-btn {
+    transition: none !important;
+  }
 }

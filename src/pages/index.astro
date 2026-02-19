@@ -1,29 +1,33 @@
 ---
 import Layout from '../layouts/Layout.astro';
-
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
+import HomeJourney from '../components/HomeJourney.astro';
 import About from '../components/About.astro';
+import Equipment from '../components/Equipment.astro';
 import Beers from '../components/Beers.astro';
+import ReleasesTimeline from '../components/ReleasesTimeline.astro';
+import EventsAgenda from '../components/EventsAgenda.astro';
 import Process from '../components/Process.astro';
 import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
-import Equipment from '../components/Equipment.astro';
-
 ---
 
 <Layout
-  title="L'École du Bélier – Micro-brasserie maison en Nouvelle-Aquitaine"
-  description="Brasserie artisanale & hyper-locale : kegs 5 Gal et bouteilles, production < 100 L/mois sur Grainfather G40 + GF30.">
-
+  title="L'École du Bélier — Femto-brasserie en Nouvelle-Aquitaine"
+  description="Bières en petits lots, brassins suivis en temps réel et agenda des événements. Femto-brasserie en Nouvelle-Aquitaine."
+>
   <Header />
 
   <main class="page-content" id="main-content">
     <Hero />
+    <HomeJourney />
     <About />
-    <Equipment />
     <Beers />
     <Process />
+    <Equipment />
+    <ReleasesTimeline />
+    <EventsAgenda />
     <Contact />
   </main>
 

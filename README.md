@@ -23,35 +23,45 @@ edb-website/
 │   ├── components/          # Composants Astro réutilisables
 │   │   ├── Header.astro
 │   │   ├── Hero.astro
+│   │   ├── HomeJourney.astro
 │   │   ├── About.astro
 │   │   ├── Equipment.astro
 │   │   ├── Beers.astro
+│   │   ├── ReleasesTimeline.astro
+│   │   ├── EventsAgenda.astro
 │   │   ├── Process.astro
-│   │   ├── ContactForm.astro
+│   │   ├── Contact.astro
 │   │   ├── Footer.astro
 │   │   ├── SkipLinks.astro
 │   │   └── BeerStructuredData.astro
 │   ├── data/                # Données JSON
 │   │   ├── beers.json
 │   │   ├── equipment.json
-│   │   └── process.json
+│   │   ├── process.json
+│   │   ├── releases.json
+│   │   └── events.json
 │   ├── layouts/
 │   │   └── Layout.astro     # Layout principal
 │   ├── pages/
 │   │   ├── index.astro      # Page d'accueil
 │   │   ├── cgv.md           # Conditions générales de vente
-│   │   └── mentions-legales.md
+│   │   ├── mentions-legales.md
+│   │   └── agenda/[id].ics.ts
 │   ├── schemas/             # Schémas de validation Zod
 │   │   ├── beer.schema.ts
 │   │   ├── equipment.schema.ts
-│   │   └── process.schema.ts
+│   │   ├── process.schema.ts
+│   │   ├── release.schema.ts
+│   │   └── event.schema.ts
 │   ├── styles/              # CSS organisé par composant
 │   │   ├── global.css
 │   │   ├── utilities.css    # Classes utilitaires
 │   │   └── ...
 │   └── utils/               # Fonctions utilitaires
 │       ├── data-loader.ts   # Chargement et validation des données
-│       └── dom-helpers.ts   # Helpers DOM avec error handling
+│       ├── dom-helpers.ts   # Helpers DOM avec error handling
+│       ├── quiz-engine.ts
+│       └── ics.ts
 ├── public/                  # Assets statiques
 ├── dist/                    # Build output
 ├── .github/
@@ -258,15 +268,15 @@ export default defineConfig({
 
 Le projet utilise TypeScript en mode strict pour une meilleure qualité de code.
 
-## 📝 Formulaire de Contact
+## 📝 Canal de Contact
 
-Le formulaire de contact est actuellement configuré pour un site statique. Pour le rendre fonctionnel :
+Le contact est actuellement configuré pour un site statique (email + formulaire d'alerte). Pour le rendre fonctionnel :
 
 **Options recommandées (gratuites) :**
 
 1. **Formspree** (50 envois/mois gratuit)
    - S'inscrire sur https://formspree.io
-   - Remplacer l'endpoint dans `ContactForm.astro`
+   - Remplacer l'endpoint dans `Contact.astro`
 
 2. **Web3Forms** (250 envois/mois gratuit)
    - S'inscrire sur https://web3forms.com

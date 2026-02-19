@@ -1,63 +1,101 @@
 ---
-/**
- * Composant pour ajouter des données structurées JSON-LD pour les bières
- * Améliore le SEO et l'affichage dans les résultats de recherche Google
- */
 import { loadBeers } from '../utils/data-loader';
 
 const beers = await loadBeers();
 
-// Convertit les bières en format JSON-LD Product
-const beerProducts = beers.map(beer => ({
-  '@type': 'Product',
-  name: beer.name,
-  description: beer.description,
-  category: beer.type,
-  brand: {
-    '@type': 'Brand',
-    name: 'L\'École du Bélier'
-  },
-  manufacturer: {
-    '@type': 'Organization',
-    name: 'L\'École du Bélier',
-    url: 'https://lecoledubelier.beer'
-  },
-  additionalProperty: [
+/**
+ * Mapping availability locale → Schema.org
+ * Aligné avec le contrat public-catalog.json (Sprint 6.4)
+ *
+ *  BreweryManager          catalog-mapper        Schema.org
+ *  ─────────────────────   ──────────────────    ──────────────────────────
+ *  in_stock (any level)  → 'available'         → InStock
+ *  out_of_stock+coming   → 'coming_soon'       → PreOrder
+ *  out_of_stock          → 'sold_out'           → OutOfStock
+ */
+const availabilityMap: Record<string, string> = {
+  available: 'https://schema.org/InStock',
+  coming_soon: 'https://schema.org/PreOrder',
+  sold_out: 'https://schema.org/OutOfStock'
+};
+
+const beerProducts = beers.map((beer) => {
+  const additionalProperties = [
     {
       '@type': 'PropertyValue',
       name: 'ABV',
       value: beer.abv
     },
-    ...beer.tags.map(tag => ({
+    {
       '@type': 'PropertyValue',
-      name: 'Caractéristique',
-      value: tag
-    }))
-  ]
-}));
+      name: 'Profil gustatif',
+      value: beer.flavorProfile.join(', ')
+    }
+  ];
 
-// Structure JSON-LD pour l'organisation
+  // Ajouter la saison si présente
+  if (beer.season) {
+    additionalProperties.push({
+      '@type': 'PropertyValue',
+      name: 'Saison',
+      value: beer.season
+    });
+  }
+
+  const product: Record<string, unknown> = {
+    '@type': 'Product',
+    name: beer.name,
+    description: beer.description,
+    category: beer.type,
+    brand: {
+      '@type': 'Brand',
+      name: "L'École du Bélier"
+    },
+    isFamilyFriendly: false,
+    additionalProperty: additionalProperties,
+    offers: {
+      '@type': 'Offer',
+      priceCurrency: 'EUR',
+      availability: availabilityMap[beer.availability] ?? 'https://schema.org/OutOfStock',
+      url: `https://lecoledubelier.beer/#${beer.id}`
+    }
+  };
+
+  // Ajouter l'image si disponible
+  if (beer.image) {
+    product.image = `https://lecoledubelier.beer${beer.image}`;
+  }
+
+  // Ajouter les tags comme keywords
+  if (beer.tags.length > 0) {
+    product.keywords = beer.tags.join(', ');
+  }
+
+  return product;
+});
+
 const organizationData = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'L\'École du Bélier',
+  name: "L'École du Bélier",
   url: 'https://lecoledubelier.beer',
   logo: 'https://lecoledubelier.beer/logo-white-nobg.png',
-  description: 'Femto-brasserie artisanale - Brassage passionné de bières artisanales en Nouvelle-Aquitaine',
-  sameAs: [],
+  description: 'Femto-brasserie en Nouvelle-Aquitaine. Bières brassées en petits lots.',
   address: {
     '@type': 'PostalAddress',
     addressCountry: 'FR',
-    addressRegion: 'Nouvelle-Aquitaine'
+    addressRegion: 'Nouvelle-Aquitaine',
+    postalCode: '33530',
+    addressLocality: 'Bassens'
   },
   contactPoint: {
     '@type': 'ContactPoint',
-    contactType: 'Customer Service',
-    availableLanguage: 'French'
+    contactType: 'customer support',
+    email: 'nico@lecoledubelier.beer',
+    availableLanguage: ['French']
   }
 };
 
-// Structure JSON-LD pour les bières en tant que liste de produits
 const productsData = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
@@ -68,46 +106,27 @@ const productsData = {
   }))
 };
 
-// Structure JSON-LD pour la brasserie en tant que LocalBusiness
 const localBusinessData = {
   '@context': 'https://schema.org',
-  '@type': 'LocalBusiness',
+  '@type': 'Brewery',
   '@id': 'https://lecoledubelier.beer',
-  name: 'L\'École du Bélier',
-  image: 'https://lecoledubelier.beer/logo-white-nobg.png',
-  description: 'Femto-brasserie artisanale produisant des bières de qualité en petites quantités avec équipement Grainfather',
+  name: "L'École du Bélier",
+  image: 'https://lecoledubelier.beer/og-image.jpg',
+  description: 'Femto-brasserie produisant des bières en petits lots en Nouvelle-Aquitaine.',
   url: 'https://lecoledubelier.beer',
-  telephone: '',
-  priceRange: '$$',
   servesCuisine: 'Beer',
+  priceRange: '$$',
+  areaServed: 'Nouvelle-Aquitaine',
   address: {
     '@type': 'PostalAddress',
     addressCountry: 'FR',
-    addressRegion: 'Nouvelle-Aquitaine'
-  },
-  geo: {
-    '@type': 'GeoCoordinates',
-    latitude: '',
-    longitude: ''
-  },
-  openingHoursSpecification: {
-    '@type': 'OpeningHoursSpecification',
-    dayOfWeek: [
-      'Monday',
-      'Tuesday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-      'Saturday',
-      'Sunday'
-    ],
-    opens: '00:00',
-    closes: '23:59'
+    addressRegion: 'Nouvelle-Aquitaine',
+    postalCode: '33530',
+    addressLocality: 'Bassens'
   }
 };
 ---
 
-<!-- JSON-LD Schema.org markup -->
 <script type="application/ld+json" set:html={JSON.stringify(organizationData)} />
 <script type="application/ld+json" set:html={JSON.stringify(productsData)} />
 <script type="application/ld+json" set:html={JSON.stringify(localBusinessData)} />

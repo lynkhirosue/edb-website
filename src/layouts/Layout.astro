@@ -2,6 +2,8 @@
 import '../styles/global.css';
 import BeerStructuredData from '../components/BeerStructuredData.astro';
 import SkipLinks from '../components/SkipLinks.astro';
+import analyticsScriptUrl from '../scripts/analytics.ts?url';
+import scrollRevealScriptUrl from '../scripts/scroll-reveal.ts?url';
 
 export interface Props {
   title?: string;
@@ -9,64 +11,61 @@ export interface Props {
 }
 
 const {
-  title = "L'École du Bélier - Femto-brasserie artisanale",
-  description = "Découvrez nos bières artisanales brassées avec passion. Créations uniques et savoir-faire traditionnel."
+  title = "L'École du Bélier — Femto-brasserie en Nouvelle-Aquitaine",
+  description = 'Bières en petits lots, brassins suivis en temps réel et événements. Femto-brasserie en Nouvelle-Aquitaine.'
 } = Astro.props;
 
-const siteUrl = Astro.url.origin;
+const baseSiteUrl = Astro.site?.toString() ?? 'https://lecoledubelier.beer';
+const canonicalUrl = new URL(Astro.url.pathname, baseSiteUrl).toString();
+const ogImageUrl = new URL('/og-image.jpg', baseSiteUrl).toString();
 ---
 
 <html lang="fr" class="scroll-smooth">
   <head>
-    <!-- OBLIGATOIRE : charset EN PREMIER -->
     <meta charset="UTF-8" />
-    
-    <!-- Script pour le thème (doit être en inline) -->
+
     <script is:inline>
-      const stored = localStorage.getItem('theme');
-      if (stored === 'dark' || (!stored && matchMedia('(prefers-color-scheme:dark)').matches)) {
+      const storedTheme = localStorage.getItem('theme');
+      if (storedTheme === 'dark' || (!storedTheme && matchMedia('(prefers-color-scheme:dark)').matches)) {
         document.documentElement.classList.add('dark');
       }
     </script>
-    
-    <!-- Viewport -->
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
-    
-    <!-- Titre et description -->
+
     <title>{title}</title>
     <meta name="description" content={description} />
-    
-    <!-- Open Graph (iMessage, WhatsApp, LinkedIn, Signal, etc.) -->
+    <link rel="canonical" href={canonicalUrl} />
+
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={Astro.url.href} />
+    <meta property="og:url" content={canonicalUrl} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:site_name" content="L'École du Bélier" />
     <meta property="og:locale" content="fr_FR" />
-    <meta property="og:image" content={`${siteUrl}/og-image.jpg`} />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    
-    <!-- Favicon -->
+    <meta property="og:image" content={ogImageUrl} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <!-- Données structurées JSON-LD pour le SEO -->
     <BeerStructuredData />
-
-    <!-- Slot pour les meta tags spécifiques aux pages -->
     <slot name="head" />
   </head>
-  
-  <body class="bg-amber-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100">
-    <!-- Skip links pour l'accessibilité -->
-    <SkipLinks />
 
-    <!-- Contenu principal -->
+  <body class="site-body">
+    <SkipLinks />
     <slot />
+
+    <script type="module" src={analyticsScriptUrl}></script>
+    <script type="module" src={scrollRevealScriptUrl}></script>
   </body>
 </html>
