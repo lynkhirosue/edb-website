@@ -2,8 +2,6 @@
 import '../styles/global.css';
 import BeerStructuredData from '../components/BeerStructuredData.astro';
 import SkipLinks from '../components/SkipLinks.astro';
-import analyticsScriptUrl from '../scripts/analytics.ts?url';
-import scrollRevealScriptUrl from '../scripts/scroll-reveal.ts?url';
 
 export interface Props {
   title?: string;
@@ -65,7 +63,9 @@ const ogImageUrl = new URL('/og-image.jpg', baseSiteUrl).toString();
     <SkipLinks />
     <slot />
 
-    <script type="module" src={analyticsScriptUrl}></script>
-    <script type="module" src={scrollRevealScriptUrl}></script>
+    <script>
+      import '../scripts/analytics.ts';
+      import '../scripts/scroll-reveal.ts';
+    </script>
   </body>
 </html>

@@ -1,7 +1,6 @@
 ---
 import '../styles/hero.css';
 import { Image } from 'astro:assets';
-import heroScriptUrl from '../scripts/hero.ts?url';
 import heroBackground from '../assets/images/hero-bg.jpg';
 
 export interface Props {
@@ -67,4 +66,6 @@ const heroContent = {
   </button>
 </section>
 
-<script type="module" src={heroScriptUrl}></script>
+<script>
+  import '../scripts/hero.ts';
+</script>

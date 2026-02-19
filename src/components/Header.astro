@@ -1,7 +1,6 @@
 ---
 import '../styles/header.css';
 import { Image } from 'astro:assets';
-import headerScriptUrl from '../scripts/header.ts?url';
 import logoImage from '../assets/images/logo-white-nobg.png';
 
 export interface Props {
@@ -106,4 +105,6 @@ function isActiveLink(href: string): boolean {
   <div class="mobile-overlay" id="mobile-overlay"></div>
 </header>
 
-<script type="module" src={headerScriptUrl}></script>
+<script>
+  import '../scripts/header.ts';
+</script>
