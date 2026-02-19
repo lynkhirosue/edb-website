@@ -24,7 +24,17 @@ async function fetchCatalog(): Promise<PublicCatalog | null> {
   }
 
   try {
-    const response = await fetch(CATALOG_URL);
+    // Build cache-busting: évite de rebuilder le site avec une version CDN obsolète.
+    const requestUrl = new URL(CATALOG_URL);
+    requestUrl.searchParams.set('_build', String(Date.now()));
+
+    const response = await fetch(requestUrl.toString(), {
+      cache: 'no-store',
+      headers: {
+        'Cache-Control': 'no-cache',
+        Pragma: 'no-cache'
+      }
+    });
 
     if (!response.ok) {
       console.warn(`Catalogue distant : HTTP ${response.status}`);
