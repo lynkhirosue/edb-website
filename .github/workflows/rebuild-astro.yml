@@ -1,6 +1,7 @@
 name: Rebuild Astro on dispatch
 
 on:
+  workflow_dispatch:
   repository_dispatch:
     types: [rebuild_catalog]
 
