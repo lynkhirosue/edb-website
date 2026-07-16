@@ -26,12 +26,17 @@ function makePublicBeer(overrides: Partial<PublicBeer> = {}): PublicBeer {
     stock: {
       availableUnits: 48,
       availableVolumeL: 36,
-      levelApp: 'full',
+      levelApp: 'plenty',
       labelApp: 'Bien garni',
       availabilityWeb: 'in_stock',
       labelWeb: 'En stock'
     },
     fermentation: null,
+    isUpcoming: false,
+    lifecycle: null,
+    lifecycleLabel: null,
+    groupingKey: 'american-pale-ale',
+    lifecycleVariants: [],
     updatedAt: '2026-02-18T10:00:00Z',
     ...overrides
   };
@@ -40,20 +45,176 @@ function makePublicBeer(overrides: Partial<PublicBeer> = {}): PublicBeer {
 function makeCatalog(beers: PublicBeer[]): PublicCatalog {
   return {
     generatedAt: '2026-02-18T10:00:00Z',
-    version: 1,
+    version: 4,
     brewery: { id: 'edb', name: "L'École du Bélier" },
     beers
   };
 }
 
 // ─────────────────────────────────────────────
-// Schema Zod — validation
+// Schema Zod : validation
 // ─────────────────────────────────────────────
 
-describe('PublicCatalogSchema — validation Zod', () => {
+describe('PublicCatalogSchema : validation Zod', () => {
   it('valide un catalogue complet conforme', () => {
     const catalog = makeCatalog([makePublicBeer()]);
     const result = PublicCatalogSchema.safeParse(catalog);
+    expect(result.success).toBe(true);
+  });
+
+  it('valide une fixture v4 complète', () => {
+    const catalog = makeCatalog([
+      makePublicBeer({
+        typedIngredients: [
+          {
+            name: 'Malt Pale',
+            kind: 'malt',
+            role: 'base',
+            amount: 4.5,
+            unit: 'kg',
+            lotNumber: 'MALT-2026-001'
+          }
+        ],
+        image: 'american-pale-ale.webp',
+        imageRasterValidated: true,
+        stock: {
+          availableUnits: 24,
+          availableVolumeL: 7.92,
+          levelApp: 'medium',
+          labelApp: 'Stock moyen',
+          availabilityWeb: 'out_of_stock',
+          labelWeb: 'Cave à sec',
+          packagings: [
+            {
+              id: 'bottle_033_5',
+              format: 'bottle',
+              label: 'Bouteille 33 cL',
+              volumeL: 0.33,
+              count: 24,
+              priceEUR: 5
+            }
+          ]
+        },
+        fermentation: {
+          status: 'fermenting',
+          statusLabel: 'En fermentation',
+          batchNumber: 'B-2026-003',
+          startDate: '2026-02-01T08:00:00Z',
+          estimatedReadyDate: '2026-02-20T08:00:00Z',
+          batchCountInProgress: 1,
+          comingSoon: true,
+          daysUntilReady: 12
+        },
+        isUpcoming: true,
+        lifecycle: 'in_production',
+        lifecycleLabel: 'Bientôt',
+        groupingKey: 'american-pale-ale',
+        lifecycleVariants: ['available', 'in_design'],
+        displayReadyDate: '2026-02-20T08:00:00Z'
+      })
+    ]);
+
+    const result = PublicCatalogSchema.safeParse(catalog);
+
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.beers[0].typedIngredients?.[0].kind).toBe('malt');
+      expect(result.data.beers[0].stock.packagings?.[0].format).toBe('bottle');
+      expect(result.data.beers[0].fermentation?.daysUntilReady).toBe(12);
+      expect(result.data.beers[0].lifecycleVariants).toEqual(['available', 'in_design']);
+    }
+  });
+
+  it('garde la compatibilité avec un payload legacy sans champs v4', () => {
+    const beer = makePublicBeer();
+    delete (beer as any).isUpcoming;
+    delete (beer as any).groupingKey;
+    delete (beer as any).lifecycleVariants;
+    delete (beer as any).lifecycle;
+    delete (beer as any).lifecycleLabel;
+
+    const result = PublicBeerSchema.safeParse(beer);
+
+    expect(result.success).toBe(true);
+  });
+
+  it('normalise v5 sans exposer stock.actual au site', () => {
+    const result = PublicCatalogSchema.safeParse({
+      generatedAt: '2026-07-13T18:00:00Z',
+      version: 5,
+      brewery: { id: 'edb', name: "L'École du Bélier" },
+      beers: [
+        {
+          id: 'future-stout',
+          groupingKey: 'future-stout',
+          lifecycle: 'available',
+          name: 'Future Stout',
+          style: 'Imperial Stout',
+          metrics: {
+            abv: { value: 9.1, provenance: 'final' }
+          },
+          ingredients: [],
+          stock: {
+            web: { level: 'medium', label: 'Stock disponible' },
+            actual: {
+              availableUnits: 24,
+              availableVolumeL: 7.92,
+              packagings: [
+                {
+                  id: 'bottle-033',
+                  format: 'bottle',
+                  label: 'Bouteille 33 cL',
+                  volumeL: 0.33,
+                  count: 24,
+                  priceEUR: 4.5
+                }
+              ]
+            }
+          },
+          lots: [
+            {
+              id: 'PF-2026-009',
+              batchID: 'batch-009',
+              availableUnits: 24,
+              availableVolumeL: 7.92
+            }
+          ],
+          updatedAt: '2026-07-13T17:50:00Z'
+        }
+      ]
+    });
+
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.beers[0].webStockLabel).toBe('Stock disponible');
+      expect(result.data.beers[0].publicPackagings).toEqual([]);
+      expect(result.data.beers[0].stock).toBeUndefined();
+    }
+  });
+
+  it('accepte un statut de production v5 inconnu', () => {
+    const result = PublicCatalogSchema.safeParse({
+      generatedAt: '2026-07-13T18:00:00Z',
+      version: 5,
+      brewery: { id: 'edb', name: "L'École du Bélier" },
+      beers: [
+        {
+          id: 'future-stout-batch',
+          groupingKey: 'future-stout',
+          lifecycle: 'in_production',
+          style: 'Imperial Stout',
+          metrics: {},
+          ingredients: [],
+          production: {
+            batchID: 'batch-010',
+            status: 'cold_crashing',
+            statusLabel: 'En refroidissement'
+          },
+          updatedAt: '2026-07-13T17:50:00Z'
+        }
+      ]
+    });
+
     expect(result.success).toBe(true);
   });
 
@@ -131,7 +292,28 @@ describe('mapCatalogBeerToLocalBeer', () => {
     expect(beer.tags).toEqual(['houblonnée', 'fruitée']);
     expect(beer.pairings).toEqual(['Burger', 'Tacos']);
     expect(beer.season).toBe('printemps-été');
-    expect(beer.image).toBe('/beers/apa.jpg');
+    // Les images sont désormais servies depuis R2 via assets.lecoledubelier.beer.
+    expect(beer.image).toBe('https://assets.lecoledubelier.beer/images/apa.jpg');
+  });
+
+  it('accepte une URL absolue autorisée dans pub.image', () => {
+    const pub = makePublicBeer({ image: 'https://assets.lecoledubelier.beer/images/x.webp' });
+    expect(mapCatalogBeerToLocalBeer(pub).image).toBe('https://assets.lecoledubelier.beer/images/x.webp');
+  });
+
+  it('refuse une URL absolue hors domaine image autorisé', () => {
+    const pub = makePublicBeer({ image: 'https://example.com/x.webp' });
+    expect(mapCatalogBeerToLocalBeer(pub).image).toBe(DEFAULT_BEER_IMAGE_PATH);
+  });
+
+  it('conserve un chemin local historique (commençant par /)', () => {
+    const pub = makePublicBeer({ image: '/beers/legacy.svg' });
+    expect(mapCatalogBeerToLocalBeer(pub).image).toBe('/beers/legacy.svg');
+  });
+
+  it('refuse un chemin image local hors dossier autorisé', () => {
+    const pub = makePublicBeer({ image: '/admin/legacy.svg' });
+    expect(mapCatalogBeerToLocalBeer(pub).image).toBe(DEFAULT_BEER_IMAGE_PATH);
   });
 
   it('formate l\'ABV avec virgule française', () => {
@@ -178,6 +360,45 @@ describe('mapCatalogBeerToLocalBeer', () => {
     expect(mapCatalogBeerToLocalBeer(pub).availability).toBe('sold_out');
   });
 
+  it('lifecycle in_design prioritaire sur stock → coming_soon', () => {
+    const pub = makePublicBeer({
+      lifecycle: 'in_design',
+      stock: { ...makePublicBeer().stock, availabilityWeb: 'in_stock' },
+      fermentation: null
+    });
+
+    expect(mapCatalogBeerToLocalBeer(pub).availability).toBe('coming_soon');
+  });
+
+  it('lifecycle out_of_stock prioritaire sur stock → sold_out', () => {
+    const pub = makePublicBeer({
+      lifecycle: 'out_of_stock',
+      stock: { ...makePublicBeer().stock, availabilityWeb: 'in_stock' },
+      fermentation: null
+    });
+
+    expect(mapCatalogBeerToLocalBeer(pub).availability).toBe('sold_out');
+  });
+
+  it('lifecycle available respecte le stock web épuisé', () => {
+    const pub = makePublicBeer({
+      lifecycle: 'available',
+      stock: { ...makePublicBeer().stock, availabilityWeb: 'out_of_stock' }
+    });
+
+    expect(mapCatalogBeerToLocalBeer(pub).availability).toBe('sold_out');
+  });
+
+  it('isUpcoming legacy → coming_soon', () => {
+    const pub = makePublicBeer({
+      isUpcoming: true,
+      stock: { ...makePublicBeer().stock, availabilityWeb: 'out_of_stock' },
+      fermentation: null
+    });
+
+    expect(mapCatalogBeerToLocalBeer(pub).availability).toBe('coming_soon');
+  });
+
   // ── Flavor profile ──
 
   it('déduit le flavorProfile depuis les tags', () => {
@@ -185,9 +406,9 @@ describe('mapCatalogBeerToLocalBeer', () => {
     expect(mapCatalogBeerToLocalBeer(pub).flavorProfile).toEqual(['hoppy', 'fruit-forward']);
   });
 
-  it('retourne ["balanced"] si aucun tag ne matche', () => {
+  it('ne crée aucun profil si aucun tag ne matche', () => {
     const pub = makePublicBeer({ tags: ['inconnue', 'autre'] });
-    expect(mapCatalogBeerToLocalBeer(pub).flavorProfile).toEqual(['balanced']);
+    expect(mapCatalogBeerToLocalBeer(pub).flavorProfile).toEqual([]);
   });
 
   it('déduplique les flavors identiques', () => {
@@ -197,14 +418,14 @@ describe('mapCatalogBeerToLocalBeer', () => {
 
   // ── Fallbacks ──
 
-  it('fallback tags vides → ["Artisanale"]', () => {
+  it('ne crée aucun tag absent', () => {
     const pub = makePublicBeer({ tags: [] });
-    expect(mapCatalogBeerToLocalBeer(pub).tags).toEqual(['Artisanale']);
+    expect(mapCatalogBeerToLocalBeer(pub).tags).toEqual([]);
   });
 
-  it('fallback pairings vides → ["Apéritif"]', () => {
+  it('ne crée aucun accord absent', () => {
     const pub = makePublicBeer({ foodPairings: [] });
-    expect(mapCatalogBeerToLocalBeer(pub).pairings).toEqual(['Apéritif']);
+    expect(mapCatalogBeerToLocalBeer(pub).pairings).toEqual([]);
   });
 
   it('image placeholder si absente du catalogue', () => {

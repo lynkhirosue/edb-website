@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="title desc">
+  <title id="title">Czech Pale Lager</title>
+  <desc id="desc">Chope de lager blonde avec céréales</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#dff3ff"/>
+      <stop offset="1" stop-color="#f7bd43"/>
+    </linearGradient>
+    <linearGradient id="beer" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#ffe692"/>
+      <stop offset="1" stop-color="#e5a91f"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg)"/>
+  <path d="M230 160h284v318c0 42-34 76-76 76H306c-42 0-76-34-76-76z" fill="#fff9df" opacity=".9"/>
+  <path d="M274 246h196v224c0 24-19 43-43 43H317c-24 0-43-19-43-43z" fill="url(#beer)"/>
+  <path d="M268 224c40-30 70 16 104-8 35-24 68 12 104 4v54H268z" fill="#fff6ca"/>
+  <path d="M518 246c64-6 100 30 100 88 0 62-44 102-106 98v-58c30 2 51-14 51-42 0-26-18-40-51-36z" fill="none" stroke="#fff9df" stroke-width="30" stroke-linecap="round"/>
+  <g fill="#f8d065" opacity=".8">
+    <circle cx="330" cy="316" r="10"/>
+    <circle cx="402" cy="382" r="8"/>
+    <circle cx="360" cy="444" r="9"/>
+  </g>
+  <g stroke="#c88c22" stroke-width="9" stroke-linecap="round">
+    <path d="M138 514c50-58 82-117 90-186"/>
+    <path d="M184 408l-38-20M194 378l-42-12M200 346l-37-24"/>
+    <path d="M650 514c-52-60-84-120-94-190"/>
+    <path d="M604 408l40-22M594 378l44-12M588 346l38-24"/>
+  </g>
+  <text x="400" y="94" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" font-weight="700" fill="#3c2a0d">CZECH LAGER</text>
+</svg>

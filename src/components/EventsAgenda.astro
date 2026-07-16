@@ -79,7 +79,6 @@ const hasFakeData = allEvents.some((event) => event.description.toLowerCase().in
     ) : (
       <div class="agenda-empty reveal" role="status">
         <p>Aucun événement du jour ou à venir pour le moment.</p>
-        {hasFakeData && <p class="agenda-note">Les événements actuels sont des données FAKE de démonstration.</p>}
       </div>
     )}
   </div>

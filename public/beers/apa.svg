@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="title desc">
+  <title id="title">American Pale Ale</title>
+  <desc id="desc">Verre de pale ale houblonnée avec cônes de houblon</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#9ed0bb"/>
+      <stop offset="1" stop-color="#efad37"/>
+    </linearGradient>
+    <linearGradient id="beer" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#f9c45b"/>
+      <stop offset="1" stop-color="#c66a1b"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg)"/>
+  <path d="M260 132h280l-34 350c-4 40-37 70-77 70h-58c-40 0-73-30-77-70z" fill="#fff9e7" opacity=".88"/>
+  <path d="M302 218h196l-26 252c-2 23-21 42-44 42h-56c-23 0-42-19-44-42z" fill="url(#beer)"/>
+  <path d="M300 210c34-24 66 16 100-7 32-22 66 10 100 6v52H300z" fill="#fff4c8"/>
+  <path d="M550 268c52-2 80 27 79 77-1 55-39 86-96 84l8-56c27 4 45-8 47-31 1-22-14-32-43-30z" fill="none" stroke="#fff9e7" stroke-width="28" stroke-linecap="round"/>
+  <g fill="#3f7d3a">
+    <path d="M134 418c24-54 72-68 118-36-24 56-70 68-118 36z"/>
+    <path d="M152 472c30-48 78-54 118-16-31 50-76 54-118 16z"/>
+    <path d="M552 392c42-38 90-30 118 20-44 38-88 30-118-20z"/>
+    <path d="M536 458c44-34 90-22 114 30-45 34-86 22-114-30z"/>
+  </g>
+  <g stroke="#245c2c" stroke-width="7" stroke-linecap="round" opacity=".65">
+    <path d="M158 418l88-24M176 472l86-10M560 394l88 18M552 458l82 28"/>
+  </g>
+  <text x="400" y="88" text-anchor="middle" font-family="Arial, sans-serif" font-size="38" font-weight="700" fill="#243b22">AMERICAN PALE ALE</text>
+</svg>

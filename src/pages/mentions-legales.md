@@ -80,14 +80,16 @@ Vous pouvez également introduire une réclamation auprès de la CNIL : https://
 
 ## Cookies et mesures d'audience
 
-Le site n'utilise pas Google Analytics ni Meta Pixel.
+Le site n'utilise aucun traceur publicitaire Meta, Alphabet/Google, ni régie tierce.
+
+Aucun script Meta Pixel, Google Analytics, Google Ads, Tag Manager ou équivalent n'est chargé.
 
 Le site utilise :
 
 - des cookies/fonctions techniques nécessaires au thème clair/sombre,
-- une mesure locale des interactions (stockée dans le navigateur) pour un suivi minimal des KPI vitrine.
+- une confirmation de majorité stockée dans le navigateur.
 
-Aucune régie publicitaire tierce n'est utilisée.
+Les événements d'interface utilisés pour le bon fonctionnement de la page restent en mémoire pendant la visite et ne sont pas conservés.
 
 ## Liens externes
 

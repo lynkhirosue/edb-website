@@ -2,15 +2,18 @@
 import '../styles/global.css';
 import BeerStructuredData from '../components/BeerStructuredData.astro';
 import SkipLinks from '../components/SkipLinks.astro';
+import AgeGate from '../components/AgeGate.astro';
 
 export interface Props {
   title?: string;
   description?: string;
+  imageAlt?: string;
 }
 
 const {
-  title = "L'École du Bélier — Femto-brasserie en Nouvelle-Aquitaine",
-  description = 'Bières en petits lots, brassins suivis en temps réel et événements. Femto-brasserie en Nouvelle-Aquitaine.'
+  title = "L'École du Bélier | Femto-brasserie en Nouvelle-Aquitaine",
+  description = 'Bières en petits lots, brassins suivis en temps réel et événements. Femto-brasserie en Nouvelle-Aquitaine.',
+  imageAlt = "Bières artisanales de L'École du Bélier"
 } = Astro.props;
 
 const baseSiteUrl = Astro.site?.toString() ?? 'https://lecoledubelier.beer';
@@ -31,6 +34,10 @@ const ogImageUrl = new URL('/og-image.jpg', baseSiteUrl).toString();
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <meta name="theme-color" content="#c88a2e" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="format-detection" content="telephone=no" />
 
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -43,11 +50,15 @@ const ogImageUrl = new URL('/og-image.jpg', baseSiteUrl).toString();
     <meta property="og:site_name" content="L'École du Bélier" />
     <meta property="og:locale" content="fr_FR" />
     <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={imageAlt} />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content={imageAlt} />
 
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -55,12 +66,13 @@ const ogImageUrl = new URL('/og-image.jpg', baseSiteUrl).toString();
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <BeerStructuredData />
+    <BeerStructuredData title={title} />
     <slot name="head" />
   </head>
 
   <body class="site-body">
     <SkipLinks />
+    <AgeGate />
     <slot />
 
     <script>

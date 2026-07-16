@@ -6,7 +6,7 @@
     "status": "fermenting",
     "availableFrom": "2026-03-01",
     "volume": "70 L",
-    "notes": "Fermentation active. Profil fruité déjà très propre, conditionnement prévu sous 15 jours."
+    "notes": "Fermentation active. Le profil fruité s'affine tranquillement avant le conditionnement."
   },
   {
     "id": "batch-032-idyllwild",
@@ -15,7 +15,7 @@
     "status": "coming_soon",
     "availableFrom": "2026-03-17",
     "volume": "72 L",
-    "notes": "Sortie planifiée dans environ 30 jours, avec un houblonnage final en cours d'ajustement."
+    "notes": "Le houblonnage final s'ajuste encore. Elle arrivera quand le profil sera exactement comme prévu."
   },
   {
     "id": "batch-033-saison",
@@ -24,6 +24,6 @@
     "status": "brewing",
     "availableFrom": null,
     "volume": "65 L",
-    "notes": "Recette en préparation. Date de sortie volontairement non fixée à ce stade."
+    "notes": "La recette prend forme. Sa sortie restera libre jusqu'à ce qu'elle soit vraiment prête."
   }
 ]

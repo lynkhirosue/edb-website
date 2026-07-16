@@ -152,10 +152,18 @@
   border-radius: 999px;
   width: 2.35rem;
   height: 2.35rem;
+  padding: 0;
   background: rgba(26, 23, 18, 0.4);
+  box-shadow: none;
   transition: all 0.25s ease;
   animation: scrollFloat 2.6s ease-in-out infinite;
   opacity: 0;
+}
+
+.scroll-indicator svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex: 0 0 auto;
 }
 
 .scroll-indicator.animate-in {

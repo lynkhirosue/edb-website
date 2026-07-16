@@ -1,0 +1,239 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import '../../styles/beer-detail.css';
+import { loadBeers, loadCatalog } from '../../utils/data-loader';
+import { buildBeerDisplayItems, type BeerDisplayItem } from '../../utils/catalog-display';
+import { resolveBeerImageURL } from '../../config/catalog';
+import { DEFAULT_BEER_IMAGE_PATH } from '../../utils/catalog-mapper';
+import { safeJsonStringify } from '../../utils/json-serialization';
+
+export const getStaticPaths = (async () => {
+  const beers = await loadBeers();
+  const catalog = await loadCatalog();
+  const displayBeers = buildBeerDisplayItems(beers, catalog);
+
+  return displayBeers.map((beer) => ({
+    params: { id: beer.id },
+    props: { beer }
+  }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  beer: BeerDisplayItem;
+}
+
+const { beer } = Astro.props as Props;
+const baseSiteUrl = Astro.site?.toString() ?? 'https://lecoledubelier.beer';
+const detailImage = resolveBeerImageURL(beer.image, DEFAULT_BEER_IMAGE_PATH);
+const absoluteImage = /^https:\/\//i.test(detailImage)
+  ? detailImage
+  : new URL(detailImage, baseSiteUrl).toString();
+const canonicalUrl = new URL(Astro.url.pathname, baseSiteUrl).toString();
+const pageTitle = beer.type
+  ? `${beer.name} | ${beer.type} | L'École du Bélier`
+  : `${beer.name} | L'École du Bélier`;
+const pageDescription = beer.description
+  ? `${beer.name}${beer.type ? `, ${beer.type}` : ''} brassée en petit lot par L'École du Bélier. ${beer.description}`
+  : `${beer.name}${beer.type ? `, ${beer.type}` : ''} publiée par L'École du Bélier.`;
+
+const profileLabels: Record<string, string> = {
+  balanced: 'Équilibrée',
+  caramel: 'Caramel',
+  crisp: 'Nette',
+  'dry-finish': 'Finale sèche',
+  floral: 'Florale',
+  'fruit-forward': 'Fruitée',
+  grainy: 'Céréalière',
+  hoppy: 'Houblonnée',
+  'light-body': 'Légère',
+  malty: 'Maltée',
+  'rich-body': 'Corps ample',
+  roasty: 'Torréfiée',
+  rustic: 'Rustique',
+  spicy: 'Épicée'
+};
+
+function displayProfile(value: string): string {
+  return profileLabels[value] ?? value;
+}
+
+const additionalProperties = [];
+
+if (beer.abv) {
+  additionalProperties.push({
+    '@type': 'PropertyValue',
+    name: 'ABV',
+    value: beer.abv
+  });
+}
+
+if (beer.flavorProfile.length > 0) {
+  additionalProperties.push({
+    '@type': 'PropertyValue',
+    name: 'Profil gustatif',
+    value: beer.flavorProfile.map(displayProfile).join(', ')
+  });
+}
+
+if (beer.pairings.length > 0) {
+  additionalProperties.push({
+    '@type': 'PropertyValue',
+    name: 'Accords',
+    value: beer.pairings.join(', ')
+  });
+}
+
+const productData: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: beer.name,
+  image: absoluteImage,
+  url: canonicalUrl,
+  brand: {
+    '@type': 'Brand',
+    name: "L'École du Bélier"
+  },
+  isFamilyFriendly: false,
+  keywords: beer.tags.join(', '),
+  additionalProperty: additionalProperties
+};
+
+if (beer.description) {
+  productData.description = beer.description;
+}
+
+if (beer.type) {
+  productData.category = beer.type;
+}
+
+const breadcrumbData = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Accueil',
+      item: baseSiteUrl
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Bières',
+      item: new URL('/#beers', baseSiteUrl).toString()
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: beer.name,
+      item: canonicalUrl
+    }
+  ]
+};
+---
+
+<Layout title={pageTitle} description={pageDescription} imageAlt={beer.type ? `${beer.name}, ${beer.type}` : beer.name}>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={safeJsonStringify(productData)} />
+    <script type="application/ld+json" set:html={safeJsonStringify(breadcrumbData)} />
+  </Fragment>
+
+  <Header />
+
+  <main class="beer-detail-page" id="main-content">
+    <nav class="beer-detail-breadcrumb" aria-label="Fil d'Ariane">
+      <a href="/">Accueil</a>
+      <span aria-hidden="true">/</span>
+      <a href="/#beers">Bières</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">{beer.name}</span>
+    </nav>
+
+    <article class="beer-detail">
+      <div class="beer-detail-media">
+        <img
+          src={detailImage}
+          alt={beer.type ? `${beer.name}, ${beer.type}` : beer.name}
+          width="960"
+          height="720"
+          loading="eager"
+          decoding="async"
+        />
+      </div>
+
+      <div class="beer-detail-content">
+        {beer.type && <p class="beer-detail-type">{beer.type}</p>}
+        <h1>{beer.name}</h1>
+        {beer.recipeRevision && <p class="beer-detail-revision">Recette V{beer.recipeRevision}</p>}
+        {beer.description && <p class="beer-detail-lead">{beer.description}</p>}
+
+        <dl class="beer-detail-facts">
+          {beer.abv && <div>
+            <dt>Alcool</dt>
+            <dd>{beer.abv}</dd>
+          </div>}
+          <div>
+            <dt>Statut</dt>
+            <dd>{beer.statusLabel}</dd>
+          </div>
+          {beer.season && (
+            <div>
+              <dt>Saison</dt>
+              <dd>{beer.season}</dd>
+            </div>
+          )}
+        </dl>
+
+        {beer.statusDetail && <p class="beer-detail-status">{beer.statusDetail}</p>}
+
+        {beer.flavorProfile.length > 0 && <section class="beer-detail-section" aria-labelledby="beer-profile-title">
+          <h2 id="beer-profile-title">Profil</h2>
+          <ul class="beer-detail-tags">
+            {beer.flavorProfile.map((profile) => (
+              <li>{displayProfile(profile)}</li>
+            ))}
+          </ul>
+        </section>}
+
+        <section class="beer-detail-section" aria-labelledby="beer-pairings-title">
+          <h2 id="beer-pairings-title">Accords</h2>
+          <ul class="beer-detail-list">
+            {beer.pairings.map((pairing) => (
+              <li>{pairing}</li>
+            ))}
+          </ul>
+        </section>
+
+        {beer.packagings.length > 0 && (
+          <section class="beer-detail-section" aria-labelledby="beer-packagings-title">
+            <h2 id="beer-packagings-title">Formats</h2>
+            <ul class="beer-detail-packagings">
+              {beer.packagings.map((packaging) => (
+                <li>
+                  <span>{packaging.label}</span>
+                  <strong>{packaging.priceLabel}</strong>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {beer.imageIsTemporary && beer.imageAttribution && (
+          <p class="beer-detail-attribution">Image temporaire · {beer.imageAttribution}</p>
+        )}
+
+        <p class="beer-detail-warning">
+          Vente interdite aux mineurs de moins de 18 ans. L'abus d'alcool est dangereux pour la santé.
+          À consommer avec modération.
+        </p>
+
+        <a class="beer-detail-back" href="/#beers">Retour aux bières</a>
+      </div>
+    </article>
+  </main>
+
+  <Footer />
+</Layout>

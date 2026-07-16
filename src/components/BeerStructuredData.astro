@@ -1,7 +1,16 @@
 ---
-import { loadBeers } from '../utils/data-loader';
+import { loadBeers, loadCatalog } from '../utils/data-loader';
+import { buildBeerDisplayItems } from '../utils/catalog-display';
+import { safeJsonStringify } from '../utils/json-serialization';
 
-const beers = await loadBeers();
+export interface Props {
+  title?: string;
+}
+
+const beers = buildBeerDisplayItems(await loadBeers(), await loadCatalog());
+const { title = "L'École du Bélier" } = Astro.props;
+const baseSiteUrl = Astro.site?.toString() ?? 'https://lecoledubelier.beer';
+const currentUrl = new URL(Astro.url.pathname, baseSiteUrl).toString();
 
 /**
  * Mapping availability locale → Schema.org
@@ -20,18 +29,23 @@ const availabilityMap: Record<string, string> = {
 };
 
 const beerProducts = beers.map((beer) => {
-  const additionalProperties = [
-    {
+  const additionalProperties: Record<string, string>[] = [];
+
+  if (beer.abv) {
+    additionalProperties.push({
       '@type': 'PropertyValue',
       name: 'ABV',
       value: beer.abv
-    },
-    {
+    });
+  }
+
+  if (beer.flavorProfile.length > 0) {
+    additionalProperties.push({
       '@type': 'PropertyValue',
       name: 'Profil gustatif',
       value: beer.flavorProfile.join(', ')
-    }
-  ];
+    });
+  }
 
   // Ajouter la saison si présente
   if (beer.season) {
@@ -45,8 +59,6 @@ const beerProducts = beers.map((beer) => {
   const product: Record<string, unknown> = {
     '@type': 'Product',
     name: beer.name,
-    description: beer.description,
-    category: beer.type,
     brand: {
       '@type': 'Brand',
       name: "L'École du Bélier"
@@ -57,13 +69,23 @@ const beerProducts = beers.map((beer) => {
       '@type': 'Offer',
       priceCurrency: 'EUR',
       availability: availabilityMap[beer.availability] ?? 'https://schema.org/OutOfStock',
-      url: `https://lecoledubelier.beer/#${beer.id}`
+      url: new URL(`/bieres/${beer.id}`, baseSiteUrl).toString()
     }
   };
 
+  if (beer.description) {
+    product.description = beer.description;
+  }
+
+  if (beer.type) {
+    product.category = beer.type;
+  }
+
   // Ajouter l'image si disponible
   if (beer.image) {
-    product.image = `https://lecoledubelier.beer${beer.image}`;
+    product.image = /^https:\/\//i.test(beer.image)
+      ? beer.image
+      : new URL(beer.image, baseSiteUrl).toString();
   }
 
   // Ajouter les tags comme keywords
@@ -78,8 +100,8 @@ const organizationData = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: "L'École du Bélier",
-  url: 'https://lecoledubelier.beer',
-  logo: 'https://lecoledubelier.beer/logo-white-nobg.png',
+  url: baseSiteUrl,
+  logo: new URL('/logo-white-nobg.png', baseSiteUrl).toString(),
   description: 'Femto-brasserie en Nouvelle-Aquitaine. Bières brassées en petits lots.',
   address: {
     '@type': 'PostalAddress',
@@ -91,7 +113,7 @@ const organizationData = {
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'customer support',
-    url: 'https://lecoledubelier.beer/#contact',
+    url: new URL('/#contact', baseSiteUrl).toString(),
     availableLanguage: ['French']
   }
 };
@@ -109,11 +131,11 @@ const productsData = {
 const localBusinessData = {
   '@context': 'https://schema.org',
   '@type': 'Brewery',
-  '@id': 'https://lecoledubelier.beer',
+  '@id': baseSiteUrl,
   name: "L'École du Bélier",
-  image: 'https://lecoledubelier.beer/og-image.jpg',
+  image: new URL('/og-image.jpg', baseSiteUrl).toString(),
   description: 'Femto-brasserie produisant des bières en petits lots en Nouvelle-Aquitaine.',
-  url: 'https://lecoledubelier.beer',
+  url: baseSiteUrl,
   servesCuisine: 'Beer',
   priceRange: '$$',
   areaServed: 'Nouvelle-Aquitaine',
@@ -125,8 +147,38 @@ const localBusinessData = {
     addressLocality: 'Bassens'
   }
 };
+
+const webSiteData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: "L'École du Bélier",
+  url: baseSiteUrl,
+  inLanguage: 'fr-FR',
+  publisher: {
+    '@type': 'Organization',
+    name: "L'École du Bélier"
+  }
+};
+
+const webPageData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': currentUrl,
+  url: currentUrl,
+  name: title,
+  inLanguage: 'fr-FR',
+  isFamilyFriendly: false
+};
+
+const organizationJson = safeJsonStringify(organizationData);
+const productsJson = safeJsonStringify(productsData);
+const localBusinessJson = safeJsonStringify(localBusinessData);
+const webSiteJson = safeJsonStringify(webSiteData);
+const webPageJson = safeJsonStringify(webPageData);
 ---
 
-<script type="application/ld+json" set:html={JSON.stringify(organizationData)} />
-<script type="application/ld+json" set:html={JSON.stringify(productsData)} />
-<script type="application/ld+json" set:html={JSON.stringify(localBusinessData)} />
+<script type="application/ld+json" set:html={organizationJson} />
+<script type="application/ld+json" set:html={productsJson} />
+<script type="application/ld+json" set:html={localBusinessJson} />
+<script type="application/ld+json" set:html={webSiteJson} />
+<script type="application/ld+json" set:html={webPageJson} />

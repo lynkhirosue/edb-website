@@ -10,7 +10,7 @@
     "abv": "6,2% alc.",
     "availability": "available",
     "season": "printemps-été",
-    "image": "/beers/fruity-pale-ale.jpg",
+    "image": "/beers/fruity-pale-ale.svg",
     "hasSpecialEffect": false,
     "hasGhosts": false
   },
@@ -25,7 +25,7 @@
     "abv": "9,3% alc.",
     "availability": "coming_soon",
     "season": "automne-hiver",
-    "image": "/beers/imperial-stout.jpg",
+    "image": "/beers/imperial-stout.svg",
     "hasSpecialEffect": false,
     "hasGhosts": false
   },
@@ -40,7 +40,7 @@
     "abv": "5,9% alc.",
     "availability": "available",
     "season": "toute-saison",
-    "image": "/beers/saison.jpg",
+    "image": "/beers/saison.svg",
     "hasSpecialEffect": false,
     "hasGhosts": false
   },
@@ -55,7 +55,7 @@
     "abv": "3,9% alc.",
     "availability": "available",
     "season": "printemps-été",
-    "image": "/beers/czech-lager.jpg",
+    "image": "/beers/czech-lager.svg",
     "hasSpecialEffect": false,
     "hasGhosts": false
   },
@@ -70,7 +70,7 @@
     "abv": "5,2% alc.",
     "availability": "available",
     "season": "toute-saison",
-    "image": "/beers/apa.jpg",
+    "image": "/beers/apa.svg",
     "hasSpecialEffect": false,
     "hasGhosts": false
   },
@@ -87,6 +87,6 @@
     "season": "automne",
     "image": "/beers/Fallen-on-Fall.png",
     "hasSpecialEffect": false,
-    "hasGhosts": false
+    "hasGhosts": true
   }
 ]

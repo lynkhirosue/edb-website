@@ -53,7 +53,8 @@
 }
 
 .footer-copyright,
-.footer-disclaimer {
+.footer-disclaimer,
+.footer-legal-warning {
   font-size: 0.76rem;
   color: var(--accent);
   margin-bottom: 0.42rem;
@@ -61,6 +62,12 @@
 }
 
 .footer-disclaimer {
+  margin-bottom: 0.35rem;
+}
+
+.footer-legal-warning {
+  color: var(--primary-hover);
+  font-weight: 800;
   margin-bottom: 1.1rem;
 }
 

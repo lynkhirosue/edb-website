@@ -38,10 +38,13 @@ function renderUpdateBanner(onReload: () => void): void {
   const banner = document.createElement('div');
   banner.id = BANNER_ID;
   banner.setAttribute('role', 'status');
-  banner.innerHTML = `
-    <span>Une nouvelle version des bières est disponible.</span>
-    <button type="button">Rafraichir</button>
-  `;
+
+  const message = document.createElement('span');
+  message.textContent = 'Une nouvelle version des bières est disponible.';
+
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.textContent = 'Rafraichir';
 
   Object.assign(banner.style, {
     position: 'fixed',
@@ -60,20 +63,18 @@ function renderUpdateBanner(onReload: () => void): void {
     boxShadow: '0 8px 24px rgba(0,0,0,0.35)'
   } as CSSStyleDeclaration);
 
-  const button = banner.querySelector('button');
-  if (button) {
-    Object.assign(button.style, {
-      border: 'none',
-      borderRadius: '10px',
-      padding: '6px 10px',
-      cursor: 'pointer',
-      background: '#f59e0b',
-      color: '#111827',
-      fontWeight: '600'
-    } as CSSStyleDeclaration);
-    button.addEventListener('click', onReload);
-  }
+  Object.assign(button.style, {
+    border: 'none',
+    borderRadius: '10px',
+    padding: '6px 10px',
+    cursor: 'pointer',
+    background: '#f59e0b',
+    color: '#111827',
+    fontWeight: '600'
+  } as CSSStyleDeclaration);
+  button.addEventListener('click', onReload);
 
+  banner.append(message, button);
   document.body.appendChild(banner);
 }
 

@@ -8,6 +8,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      CATALOG_SOURCE: live
     permissions:
       contents: read
       pages: write

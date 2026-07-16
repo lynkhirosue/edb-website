@@ -192,18 +192,18 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 {
   font-size: clamp(2.55rem, 7vw, 4.75rem);
-  letter-spacing: -0.028em;
+  letter-spacing: 0;
 }
 
 h2 {
   font-size: clamp(2rem, 5.4vw, 3.3rem);
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
 }
 
 h3 {
   font-size: clamp(1.32rem, 2.8vw, 1.9rem);
   font-weight: 600;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
 }
 
 h4 {
@@ -516,7 +516,7 @@ html.dark .brewery-glass {
 }
 
 /* ===========================================
-   SECTIONS ALTERNÉES — Dark / Light rhythm
+   SECTIONS ALTERNÉES : Dark / Light rhythm
    =========================================== */
 
 .section-dark {
@@ -547,7 +547,7 @@ html.dark .section-dark {
 }
 
 /* ===========================================
-   SCROLL REVEAL — animation unifiée
+   SCROLL REVEAL : animation unifiée
    =========================================== */
 
 .reveal {

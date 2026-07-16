@@ -1,0 +1,43 @@
+---
+import '../styles/age-gate.css';
+---
+
+<div class="age-gate" id="age-gate" hidden>
+  <div class="age-gate-backdrop" data-age-gate-cancel></div>
+  <section
+    class="age-gate-dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="age-gate-title"
+    aria-describedby="age-gate-description"
+  >
+    <p class="age-gate-kicker">Accès 18+</p>
+    <h2 id="age-gate-title">Site réservé aux majeurs</h2>
+    <p id="age-gate-description">
+      La vente d'alcool est interdite aux mineurs de moins de 18 ans.
+      Confirmez votre majorité pour continuer.
+    </p>
+    <p class="age-gate-warning">
+      L'abus d'alcool est dangereux pour la santé. À consommer avec modération.
+    </p>
+    <div class="age-gate-actions">
+      <button type="button" class="age-gate-primary" id="age-gate-confirm">
+        J'ai 18 ans ou plus
+      </button>
+      <a class="age-gate-secondary" href="https://www.alcool-info-service.fr/">
+        Quitter
+      </a>
+    </div>
+  </section>
+</div>
+
+<noscript>
+  <p class="age-gate-noscript">
+    Site réservé aux personnes majeures. La vente d'alcool est interdite aux mineurs.
+    L'abus d'alcool est dangereux pour la santé.
+  </p>
+</noscript>
+
+<script>
+  import '../scripts/age-gate.ts';
+</script>

@@ -1,6 +1,7 @@
 import type { Beer } from '../schemas/beer.schema';
 import type { Release } from '../schemas/release.schema';
-import type { PublicBeer, PublicCatalog } from '../schemas/catalog.schema';
+import type { NormalizedPublicBeer, PublicCatalog } from '../schemas/catalog.schema';
+import { resolveBeerImageURL } from '../config/catalog';
 
 export const DEFAULT_BEER_IMAGE_PATH = '/beers/placeholder-beer.svg';
 
@@ -32,7 +33,6 @@ const TAG_TO_FLAVOR: Record<string, string> = {
 
 /**
  * Déduit un flavorProfile à partir des tags du catalogue.
- * Retourne au minimum ["balanced"] pour satisfaire le schema Beer.
  */
 function deriveFlavorProfile(tags: string[]): string[] {
   const flavors = tags
@@ -42,23 +42,42 @@ function deriveFlavorProfile(tags: string[]): string[] {
   // Déduplique
   const unique = [...new Set(flavors)];
 
-  return unique.length > 0 ? unique : ['balanced'];
+  return unique;
 }
 
 /**
  * Détermine l'availability locale à partir du stock web et de la fermentation.
  *
  * Règles :
- *  - in_stock                          → 'available'
- *  - out_of_stock + comingSoon = true  → 'coming_soon'
- *  - out_of_stock sinon                → 'sold_out'
+ *  - lifecycle available                → 'available'
+ *  - lifecycle in_production/in_design  → 'coming_soon'
+ *  - lifecycle out_of_stock             → 'sold_out'
+ *  - fallback legacy stock/fermentation
  */
-function mapAvailability(pub: PublicBeer): 'available' | 'coming_soon' | 'sold_out' {
-  if (pub.stock.availabilityWeb === 'in_stock') {
+function mapAvailability(pub: NormalizedPublicBeer): 'available' | 'coming_soon' | 'sold_out' {
+  if (pub.lifecycle === 'available') {
+    return pub.webStockLevel === 'out_of_stock' || pub.stock?.availabilityWeb === 'out_of_stock'
+      ? 'sold_out'
+      : 'available';
+  }
+
+  if (pub.lifecycle === 'in_production' || pub.lifecycle === 'in_design') {
+    return 'coming_soon';
+  }
+
+  if (pub.lifecycle === 'out_of_stock') {
+    return 'sold_out';
+  }
+
+  if (pub.isUpcoming) {
+    return 'coming_soon';
+  }
+
+  if (pub.webStockLevel === 'in_stock' || pub.stock?.availabilityWeb === 'in_stock') {
     return 'available';
   }
 
-  if (pub.fermentation?.comingSoon) {
+  if (pub.fermentation?.comingSoon || pub.production) {
     return 'coming_soon';
   }
 
@@ -68,21 +87,21 @@ function mapAvailability(pub: PublicBeer): 'available' | 'coming_soon' | 'sold_o
 /**
  * Convertit une PublicBeer du catalogue en Beer locale.
  * Les champs absents du catalogue (hasSpecialEffect, hasGhosts) sont
- * mis à false par défaut — ils sont propres au site (easter eggs).
+ * mis à false par défaut, car ils sont propres au site (easter eggs).
  */
-export function mapCatalogBeerToLocalBeer(pub: PublicBeer): Beer {
+export function mapCatalogBeerToLocalBeer(pub: NormalizedPublicBeer): Beer {
   return {
     id: pub.id,
     name: pub.name,
     type: pub.style,
     description: pub.description,
-    tags: pub.tags.length > 0 ? pub.tags : ['Artisanale'],
+    tags: pub.tags,
     flavorProfile: deriveFlavorProfile(pub.tags),
-    pairings: pub.foodPairings.length > 0 ? pub.foodPairings : ['Apéritif'],
-    abv: `${pub.abv.toFixed(1).replace('.', ',')}% alc.`,
+    pairings: pub.foodPairings,
+    abv: pub.abv === null ? '' : `${pub.abv.toFixed(1).replace('.', ',')}% alc.`,
     availability: mapAvailability(pub),
     season: pub.season ?? undefined,
-    image: pub.image ? `/beers/${pub.image}` : DEFAULT_BEER_IMAGE_PATH,
+    image: resolveBeerImageURL(pub.image, DEFAULT_BEER_IMAGE_PATH),
     hasSpecialEffect: false,
     hasGhosts: false
   };
@@ -97,34 +116,35 @@ export function mapCatalogBeerToLocalBeer(pub: PublicBeer): Beer {
  */
 export function mapCatalogToReleases(catalog: PublicCatalog): Release[] {
   return catalog.beers
-    .filter((beer) => beer.fermentation !== null && beer.fermentation !== undefined)
+    .filter((beer) => Boolean(beer.fermentation || beer.production))
     .map((beer) => {
-      const ferm = beer.fermentation!;
+      const ferm = beer.fermentation;
+      const production = beer.production;
+      const rawStatus = production?.status ?? ferm?.status ?? 'brewing';
+      const statusLabel = production?.statusLabel ?? ferm?.statusLabel ?? 'Brassage en cours';
+      const batchNumber = production?.batchNumber ?? ferm?.batchNumber;
+      const estimatedReadyDate = production?.estimatedReadyAt ?? ferm?.estimatedReadyDate;
 
       // Mapper le statut catalogue → statut local
       let status: 'brewing' | 'fermenting' | 'coming_soon' | 'available' | 'sold_out';
-      if (ferm.status === 'fermenting') {
+      if (rawStatus === 'fermenting') {
         status = 'fermenting';
-      } else if (ferm.status === 'conditioning') {
+      } else if (rawStatus === 'conditioning') {
         status = 'coming_soon';
       } else {
         status = 'brewing';
       }
 
       // Construire des notes suffisamment longues (min 10 chars requis par le schema)
-      const baseLabel = ferm.statusLabel;
-      const comingSoonSuffix = ferm.comingSoon ? ' — Arrive bientôt !' : '';
-      const batchSuffix = ferm.batchCountInProgress > 1
-        ? ` (${ferm.batchCountInProgress} brassins en cours)`
-        : '';
-      const notes = `${baseLabel}${comingSoonSuffix}${batchSuffix}`.padEnd(10, '.');
+      const comingSoonSuffix = ferm?.comingSoon ? '. Elle se rapproche doucement.' : '';
+      const notes = `${statusLabel}${comingSoonSuffix}`.padEnd(10, '.');
 
       return {
         id: `catalog-${beer.id}`,
         beerId: beer.id,
-        batch: ferm.batchNumber ?? 'Brassin en cours',
+        batch: batchNumber ?? 'Brassin en cours',
         status,
-        availableFrom: ferm.estimatedReadyDate ?? null,
+        availableFrom: estimatedReadyDate ?? null,
         volume: '–',
         notes
       };

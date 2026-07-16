@@ -1,37 +1,19 @@
-import { safeGetLocalStorage, safeSetLocalStorage } from '../utils/dom-helpers';
-
 interface AnalyticsSnapshot {
   totals: Record<string, number>;
 }
 
-const STORAGE_KEY = 'edb.analytics.v1';
+const runtimeSnapshot: AnalyticsSnapshot = { totals: {} };
 
 function readSnapshot(): AnalyticsSnapshot {
-  try {
-    const raw = safeGetLocalStorage(STORAGE_KEY, '{}');
-    const parsed = JSON.parse(raw) as AnalyticsSnapshot;
-
-    if (!parsed || typeof parsed !== 'object' || typeof parsed.totals !== 'object') {
-      return { totals: {} };
-    }
-
-    return parsed;
-  } catch (error) {
-    console.error('Erreur analytics (lecture):', error);
-    return { totals: {} };
-  }
-}
-
-function writeSnapshot(snapshot: AnalyticsSnapshot): void {
-  safeSetLocalStorage(STORAGE_KEY, JSON.stringify(snapshot));
+  return {
+    totals: { ...runtimeSnapshot.totals }
+  };
 }
 
 function increment(metric: string): number {
-  const snapshot = readSnapshot();
-  const current = snapshot.totals[metric] ?? 0;
-  snapshot.totals[metric] = current + 1;
-  writeSnapshot(snapshot);
-  return snapshot.totals[metric];
+  const current = runtimeSnapshot.totals[metric] ?? 0;
+  runtimeSnapshot.totals[metric] = current + 1;
+  return runtimeSnapshot.totals[metric];
 }
 
 function normalizeMetric(name: string, label?: string): string {

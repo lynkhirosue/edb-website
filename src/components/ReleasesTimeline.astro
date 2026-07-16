@@ -19,7 +19,7 @@ const statusLabels: Record<string, string> = {
   coming_soon: 'Bientôt',
   fermenting: 'En fermentation',
   available: 'Disponible',
-  sold_out: 'Épuisé'
+  sold_out: 'Cave à sec'
 };
 
 function parseDate(value: string | null | undefined): Date | null {
@@ -50,28 +50,28 @@ function compareReleases(a: Release, b: Release): number {
   return a.batch.localeCompare(b.batch);
 }
 
-function getDueText(value: string | null | undefined): string {
-  const date = parseDate(value);
+function getHorizonText(status: Release['status']): string {
+  const horizons: Record<Release['status'], string> = {
+    brewing: 'Un de ces jours',
+    coming_soon: 'Bientôt, promis',
+    fermenting: 'Dans quelques jours',
+    available: 'Elle est arrivée',
+    sold_out: 'Une prochaine fois'
+  };
 
-  if (!date) {
-    return 'Date à confirmer';
-  }
+  return horizons[status];
+}
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+function getPublicNote(status: Release['status']): string {
+  const notes: Record<Release['status'], string> = {
+    brewing: "La recette prend forme. Elle sortira quand elle aura trouvé son équilibre.",
+    coming_soon: "Les derniers ajustements sont en cours. Elle se rapproche doucement.",
+    fermenting: "Ça travaille encore en cuve. Le profil s'affine tranquillement.",
+    available: "Elle est prête à quitter la brasserie.",
+    sold_out: "Cette version est partie. La suite viendra en son temps."
+  };
 
-  const diffMs = date.getTime() - today.getTime();
-  const diffDays = Math.round(diffMs / 86400000);
-
-  if (diffDays === 0) {
-    return "Sortie aujourd'hui";
-  }
-
-  if (diffDays > 0) {
-    return `Dans ${diffDays} j`;
-  }
-
-  return `Depuis ${Math.abs(diffDays)} j`;
+  return notes[status];
 }
 
 const activeReleases = releases
@@ -98,7 +98,6 @@ const activeReleases = releases
             <li class="release-compact-item reveal">
               <article class="release-compact-card">
                 <div class="release-compact-top">
-                  <p class="release-batch">{release.batch}</p>
                   <p class={`release-status status-${release.status}`}>{statusLabels[release.status]}</p>
                 </div>
 
@@ -106,16 +105,12 @@ const activeReleases = releases
 
                 <dl class="release-compact-meta">
                   <div>
-                    <dt>Échéance</dt>
-                    <dd>{getDueText(release.availableFrom)}</dd>
-                  </div>
-                  <div>
-                    <dt>Volume</dt>
-                    <dd>{release.volume}</dd>
+                    <dt>Horizon</dt>
+                    <dd>{getHorizonText(release.status)}</dd>
                   </div>
                 </dl>
 
-                <p class="release-notes">{release.notes}</p>
+                <p class="release-notes">{getPublicNote(release.status)}</p>
 
                 {beer ? (
                   <a href={`/#${beer.id}`} class="release-link" data-analytics="cta_click" data-analytics-label={`release-${beer.id}`}>

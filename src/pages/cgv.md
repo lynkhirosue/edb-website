@@ -21,11 +21,11 @@ Les présentes conditions générales de vente (CGV) s’appliquent, sans restri
 
 ### Article 2 – Produits  
 Les produits proposés à la vente sont ceux décrits au moment de la commande. Toute description, photo ou illustration n’a qu’une valeur indicative.  
-La vente de boissons alcoolisées est strictement réservée aux personnes majeures (18 ans ou plus).
+La vente de boissons alcoolisées est strictement réservée aux personnes majeures (18 ans ou plus). L’offre gratuite d’alcool aux mineurs est également interdite dans les commerces et lieux publics.
 
 ### Article 3 – Commande  
 Toute commande implique l’acceptation pleine et entière des présentes CGV. Le Client certifie être majeur lors de sa commande.  
-La Brasserie peut se réserver le droit de refuser une commande anormale ou en cas d’incident de paiement.
+La Brasserie peut demander une preuve de majorité et refuser une commande lorsque l’âge du Client ne peut pas être vérifié. La Brasserie peut aussi refuser une commande anormale ou en cas d’incident de paiement.
 
 ### Article 4 – Prix  
 Les prix indiqués sont exprimés en euros (€), net de taxes (TVA non applicable, art. 293 B du CGI – micro-entreprise).  
@@ -49,7 +49,7 @@ La Brasserie conserve la propriété des produits vendus jusqu’au paiement com
 ### Article 9 – Responsabilité  
 La Brasserie ne saurait être tenue responsable en cas d’usage abusif ou inapproprié des produits achetés.  
 La vente d’alcool à des mineurs est strictement interdite.  
-La consommation d’alcool doit demeurer modérée.
+L'abus d'alcool est dangereux pour la santé. À consommer avec modération.
 
 ### Article 10 – Données personnelles  
 Les données collectées lors de la commande sont nécessaires à la gestion de votre dossier et ne sont communiquées à aucun tiers, sauf obligation légale.  

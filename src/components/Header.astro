@@ -55,14 +55,18 @@ function isActiveLink(href: string): boolean {
     </div>
 
     <nav class="main-nav" id="site-nav" aria-label="Navigation principale">
-      {navigationItems.map((item) => (
+      {navigationItems.map((item) => {
+        const isActive = isActiveLink(item.href);
+        return (
         <a
           href={item.href}
-          class={`nav-link ${isActiveLink(item.href) ? 'nav-active' : ''}`}
+          class={`nav-link ${isActive ? 'nav-active' : ''}`}
+          aria-current={isActive ? 'page' : undefined}
         >
           {item.label}
         </a>
-      ))}
+        );
+      })}
     </nav>
 
     <div class="header-actions">

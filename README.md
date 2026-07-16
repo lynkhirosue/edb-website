@@ -4,12 +4,12 @@ Site officiel de la femto-brasserie artisanale **L'École du Bélier**, spécial
 
 ## 🚀 Stack Technique
 
-- **Framework**: [Astro](https://astro.build) v5.15.1 (Static Site Generator)
+- **Framework**: [Astro](https://astro.build) v7.0.6 (Static Site Generator)
 - **Langage**: TypeScript
 - **Validation**: Zod pour la validation runtime des données
 - **Optimisation d'images**: astro:assets
-- **SEO**: @astrojs/sitemap + JSON-LD structured data
-- **Tests**: Vitest + Happy-DOM
+- **SEO**: @astrojs/sitemap v3.7.3 + JSON-LD structured data
+- **Tests**: Vitest v4.1.8 + Happy-DOM
 - **Déploiement**: GitHub Pages
 - **CI/CD**: GitHub Actions
 
@@ -159,7 +159,35 @@ npm test
 ### Tests disponibles
 
 - **data-loader.test.ts**: Tests de validation des données JSON
+- **catalog-mapper.test.ts**: Tests de mapping du catalogue public
 - **dom-helpers.test.ts**: Tests des helpers DOM
+
+### Catalogue distant
+
+Par défaut, tests et build locaux utilisent les fixtures locales. Les builds de
+publication GitHub Pages utilisent le catalogue live :
+
+```bash
+CATALOG_SOURCE=live npm run build
+```
+
+Ce mode garde les tests et previews locales indépendants du Worker live.
+En production, les fiches bières viennent du catalogue public publié par
+BreweryManager et les images viennent du bucket R2
+`https://assets.lecoledubelier.beer/images`.
+
+Le contrat Zod `src/schemas/catalog.schema.ts` accepte :
+
+- les contrats historiques v1 à v4 ;
+- le contrat v5 séparé ;
+- un modèle d'affichage commun.
+
+Le site conserve chaque `id`, regroupe visuellement par `groupingKey` et garde
+les versions de recette distinctes. Il n'affiche jamais les quantités exactes.
+En v5, seul `stock.web` alimente le rendu.
+
+Un build `CATALOG_SOURCE=live` échoue si le catalogue est inaccessible ou
+invalide. La publication ne retombe jamais silencieusement sur les fixtures.
 
 ### Écrire de nouveaux tests
 
@@ -270,20 +298,42 @@ Le projet utilise TypeScript en mode strict pour une meilleure qualité de code.
 
 ## 📝 Canal de Contact
 
-Le contact est actuellement configuré pour un site statique (email + formulaire d'alerte). Pour le rendre fonctionnel :
+Le site reste statique. Le formulaire d'alerte utilise FormSubmit par défaut,
+via un POST HTML standard vers `https://formsubmit.co/<email>`.
+Référence prestataire : https://formsubmit.co/documentation.
 
-**Options recommandées (gratuites) :**
+Configuration :
 
-1. **Formspree** (50 envois/mois gratuit)
-   - S'inscrire sur https://formspree.io
-   - Remplacer l'endpoint dans `Contact.astro`
+| Variable | Défaut | Usage |
+|---|---|---|
+| `PUBLIC_CONTACT_EMAIL` | adresse privée configurée | Destinataire privé et fallback FormSubmit |
+| `PUBLIC_CONTACT_FORM_PROVIDER` | `FormSubmit` | Libellé affiché et label analytics |
+| `PUBLIC_CONTACT_FORM_ENDPOINT` | `https://formsubmit.co/<PUBLIC_CONTACT_EMAIL>` | Endpoint POST du formulaire |
+| `PUBLIC_CONTACT_FORM_REDIRECT_URL` | `https://lecoledubelier.beer/#contact` | URL absolue post-submit |
+| `PUBLIC_CONTACT_FORM_CAPTCHA` | `true` | `false` ajoute `_captcha=false` |
 
-2. **Web3Forms** (250 envois/mois gratuit)
-   - S'inscrire sur https://web3forms.com
-   - Ajouter l'access key
+Choix RGPD / anti-spam :
 
-3. **Netlify Forms** (si migration vers Netlify)
-   - Ajouter l'attribut `netlify` au formulaire
+- Donnée personnelle collectée : email uniquement.
+- Finalité affichée : prévenir des prochaines sorties.
+- Prestataire : FormSubmit, à confirmer une première fois par email côté boîte destinataire.
+- reCAPTCHA FormSubmit conservé par défaut.
+- Honeypot `_honey` ajouté.
+- Endpoint encodé dans le HTML, puis restauré côté navigateur.
+- Adresse email jamais affichée aux visiteurs.
+- Email retiré des données structurées JSON-LD.
+- Redirection `_next` absolue configurée.
+- `_url` renseigne la page source du formulaire.
+- FormSubmit documente une rétention d'archive de soumissions de 30 jours.
+- Après activation, utiliser l'endpoint aléatoire FormSubmit via
+  `PUBLIC_CONTACT_FORM_ENDPOINT` pour retirer aussi l'adresse de la configuration publique.
+
+Endpoints volontairement hardcodés :
+
+- `https://lecoledubelier.beer` : URL canonique SEO, sitemap, robots, JSON-LD, événements internes.
+- `https://schema.org/*` : vocabulaires JSON-LD publics.
+- `https://brewery-catalog.the-school-of-the-ram.workers.dev/api/public-catalog.json` : fallback catalogue live, surchargé par `PUBLIC_CATALOG_URL`.
+- `https://assets.lecoledubelier.beer/images` : fallback images R2, surchargé par `PUBLIC_IMAGE_HOST`.
 
 ## 🐛 Debugging
 

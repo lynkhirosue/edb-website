@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { afterEach, describe, it, expect, vi } from 'vitest';
 import {
   loadBeers,
   loadEquipment,
@@ -7,7 +7,20 @@ import {
   loadEvents
 } from './data-loader';
 
+afterEach(() => {
+  vi.restoreAllMocks();
+});
+
 describe('Data Loader', () => {
+  it('should keep tests on local fixtures by default', async () => {
+    const fetchMock = vi.spyOn(globalThis, 'fetch');
+
+    await loadBeers();
+    await loadReleases();
+
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
   describe('loadBeers', () => {
     it('should load and validate beers data', async () => {
       const beers = await loadBeers();

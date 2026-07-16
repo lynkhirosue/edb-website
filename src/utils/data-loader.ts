@@ -4,7 +4,7 @@ import { BrewingStepsArraySchema, type BrewingStep } from '../schemas/process.sc
 import { EventsArraySchema, type Event } from '../schemas/event.schema';
 import { ReleasesArraySchema, type Release } from '../schemas/release.schema';
 import { PublicCatalogSchema, type PublicCatalog } from '../schemas/catalog.schema';
-import { CATALOG_URL } from '../config/catalog';
+import { CATALOG_URL, SHOULD_FETCH_LIVE_CATALOG } from '../config/catalog';
 import { mapCatalogBeerToLocalBeer, mapCatalogToReleases } from './catalog-mapper';
 
 // ─────────────────────────────────────────────
@@ -15,10 +15,14 @@ import { mapCatalogBeerToLocalBeer, mapCatalogToReleases } from './catalog-mappe
 let cachedCatalog: PublicCatalog | null = null;
 
 /**
- * Tente de charger et valider le catalogue distant.
- * Retourne null si le fetch ou la validation échoue.
+ * Charge et valide le catalogue distant.
+ * En mode live, toute erreur bloque volontairement le build de publication.
  */
 async function fetchCatalog(): Promise<PublicCatalog | null> {
+  if (!SHOULD_FETCH_LIVE_CATALOG) {
+    return null;
+  }
+
   if (cachedCatalog) {
     return cachedCatalog;
   }
@@ -37,8 +41,7 @@ async function fetchCatalog(): Promise<PublicCatalog | null> {
     });
 
     if (!response.ok) {
-      console.warn(`Catalogue distant : HTTP ${response.status}`);
-      return null;
+      throw new Error(`Catalogue distant : HTTP ${response.status}`);
     }
 
     let raw: unknown;
@@ -46,15 +49,14 @@ async function fetchCatalog(): Promise<PublicCatalog | null> {
       raw = await response.json();
     } catch (parseError) {
       const contentType = response.headers.get('content-type');
-      console.warn(`Catalogue distant : réponse invalide (${contentType})`);
-      return null;
+      throw new Error(`Catalogue distant : réponse invalide (${contentType})`);
     }
 
     const parsed = PublicCatalogSchema.safeParse(raw);
 
     if (!parsed.success) {
-      console.warn('Catalogue distant : validation Zod échouée', parsed.error.format());
-      return null;
+      console.error('Catalogue distant : validation Zod échouée', parsed.error.format());
+      throw new Error('Catalogue distant invalide');
     }
 
     cachedCatalog = parsed.data;
@@ -64,8 +66,8 @@ async function fetchCatalog(): Promise<PublicCatalog | null> {
     );
     return cachedCatalog;
   } catch (error) {
-    console.warn('Catalogue distant indisponible, fallback local :', error);
-    return null;
+    console.error('Catalogue distant indisponible :', error);
+    throw error;
   }
 }
 

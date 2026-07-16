@@ -1,7 +1,7 @@
 ---
 import '../styles/about.css';
 import { Image } from 'astro:assets';
-import aboutImage from '../assets/images/about-brewery.jpg';
+import aboutImage from '../assets/images/malt.jpg';
 
 export interface Props {
   className?: string;
@@ -44,7 +44,7 @@ const { className = "" } = Astro.props;
       <div class="about-image reveal">
         <Image
           src={aboutImage}
-          alt="Intérieur de notre brasserie artisanale"
+          alt="Malt utilisé pour les brassins artisanaux"
           loading="lazy"
           width={960}
           height={1200}
