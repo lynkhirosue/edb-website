@@ -1,28 +1,10 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { encodeContactValue } from '../utils/contact-obfuscation';
 
-describe('protected contact scripts', () => {
+describe('contact script', () => {
   beforeEach(() => {
     vi.resetModules();
-    document.head.innerHTML = '';
     document.body.innerHTML = '';
-  });
-
-  it('restores the email link for visitors', async () => {
-    const email = ['nico', 'lecoledubelier.beer'].join('@');
-    document.head.innerHTML = `
-      <meta name="contact-email-token" content="${encodeContactValue(email)}">
-    `;
-    document.body.innerHTML = `
-      <a href="/#contact" data-contact-email>Adresse électronique protégée</a>
-    `;
-
-    await import('./protected-contact');
-    document.dispatchEvent(new Event('DOMContentLoaded'));
-
-    const link = document.querySelector<HTMLAnchorElement>('[data-contact-email]');
-    expect(link?.textContent).toBe(email);
-    expect(link?.href).toBe(`mailto:${email}`);
   });
 
   it('restores the HTTPS form endpoint', async () => {

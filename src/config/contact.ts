@@ -26,5 +26,4 @@ export const CONTACT_FORM_REDIRECT_URL = readEnv(
 export const CONTACT_FORM_CAPTCHA_ENABLED =
   readEnv('PUBLIC_CONTACT_FORM_CAPTCHA', 'true').toLowerCase() !== 'false';
 
-export const CONTACT_EMAIL_TOKEN = encodeContactValue(CONTACT_EMAIL);
 export const CONTACT_FORM_ENDPOINT_TOKEN = encodeContactValue(CONTACT_FORM_ENDPOINT);

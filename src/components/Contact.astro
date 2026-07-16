@@ -19,18 +19,8 @@ const formPageUrl = Astro.url.href;
   <div class="contact-container reveal">
     <h2 id="contact-title" class="contact-title">Nous contacter</h2>
     <p class="lead contact-lead">
-      Une question sur les bières ou la brasserie ? Écris-moi.
+      Inscris-toi pour recevoir les prochaines sorties.
     </p>
-
-    <a
-      href="/#contact"
-      class="email-button js-contact-email"
-      data-contact-email
-      data-analytics="contact_click"
-      data-analytics-label="mailto"
-    >
-      Adresse électronique protégée
-    </a>
 
     <form
       id="alert-form"
@@ -57,7 +47,7 @@ const formPageUrl = Astro.url.href;
         aria-hidden="true"
       />
 
-      <label for="alert-email" class="alert-label">Préviens-moi des prochaines sorties</label>
+      <label for="alert-email" class="alert-label">Votre adresse email</label>
       <div class="alert-controls">
         <input
           id="alert-email"

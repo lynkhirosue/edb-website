@@ -20,7 +20,6 @@ describe('contact config', () => {
     expect(config.CONTACT_FORM_ENDPOINT).toBe(`https://formsubmit.co/${expectedEmail}`);
     expect(config.CONTACT_FORM_REDIRECT_URL).toBe('https://lecoledubelier.beer/#contact');
     expect(config.CONTACT_FORM_CAPTCHA_ENABLED).toBe(true);
-    expect(decodeContactValue(config.CONTACT_EMAIL_TOKEN)).toBe(expectedEmail);
     expect(decodeContactValue(config.CONTACT_FORM_ENDPOINT_TOKEN)).toBe(
       `https://formsubmit.co/${expectedEmail}`
     );
