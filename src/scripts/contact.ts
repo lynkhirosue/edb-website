@@ -1,8 +1,23 @@
 import { safeAddEventListener, safeQuerySelector } from '../utils/dom-helpers';
+import { decodeContactValue } from '../utils/contact-obfuscation';
 
 function initContact(): void {
   const emailLink = safeQuerySelector<HTMLAnchorElement>('.js-contact-email');
   const alertForm = safeQuerySelector<HTMLFormElement>('#alert-form');
+  const submitButton = alertForm?.querySelector<HTMLButtonElement>('.alert-submit');
+  const endpoint = decodeContactValue(alertForm?.dataset.endpointToken ?? '');
+
+  if (alertForm && endpoint) {
+    try {
+      const endpointUrl = new URL(endpoint);
+      if (endpointUrl.protocol === 'https:') {
+        alertForm.action = endpointUrl.toString();
+        submitButton?.removeAttribute('disabled');
+      }
+    } catch {
+      // Le formulaire reste désactivé si sa configuration est invalide.
+    }
+  }
 
   safeAddEventListener(emailLink, 'click', () => {
     (window as Window & {
@@ -10,10 +25,16 @@ function initContact(): void {
     }).edbAnalytics?.trackEvent('contact_click', 'email');
   });
 
-  safeAddEventListener(alertForm, 'submit', () => {
+  safeAddEventListener(alertForm, 'submit', (event) => {
+    if (submitButton?.disabled) {
+      event.preventDefault();
+      return;
+    }
+
+    const provider = alertForm?.dataset.provider ?? 'formsubmit';
     (window as Window & {
       edbAnalytics?: { trackEvent: (name: string, label?: string) => void };
-    }).edbAnalytics?.trackEvent('alert_signup', 'formsubmit');
+    }).edbAnalytics?.trackEvent('alert_signup', provider);
   });
 }
 

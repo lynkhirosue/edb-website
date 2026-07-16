@@ -1,12 +1,18 @@
 ---
 import '../styles/contact.css';
+import {
+  CONTACT_FORM_CAPTCHA_ENABLED,
+  CONTACT_FORM_ENDPOINT_TOKEN,
+  CONTACT_FORM_PROVIDER,
+  CONTACT_FORM_REDIRECT_URL
+} from '../config/contact';
 
 export interface Props {
   className?: string;
 }
 
 const { className = '' } = Astro.props;
-const alertAction = 'https://formsubmit.co/nico@lecoledubelier.beer';
+const formPageUrl = Astro.url.href;
 ---
 
 <section id="contact" class={`contact-section ${className}`} aria-labelledby="contact-title">
@@ -17,26 +23,39 @@ const alertAction = 'https://formsubmit.co/nico@lecoledubelier.beer';
     </p>
 
     <a
-      href="mailto:nico@lecoledubelier.beer"
+      href="/#contact"
       class="email-button js-contact-email"
+      data-contact-email
       data-analytics="contact_click"
       data-analytics-label="mailto"
     >
-      nico@lecoledubelier.beer
+      Adresse électronique protégée
     </a>
 
     <form
       id="alert-form"
       class="alert-form"
       method="POST"
-      action={alertAction}
+      action="/#contact"
       data-analytics="alert_signup"
       data-analytics-label="contact-section"
+      data-provider={CONTACT_FORM_PROVIDER}
+      data-endpoint-token={CONTACT_FORM_ENDPOINT_TOKEN}
     >
       <input type="hidden" name="_subject" value="Nouvelle inscription: alerte sorties L'École du Bélier" />
-      <input type="hidden" name="_captcha" value="false" />
+      {!CONTACT_FORM_CAPTCHA_ENABLED && <input type="hidden" name="_captcha" value="false" />}
+      <input type="hidden" name="_next" value={CONTACT_FORM_REDIRECT_URL} />
+      <input type="hidden" name="_url" value={formPageUrl} />
       <input type="hidden" name="_template" value="table" />
       <input type="hidden" name="source" value="site-lecoledubelier" />
+      <input
+        type="text"
+        name="_honey"
+        class="contact-honeypot"
+        tabindex="-1"
+        autocomplete="off"
+        aria-hidden="true"
+      />
 
       <label for="alert-email" class="alert-label">Préviens-moi des prochaines sorties</label>
       <div class="alert-controls">
@@ -49,12 +68,13 @@ const alertAction = 'https://formsubmit.co/nico@lecoledubelier.beer';
           placeholder="Votre email"
           class="alert-input"
         />
-        <button type="submit" class="alert-submit">Activer l'alerte</button>
+        <button type="submit" class="alert-submit" disabled>Activer l'alerte</button>
       </div>
     </form>
 
     <p class="contact-note">
-      Service d'alerte opéré via FormSubmit. Aucune vente en ligne pour le moment.
+      Service d'alerte opéré via {CONTACT_FORM_PROVIDER}. Email transmis uniquement pour prévenir des sorties.
+      Aucune vente en ligne pour le moment.
     </p>
   </div>
 </section>

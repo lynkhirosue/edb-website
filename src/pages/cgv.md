@@ -12,7 +12,7 @@ Entreprise individuelle – Micro-entreprise
 SIRET : 94180050000014  
 Code APE : 1105Z  
 33530 Bassens – France  
-Contact : nico@lecoledubelier.beer
+Contact : <a href="/#contact" data-contact-email>Adresse électronique protégée</a>
 Tél. : +33 7 77 75 76 22
 
 

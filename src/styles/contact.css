@@ -82,6 +82,10 @@
   box-shadow: none;
 }
 
+.contact-honeypot {
+  display: none;
+}
+
 .alert-submit {
   min-height: 44px;
   border-radius: 999px;

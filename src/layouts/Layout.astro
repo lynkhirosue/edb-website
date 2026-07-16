@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import BeerStructuredData from '../components/BeerStructuredData.astro';
 import SkipLinks from '../components/SkipLinks.astro';
+import { CONTACT_EMAIL_TOKEN } from '../config/contact';
 
 export interface Props {
   title?: string;
@@ -31,6 +32,7 @@ const ogImageUrl = new URL('/og-image.jpg', baseSiteUrl).toString();
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="contact-email-token" content={CONTACT_EMAIL_TOKEN} />
 
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -65,6 +67,7 @@ const ogImageUrl = new URL('/og-image.jpg', baseSiteUrl).toString();
 
     <script>
       import '../scripts/analytics.ts';
+      import '../scripts/protected-contact.ts';
       import '../scripts/scroll-reveal.ts';
     </script>
   </body>

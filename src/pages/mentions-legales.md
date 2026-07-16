@@ -17,7 +17,7 @@ title: "Mentions Légales"
 
 **Téléphone :** +33 7 77 75 76 22
 
-**Email :** nico@lecoledubelier.beer
+**Email :** <a href="/#contact" data-contact-email>Adresse électronique protégée</a>
 
 **Numéro SIRET :** 941 800 500 00014
 
@@ -43,7 +43,7 @@ Toute reproduction, adaptation ou diffusion sans autorisation écrite préalable
 
 Nicolas DURAND  
 33530 Bassens, France  
-Email : nico@lecoledubelier.beer
+Email : <a href="/#contact" data-contact-email>Adresse électronique protégée</a>
 
 ### Données collectées
 
@@ -74,7 +74,7 @@ Les données sont conservées pendant la durée nécessaire au traitement de la 
 
 Conformément au RGPD, vous disposez des droits d'accès, rectification, effacement, opposition, limitation et portabilité de vos données.
 
-Pour exercer ces droits : nico@lecoledubelier.beer
+Pour exercer ces droits : <a href="/#contact" data-contact-email>Adresse électronique protégée</a>
 
 Vous pouvez également introduire une réclamation auprès de la CNIL : https://www.cnil.fr
 
@@ -99,7 +99,7 @@ Les présentes mentions légales sont régies par le droit français.
 
 ## Contact
 
-**Email :** nico@lecoledubelier.beer  
+**Email :** <a href="/#contact" data-contact-email>Adresse électronique protégée</a>
 **Téléphone :** +33 7 77 75 76 22
 
 **Dernière mise à jour :** 13/02/2026
